@@ -6,12 +6,18 @@ const useAudio = (url) => {
 
   const toggle = () => {
     setPlaying(!playing);
+
     audio.src = url;
     audio.load();
   };
 
+  const pause = () => {
+    setPlaying(!playing);
+    audio.load();
+  };
+
   useEffect(() => {
-    playing ? audio.play() : audio.pause();
+    playing ? audio.play() : audio.load();
     // eslint-disable-next-line
   }, [playing]);
 
@@ -25,6 +31,6 @@ const useAudio = (url) => {
     };
   });
 
-  return [playing, toggle];
+  return [playing, pause, toggle];
 };
 export default useAudio;

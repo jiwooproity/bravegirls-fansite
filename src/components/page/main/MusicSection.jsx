@@ -122,14 +122,12 @@ const MusicSection = () => {
   const [musicList, setMusicList] = useState({});
   const [loading, setLoading] = useState(false);
 
-  const [playing, toggle] = useAudio(musicArr[musicId]);
+  const [playing, pause, toggle] = useAudio(musicArr[musicId]);
 
   useEffect(() => {
-    if (!playing) {
-      setTimeout(() => {
-        toggle();
-      }, 2000);
-    }
+    setTimeout(() => {
+      toggle();
+    }, 2000);
 
     loadData(gubunArr[musicId]);
     // eslint-disable-next-line
@@ -145,13 +143,13 @@ const MusicSection = () => {
   const onClickTitle = (title, id) => {
     if (!loading) {
       return;
-    } else {
-      if (playing) {
-        toggle();
-        setMusicId(id);
-      }
     }
 
+    if (playing) {
+      toggle();
+    }
+
+    setMusicId(id);
     loadData(title);
   };
 
@@ -169,7 +167,7 @@ const MusicSection = () => {
         {loading ? (
           <>
             <MusicImage>
-              <MusicSectionLP playing={playing} src={musicList.music_lp_image} onClick={toggle} />
+              <MusicSectionLP playing={playing} src={musicList.music_lp_image} onClick={pause} />
               <MusicSectionAlbum src={musicList.music_album_image} />
             </MusicImage>
 
