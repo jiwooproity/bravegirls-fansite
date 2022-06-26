@@ -1,10 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import _ from "lodash";
 
-import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { Menu } from "constant";
 
-import { Menu } from "../../constant";
+import styled from "styled-components";
 
 const NavbarContainer = styled.div`
   width: 100%;

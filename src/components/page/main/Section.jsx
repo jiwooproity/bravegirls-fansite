@@ -3,10 +3,10 @@ import _ from "lodash";
 
 import styled from "styled-components";
 
-import minyoung_icon from "../../../static/img/minyoung_icon.png";
-import yujeong_icon from "../../../static/img/yujeong_icon.png";
-import eunji_icon from "../../../static/img/eunji_icon.png";
-import yuna_icon from "../../../static/img/yuna_icon.png";
+import minyoung_icon from "static/img/minyoung_icon.png";
+import yujeong_icon from "static/img/yujeong_icon.png";
+import eunji_icon from "static/img/eunji_icon.png";
+import yuna_icon from "static/img/yuna_icon.png";
 
 const FirstSectionWrapper = styled.div`
   width: 100%;

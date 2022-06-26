@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import _ from "lodash";
 
 import styled from "styled-components";
-import Slider from "react-slick";
-import { onDownload, photocardService } from "../../../service/photocardService";
 
+import { onDownload, photocardService } from "service/photocardService";
+import { SectionTitle, Loading } from "components";
+
+import Slider from "react-slick";
 import "../../../../node_modules/slick-carousel/slick/slick.css";
 import "../../../../node_modules/slick-carousel/slick/slick-theme.css";
-
-import SectionTitle from "../../common/SectionTitle";
-import Loading from "../../common/Loading";
 
 const CardSectionContainer = styled.div`
   width: 100%;

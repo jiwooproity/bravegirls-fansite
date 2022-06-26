@@ -3,16 +3,12 @@ import _ from "lodash";
 
 import styled, { css, keyframes } from "styled-components";
 
-import useAudio from "../../../hooks/useAudio";
+import useAudio from "hooks/useAudio";
 
-import rollinFile from "../../../static/music/rollin.flac";
-import weRide from "../../../static/music/we_ride.flac";
-import chimatbaram from "../../../static/music/chimatbaram.flac";
-import chimatbaram_eng from "../../../static/music/chimatbaram_eng.flac";
+import { rollinFile, weRide, chimatbaram, chimatbaram_eng } from "static/music";
+import { SectionTitle, Loading } from "components";
 
-import SectionTitle from "../../common/SectionTitle";
-import { photocardService } from "../../../service/photocardService";
-import Loading from "../../common/Loading";
+import { photocardService } from "service/photocardService";
 
 const MusicSectionContainer = styled.div`
   margin-top: 150px;

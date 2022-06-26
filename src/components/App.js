@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import styled from "styled-components";
 
-import { Main, PhotoCardPage } from "./page";
-import { Navbar } from "./common";
+import { Main, PhotoCardPage } from ".";
+import { Navbar } from "components";
 import { Url } from "../constant";
 
 const MainContainer = styled.div`
