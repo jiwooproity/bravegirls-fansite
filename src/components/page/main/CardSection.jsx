@@ -2,46 +2,21 @@ import React, { useEffect, useState } from "react";
 import _ from "lodash";
 
 import styled from "styled-components";
-
 import Slider from "react-slick";
 import { onDownload, photocardService } from "../../../service/photocardService";
 
 import "../../../../node_modules/slick-carousel/slick/slick.css";
 import "../../../../node_modules/slick-carousel/slick/slick-theme.css";
 
+import SectionTitle from "../../common/SectionTitle";
+import Loading from "../../common/Loading";
+
 const CardSectionContainer = styled.div`
   width: 100%;
-  height: 550px;
   padding: 10px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden;
-`;
-
-const CardSectionTitleWrapper = styled.div`
-  width: 990px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const CardSectionLeft = styled.div``;
-
-const CardSectionTitle = styled.h1`
-  font-size: 15px;
-  color: rgba(194, 177, 155);
-`;
-
-const CardSectionSubTitle = styled.h1`
-  font-size: 25px;
-`;
-
-const CardSectionRight = styled.div`
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
 `;
 
 const CardSectionGubun = styled.button`
@@ -56,54 +31,68 @@ const CardSectionGubun = styled.button`
 
 const CardSectionWrapper = styled.div`
   width: 990px;
-  padding: 0px 0px;
 `;
 
 const CardWrapper = styled.div`
   width: 230px;
-  padding: 15px 0px;
+  height: 356px;
+  margin: 15px 0px;
+  display: block;
   position: relative;
+`;
+
+const CardAnchor = styled.a`
+  width: 230px;
+  height: 356px;
+  position: relative;
+
+  transform-style: preserve-3d;
+  perspective: 1000px;
+
+  img:nth-child(2) {
+    transform: rotateY(180deg);
+  }
+
+  &:hover {
+    img:nth-child(1) {
+      transform: rotateY(-180deg);
+    }
+
+    img:nth-child(2) {
+      transform: rotateY(0deg);
+    }
+  }
 `;
 
 const CardImage = styled.img`
   width: 230px;
+  height: 356px;
+
   display: block;
   border-radius: 8px;
 
-  position: relative;
+  position: absolute;
+  top: 0;
 
   box-shadow: rgba(0, 0, 0, 0.12) 2px 3px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 
-  /* &:hover {
-    transform: translateY(-10px);
-  }
+  backface-visibility: hidden;
+  transform: 1s;
 
   transition: transform 0.5s ease;
-  cursor: pointer; */
+  cursor: pointer;
 `;
 
-const CardDescriptionArea = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 5px 0px;
-`;
+// const CardDescriptionArea = styled.div`
+//   width: 100%;
+//   height: 100%;
+//   padding: 5px 0px;
+// `;
 
-const CardDescriptionTitle = styled.h1`
-  font-size: 15px;
-  display: block;
-`;
-
-const LoadingWrapper = styled.div`
-  width: 100%;
-  height: 380px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const LoadingText = styled.h1`
-  font-size: 20px;
-`;
+// const CardDescriptionTitle = styled.h1`
+//   font-size: 15px;
+//   display: block;
+// `;
 
 const CustomSlider = styled(Slider)`
   .slick-slide div {
@@ -114,10 +103,34 @@ const CustomSlider = styled(Slider)`
 
   .slick-prev {
     z-index: 5;
+    height: 356px;
+    border-radius: 15px 0px 0px 15px;
+
+    &:hover {
+      background-color: rgba(220, 220, 220);
+    }
+
+    transition: background-color 0.5s ease;
+
+    &::before {
+      display: none;
+    }
   }
 
   .slick-next {
     z-index: 5;
+    height: 356px;
+    border-radius: 0px 15px 15px 0px;
+
+    &:hover {
+      background-color: rgba(220, 220, 220);
+    }
+
+    transition: background-color 0.5s ease;
+
+    &::before {
+      display: none;
+    }
   }
 `;
 
@@ -135,10 +148,19 @@ const CardSection = () => {
     slidesToScroll: 1,
     initialSlide: 2,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 5000,
   };
 
-  const gubunArr = ["# RED SUN", "# MVSK"];
+  const gubunArr = [
+    {
+      label: "# RED SUN",
+      url: "https://drive.google.com/u/0/uc?id=1_s3ntkw9ikFaqVDJ8mklAGjSSYkeUXOX&export=download",
+    },
+    {
+      label: "# MVSK",
+      url: "https://drive.google.com/u/0/uc?id=1MiEdK4Sj0eLRXAdOrkSuS-0vDdV2_0va&export=download",
+    },
+  ];
 
   useEffect(() => {
     loadData();
@@ -155,38 +177,33 @@ const CardSection = () => {
 
   return (
     <CardSectionContainer>
-      <CardSectionTitleWrapper>
-        <CardSectionLeft>
-          <CardSectionTitle>PhotoCard</CardSectionTitle>
-          <CardSectionSubTitle>Download File List</CardSectionSubTitle>
-        </CardSectionLeft>
-        <CardSectionRight>
-          {_.map(gubunArr, (gubun, index) => (
-            <CardSectionGubun key={index} onClick={loadData}>
-              {gubun}
-            </CardSectionGubun>
-          ))}
-        </CardSectionRight>
-      </CardSectionTitleWrapper>
+      <SectionTitle title="PhotoCard" subTitle={`다운 받을 시안을 클릭해주세요! (${photoCard.length})`}>
+        {_.map(gubunArr, (gubun, index) => (
+          <a key={index} href={gubun.url} target={"_blank"} rel="noreferrer">
+            <CardSectionGubun key={index}>{gubun.label}</CardSectionGubun>
+          </a>
+        ))}
+      </SectionTitle>
 
       <CardSectionWrapper>
         {loading ? (
           <CustomSlider {...settings}>
             {_.map(photoCard, (card, index) => (
               <CardWrapper key={Number(index)}>
-                <a href={card.photocard_image} download onClick={(e) => onDownload(e, card.member_name, card.photocard_name)}>
+                <CardAnchor
+                  style={{ outline: "none" }}
+                  href={card.photocard_image}
+                  download
+                  onClick={(e) => onDownload(e, card.member_name, card.photocard_name, card.photocard_image, card.photocard_image_back)}
+                >
                   <CardImage src={card.photocard_image} download={card.photocard_name} />
-                </a>
-                <CardDescriptionArea>
-                  <CardDescriptionTitle>{card.photocard_name}</CardDescriptionTitle>
-                </CardDescriptionArea>
+                  <CardImage src={card.photocard_image_back} download={card.photocard_name} />
+                </CardAnchor>
               </CardWrapper>
             ))}
           </CustomSlider>
         ) : (
-          <LoadingWrapper>
-            <LoadingText>Loading...</LoadingText>
-          </LoadingWrapper>
+          <Loading />
         )}
       </CardSectionWrapper>
     </CardSectionContainer>

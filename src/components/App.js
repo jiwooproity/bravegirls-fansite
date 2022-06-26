@@ -9,7 +9,6 @@ import { Url } from "../constant";
 
 const MainContainer = styled.div`
   width: 100%;
-  overflow: hidden;
 `;
 
 function App() {

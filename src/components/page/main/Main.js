@@ -2,9 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 import banner from "../../../static/img/banner.png";
+import banner_02 from "../../../static/img/banner_02.png";
 import background from "../../../static/img/background.jpg";
 import Section from "./Section";
 import CardSection from "./CardSection";
+import MusicSection from "./MusicSection";
 
 const MainWrapper = styled.div`
   width: 100%;
@@ -132,6 +134,9 @@ const TitleLiner = styled.div`
 `;
 
 const Main = () => {
+  const randomIndex = Math.floor(Math.random() * 2);
+  const bannerArr = [banner, banner_02];
+
   return (
     <>
       <MainWrapper>
@@ -152,13 +157,17 @@ const Main = () => {
               <BannerDescription>원하는 포토카드 디자인을 다운로드 하자!</BannerDescription>
             </DescriptionWrap>
             <TitleLiner />
+            {/* <MusicSection /> */}
           </BannerWrapper>
           <BannerImageContainer>
             <BannerImageWrap>
-              <BannerImage src={banner} />
-              <BannerHover>
-                <BannerHoverText>보러가기</BannerHoverText>
-              </BannerHover>
+              <BannerImage src={bannerArr[randomIndex]} />
+
+              <a href={bannerArr[randomIndex]}>
+                <BannerHover>
+                  <BannerHoverText>보러가기</BannerHoverText>
+                </BannerHover>
+              </a>
             </BannerImageWrap>
           </BannerImageContainer>
         </BannerContainer>
@@ -172,6 +181,10 @@ const Main = () => {
       {/* ------------------------- 두번째 섹션 ------------------------- */}
       <CardSection />
       {/* ------------------------- 두번째 섹션 ------------------------- */}
+
+      {/* ------------------------- 세번째 섹션 ------------------------- */}
+      <MusicSection />
+      {/* ------------------------- 세번째 섹션 ------------------------- */}
     </>
   );
 };
