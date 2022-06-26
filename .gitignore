@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+#flac
+rollin.flac
+we_ride.flac
+chimatbaram.flac
+chimatbaram_eng.flac
