@@ -17,7 +17,7 @@ const NavbarContainer = styled.div`
 `;
 
 const NavbarWrap = styled.div`
-  width: 990px;
+  min-width: 990px;
   display: flex;
   justify-content: space-between;
   align-items: center;

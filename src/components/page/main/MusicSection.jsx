@@ -5,47 +5,38 @@ import styled, { css, keyframes } from "styled-components";
 
 import useAudio from "hooks/useAudio";
 
-import { rollinFile, weRide, chimatbaram, chimatbaram_eng } from "static/music";
-import { SectionTitle, Loading } from "components";
+import { highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle } from "static/music";
+import { Loading, SectionComponent } from "components";
 
 import { photocardService } from "service/photocardService";
 
-const MusicSectionContainer = styled.div`
-  margin-top: 150px;
+const Section = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const MusicSectionGubun = styled.button`
-  margin-left: 5px;
-  padding: 5px 10px;
-  border-radius: 3px;
-  border: none;
-  background-color: rgba(194, 177, 185);
-  color: white;
-  cursor: pointer;
-`;
-
-const MusicWrapper = styled.div`
-  width: 990px;
-  margin-top: 10px;
+const MusicCustomWrap = styled.div`
   display: flex;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
-const MusicImage = styled.div`
-  width: 60%;
-  padding: 10px;
+const Album = styled.div`
+  width: 55%;
+  height: 350px;
   position: relative;
   display: block;
 `;
 
-const MusicSectionAlbum = styled.img`
+const AlbumImage = styled.img`
   width: 350px;
   position: absolute;
   display: block;
+  object-fit: contain;
   top: 0;
   left: 0;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 `;
 
 const rotateLP = keyframes`
@@ -54,11 +45,12 @@ const rotateLP = keyframes`
     }
 `;
 
-const MusicSectionLP = styled.img`
+const LpImage = styled.img`
   width: 345px;
   position: absolute;
   top: 5px;
   left: 175px;
+  object-fit: contain;
 
   ${({ playing }) =>
     playing
@@ -71,118 +63,198 @@ const MusicSectionLP = styled.img`
   cursor: pointer;
 `;
 
-const MusicDescriptionWrap = styled.div`
-  width: 40%;
-  margin-bottom: 50px;
-  height: 350px;
-
+const Description = styled.div`
+  width: 45%;
+  padding: 5px 10px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 `;
 
-const MusicTitleWrap = styled.div`
+const MainTitle = styled.div`
   display: flex;
 `;
 
-const MusicColor = styled.div`
+const MainColor = styled.div`
   width: 20px;
   height: 20px;
   margin: 0px 5px 5px 0px;
+  box-shadow: rgb(0 0 0 / 40%) 0px 2px 4px, rgb(0 0 0 / 30%) 0px 7px 13px -3px, rgb(0 0 0 / 20%) 0px -3px 0px inset;
   background-color: ${({ musicColor }) => musicColor};
 `;
 
-const MusicDesTitle = styled.h1`
+const AlbumTitle = styled.h1`
   font-size: 20px;
   line-height: 20px;
 `;
 
-const MusicSubTitle = styled.span`
-  font-size: 13px;
-  line-height: 13px;
-  margin: 3px 0px;
+const AlbumSubTitle = styled.span`
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 12px;
+  margin: 5px 0px;
 `;
 
-const MusiceDescription = styled.span`
-  font-size: 13px;
+const AlbumDescription = styled.span`
+  font-size: 12px;
   line-height: 18px;
   margin-top: 10px;
   color: rgba(0, 0, 0, 0.6);
 `;
 
-const MusicSection = () => {
-  const gubunArr = ["Rollin`", "We Ride", "Chi Mat Ba Ram", "Chi Mat Ba Ram (eng)"];
-  const musicArr = [rollinFile, weRide, chimatbaram, chimatbaram_eng];
+const AlbumMenu = styled.div`
+  width: 990px;
+  padding: 20px 0px;
+  display: flex;
+`;
 
-  const [musicId, setMusicId] = useState(0);
-  const [musicList, setMusicList] = useState({});
+const ButtomWrap = styled.div`
+  display: flex;
+  margin: 0px 5px 0px 0px;
+  padding: 8px;
+  border-radius: 3px;
+  background-color: ${({ mainColor }) => mainColor};
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  transition: transform 0.5s ease;
+
+  cursor: pointer;
+`;
+
+const MusicButton = styled.button`
+  font-size: 14px;
+  line-height: 14px;
+  border: none;
+  background-color: transparent;
+  color: ${({ mainColor }) => (mainColor === "#ffffff" ? "rgba(0, 0, 0, 0.8)" : "white")};
+
+  cursor: pointer;
+`;
+
+// 음악 파일 인덱스 별로 구분
+const musicArr = [highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle];
+
+const MusicSection = () => {
+  const [access, setAccess] = useState(false);
+  const [clonePlay, setClonePlay] = useState(false);
+
+  const [albumList, setAlbumList] = useState([]);
+
+  const [musicId, setMusicId] = useState(1);
+  const [musicList, setMusicList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const [playing, pause, toggle] = useAudio(musicArr[musicId]);
+  // eslint-disable-next-line
+  const [audio, playing, pause, load, toggle] = useAudio(musicArr[musicId]);
 
   useEffect(() => {
-    setTimeout(() => {
-      toggle();
-    }, 2000);
+    loadData();
+    // eslint-disable-next-line
+  }, []);
 
-    loadData(gubunArr[musicId]);
+  useEffect(() => {
+    if (access) {
+      if (playing) {
+        toggle();
+      }
+
+      load();
+    }
     // eslint-disable-next-line
   }, [musicId]);
 
-  const loadData = async (title) => {
+  const loadData = async () => {
     setLoading(false);
-    const response = await photocardService.getMusicList({ title });
+    const response = await photocardService.getMusicList();
+    const albumData = response.map((res) => ({
+      title: res.music_title,
+      color: res.music_color,
+    }));
+
+    setAlbumList(albumData);
     setMusicList(response);
     setLoading(true);
   };
 
-  const onClickTitle = (title, id) => {
-    if (!loading) {
-      return;
-    }
-
-    if (playing) {
-      toggle();
-    }
-
-    setMusicId(id);
-    loadData(title);
+  const onClickTitle = (index) => {
+    setMusicId(index);
   };
 
   return (
-    <MusicSectionContainer>
-      <SectionTitle title="Music" subTitle={`듣고 싶은 노래가 있으신가요?`}>
-        {_.map(gubunArr, (gubun, index) => (
-          <MusicSectionGubun key={index} onClick={() => onClickTitle(gubun, index)}>
-            {gubun}
-          </MusicSectionGubun>
-        ))}
-      </SectionTitle>
-
-      <MusicWrapper>
+    <Section>
+      <SectionComponent title="Music" subTitle={`브레이브걸스의 타이틀 곡 듣고 가세요!`}>
         {loading ? (
           <>
-            <MusicImage>
-              <MusicSectionLP playing={playing} src={musicList.music_lp_image} onClick={pause} />
-              <MusicSectionAlbum src={musicList.music_album_image} />
-            </MusicImage>
+            <MusicCustomWrap>
+              <Album>
+                {access ? (
+                  <LpImage playing={playing} src={musicList[musicId].music_lp_image} onClick={pause} />
+                ) : (
+                  // Access 코드를 받을 경우
+                  <LpImage
+                    playing={clonePlay}
+                    src={musicList[musicId].music_lp_image}
+                    onClick={() => {
+                      if (clonePlay) {
+                        setClonePlay(false);
+                      } else {
+                        const question = window.prompt("음원을 듣기 위해서는 Access 코드를 입력해주세요.\n확인이 필요한 부분이 있어 잠시 비활성화 합니다.");
 
-            <MusicDescriptionWrap>
-              <MusicTitleWrap>
-                <MusicColor musicColor={musicList.music_color} />
-                <MusicDesTitle>{musicList.music_title}</MusicDesTitle>
-              </MusicTitleWrap>
-              <MusicSubTitle>장르 : {musicList.music_genre}</MusicSubTitle>
-              <MusicSubTitle>발매일 : {musicList.music_release}</MusicSubTitle>
-              <MusiceDescription>{musicList.music_description}</MusiceDescription>
-              <MusiceDescription>{musicList.music_description_second && musicList.music_description_second}</MusiceDescription>
-            </MusicDescriptionWrap>
+                        if (question === "3380") {
+                          setAccess(true);
+                        }
+
+                        setClonePlay(true);
+                      }
+                    }}
+                  />
+                )}
+
+                <a href={musicList[musicId].music_video} target={"_blank"} rel={"noreferrer"}>
+                  <AlbumImage src={musicList[musicId].music_album_image} />
+                </a>
+              </Album>
+
+              <Description>
+                <MainTitle>
+                  <MainColor musicColor={musicList[musicId].music_color} />
+                  <AlbumTitle>{musicList[musicId].music_title}</AlbumTitle>
+                </MainTitle>
+                <AlbumSubTitle>장르 : {musicList[musicId].music_genre}</AlbumSubTitle>
+                <AlbumSubTitle>발매일 : {musicList[musicId].music_release}</AlbumSubTitle>
+                <AlbumSubTitle>작사 : {musicList[musicId].music_lyricist}</AlbumSubTitle>
+                <AlbumSubTitle>작곡 : {musicList[musicId].music_composition}</AlbumSubTitle>
+                <AlbumSubTitle>편곡 : {musicList[musicId].music_arrangement}</AlbumSubTitle>
+
+                <AlbumSubTitle>
+                  기획 :{" "}
+                  <a href="http://www.bravesound.com/" target={"_blank"} rel="noreferrer">
+                    {musicList[musicId].music_plan}
+                  </a>
+                </AlbumSubTitle>
+
+                <AlbumDescription>{musicList[musicId].music_description}</AlbumDescription>
+                <AlbumDescription>{musicList[musicId].music_description_second && musicList[musicId].music_description_second}</AlbumDescription>
+              </Description>
+            </MusicCustomWrap>
+            <AlbumMenu>
+              {_.map(albumList, (music, index) => (
+                <ButtomWrap key={index} mainColor={music.color}>
+                  <MusicButton mainColor={music.color} onClick={() => onClickTitle(index)}>
+                    {music.title}
+                  </MusicButton>
+                </ButtomWrap>
+              ))}
+            </AlbumMenu>
           </>
         ) : (
           <Loading />
         )}
-      </MusicWrapper>
-    </MusicSectionContainer>
+      </SectionComponent>
+    </Section>
   );
 };
 

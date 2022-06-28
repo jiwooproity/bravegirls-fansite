@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { Main, PhotoCardPage } from ".";
 import { Navbar } from "components";
 import { Url } from "../constant";
+import Footer from "./common/Footer";
 
 const MainContainer = styled.div`
   width: 100%;
@@ -20,6 +21,7 @@ function App() {
           <Route path={`${Url.ROOT}`} element={<Main />} />
           <Route path={`${Url.PHOTOCARD}`} element={<PhotoCardPage />} />
         </Routes>
+        <Footer />
       </MainContainer>
     </BrowserRouter>
   );

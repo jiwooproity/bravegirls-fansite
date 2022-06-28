@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-import banner from "../../../static/img/banner.png";
-import banner_02 from "../../../static/img/banner_02.png";
-import background from "../../../static/img/background.jpg";
+import banner from "static/img/banner.png";
+import banner_02 from "static/img/banner_02.png";
+import background from "static/img/background.jpg";
 import Section from "./Section";
 import CardSection from "./CardSection";
 import MusicSection from "./MusicSection";
+import NewSection from "./QueenSection";
 
 const MainWrapper = styled.div`
   width: 100%;
@@ -183,7 +184,11 @@ const Main = () => {
       {/* ------------------------- 두번째 섹션 ------------------------- */}
 
       {/* ------------------------- 세번째 섹션 ------------------------- */}
-      <MusicSection />
+      {<MusicSection />}
+      {/* ------------------------- 세번째 섹션 ------------------------- */}
+
+      {/* ------------------------- 세번째 섹션 ------------------------- */}
+      {<NewSection />}
       {/* ------------------------- 세번째 섹션 ------------------------- */}
     </>
   );

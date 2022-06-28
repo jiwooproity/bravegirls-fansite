@@ -6,7 +6,9 @@ const useAudio = (url) => {
 
   const toggle = () => {
     setPlaying(!playing);
+  };
 
+  const load = () => {
     audio.src = url;
     audio.load();
   };
@@ -31,6 +33,6 @@ const useAudio = (url) => {
     };
   });
 
-  return [playing, pause, toggle];
+  return [audio, playing, pause, load, toggle];
 };
 export default useAudio;

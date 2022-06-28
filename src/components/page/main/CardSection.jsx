@@ -4,13 +4,13 @@ import _ from "lodash";
 import styled from "styled-components";
 
 import { onDownload, photocardService } from "service/photocardService";
-import { SectionTitle, Loading } from "components";
+import { SectionComponent } from "components";
 
 import Slider from "react-slick";
 import "../../../../node_modules/slick-carousel/slick/slick.css";
 import "../../../../node_modules/slick-carousel/slick/slick-theme.css";
 
-const CardSectionContainer = styled.div`
+const Section = styled.div`
   width: 100%;
   padding: 10px 0px;
   display: flex;
@@ -18,24 +18,9 @@ const CardSectionContainer = styled.div`
   align-items: center;
 `;
 
-const CardSectionGubun = styled.button`
-  margin-left: 5px;
-  padding: 5px 10px;
-  border-radius: 3px;
-  border: none;
-  background-color: rgba(194, 177, 185);
-  color: white;
-  cursor: pointer;
-`;
-
-const CardSectionWrapper = styled.div`
-  width: 990px;
-`;
-
 const CardWrapper = styled.div`
   width: 230px;
   height: 356px;
-  margin: 15px 0px;
   display: block;
   position: relative;
 `;
@@ -175,17 +160,9 @@ const CardSection = () => {
   };
 
   return (
-    <CardSectionContainer>
-      <SectionTitle title="PhotoCard" subTitle={`다운 받을 시안을 클릭해주세요! (${photoCard.length})`}>
-        {_.map(gubunArr, (gubun, index) => (
-          <a key={index} href={gubun.url} target={"_blank"} rel="noreferrer">
-            <CardSectionGubun key={index}>{gubun.label}</CardSectionGubun>
-          </a>
-        ))}
-      </SectionTitle>
-
-      <CardSectionWrapper>
-        {loading ? (
+    <Section>
+      <SectionComponent title="PhotoCard" subTitle={`다양한 디자인의 포토카드 보고가세요!`} tag={gubunArr} type={"download"}>
+        {loading && (
           <CustomSlider {...settings}>
             {_.map(photoCard, (card, index) => (
               <CardWrapper key={Number(index)}>
@@ -201,11 +178,9 @@ const CardSection = () => {
               </CardWrapper>
             ))}
           </CustomSlider>
-        ) : (
-          <Loading />
         )}
-      </CardSectionWrapper>
-    </CardSectionContainer>
+      </SectionComponent>
+    </Section>
   );
 };
 

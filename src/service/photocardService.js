@@ -42,11 +42,17 @@ const settingMethod = async (url, params, method) => {
 
 export const photocardService = {
   getPhotocardData: (params) => settingMethod("photocard/getPhotocard.php", params, "GET"),
-  getMusicList: (params) => settingMethod("photocard/getMusicList.php", params, "POST"),
+  getVideoList: (params) => settingMethod("photocard/getVideoList.php", params, "GET"),
+  getMusicList: (params) => settingMethod("photocard/getMusicList.php", params, "GET"),
 };
 
 export const onDownload = async (e, member_name, photocardName, photocard_image, photocard_image_back) => {
   e.preventDefault();
+
+  if (!localStorage.getItem("login_id")) {
+    alert("로그인 기능 구현 후 이용 가능합니다.");
+    return;
+  }
 
   const dataArr = [photocard_image, photocard_image_back];
 

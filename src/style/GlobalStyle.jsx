@@ -6,7 +6,7 @@ const GlobalStyle = createGlobalStyle`
         padding: 0px;
         box-sizing: border-box;
     }
-    
+
     body::-webkit-scrollbar {
         display: none;
     }
