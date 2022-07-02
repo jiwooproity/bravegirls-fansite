@@ -27,7 +27,11 @@ const NavbarLogo = styled.h1`
   display: block;
   font-size: 20px;
   line-height: 20px;
-  color: white;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
 `;
 
 const NavbarMenu = styled.ul`
@@ -61,11 +65,11 @@ const NavbarButton = styled.button`
   border: none;
   border-radius: 2.5px;
   padding: 5px 10px;
-  background-color: rgba(194, 177, 185);
+  background-color: rgba(0, 0, 0, 0.6);
   color: white;
 
   &:hover {
-    background-color: rgba(163, 151, 135);
+    background-color: rgba(0, 0, 0, 0.9);
   }
 
   transition: background-color 0.5s ease;
@@ -97,7 +101,9 @@ const Navbar = () => {
   return (
     <NavbarContainer>
       <NavbarWrap>
-        <NavbarLogo>BraveGirls</NavbarLogo>
+        <NavbarLogo>
+          <Link to={"/"}>BraveGirls</Link>
+        </NavbarLogo>
         <NavbarMenu>{getElement()}</NavbarMenu>
       </NavbarWrap>
     </NavbarContainer>

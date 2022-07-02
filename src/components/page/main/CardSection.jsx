@@ -4,7 +4,7 @@ import _ from "lodash";
 import styled from "styled-components";
 
 import { onDownload, photocardService } from "service/photocardService";
-import { SectionComponent } from "components";
+import { Loading } from "components";
 
 import Slider from "react-slick";
 import "../../../../node_modules/slick-carousel/slick/slick.css";
@@ -12,24 +12,53 @@ import "../../../../node_modules/slick-carousel/slick/slick-theme.css";
 
 const Section = styled.div`
   width: 100%;
-  padding: 10px 0px;
+  padding: 50px 0px 100px 0px;
+
+  overflow: hidden;
+
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+
+  background-color: rgb(245, 245, 245);
+`;
+
+const SectionContent = styled.div`
+  width: 1360px;
+`;
+
+const SectionTitleWrap = styled.div`
+  width: 100%;
+  padding: 0px 0px 50px 0px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+`;
+
+const SectionTitle = styled.h1`
+  font-size: 30px;
+`;
+
+const SectionSpan = styled.span`
+  font-size: 30px;
+  font-weight: 400;
+`;
+
+const SectionSubTitle = styled.p`
+  font-size: 12px;
+  font-weight: 100;
 `;
 
 const CardWrapper = styled.div`
-  width: 230px;
-  height: 356px;
+  height: 390px;
   display: block;
   position: relative;
 `;
 
 const CardAnchor = styled.a`
-  width: 230px;
-  height: 356px;
-  position: relative;
-
   transform-style: preserve-3d;
   perspective: 1000px;
 
@@ -49,8 +78,7 @@ const CardAnchor = styled.a`
 `;
 
 const CardImage = styled.img`
-  width: 230px;
-  height: 356px;
+  width: 100%;
 
   display: block;
   border-radius: 8px;
@@ -58,7 +86,7 @@ const CardImage = styled.img`
   position: absolute;
   top: 0;
 
-  box-shadow: rgba(0, 0, 0, 0.12) 2px 3px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 
   backface-visibility: hidden;
   transform: 1s;
@@ -79,39 +107,35 @@ const CardImage = styled.img`
 // `;
 
 const CustomSlider = styled(Slider)`
+  .slick-list {
+    overflow: visible;
+  }
+
+  .slick-slide {
+    pointer-events: none;
+    opacity: 0.5;
+    padding: 0px 10px 25px 10px;
+    transform: scale(0.9);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+
   .slick-slide div {
     outline: none; // 슬라이드 클릭시 파란선을 제거하기 위해서 작성
+  }
 
-    padding-right: 10px;
+  .slick-center {
+    pointer-events: all;
+    opacity: 1;
+    transform: scale(1.1);
   }
 
   .slick-prev {
-    z-index: 5;
-    height: 356px;
-    border-radius: 15px 0px 0px 15px;
-
-    &:hover {
-      background-color: rgba(220, 220, 220);
-    }
-
-    transition: background-color 0.5s ease;
-
     &::before {
       display: none;
     }
   }
 
   .slick-next {
-    z-index: 5;
-    height: 356px;
-    border-radius: 0px 15px 15px 0px;
-
-    &:hover {
-      background-color: rgba(220, 220, 220);
-    }
-
-    transition: background-color 0.5s ease;
-
     &::before {
       display: none;
     }
@@ -126,25 +150,25 @@ const CardSection = () => {
     dots: true,
     infinite: true,
     centerMode: true,
-    centerPadding: "-10px",
+    centerPadding: "0px",
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 5,
     slidesToScroll: 1,
     initialSlide: 2,
     autoplay: true,
     autoplaySpeed: 5000,
   };
 
-  const gubunArr = [
-    {
-      label: "# RED SUN",
-      url: "https://drive.google.com/u/0/uc?id=1_s3ntkw9ikFaqVDJ8mklAGjSSYkeUXOX&export=download",
-    },
-    {
-      label: "# MVSK",
-      url: "https://drive.google.com/u/0/uc?id=1MiEdK4Sj0eLRXAdOrkSuS-0vDdV2_0va&export=download",
-    },
-  ];
+  // const gubunArr = [
+  //   {
+  //     label: "# RED SUN",
+  //     url: "https://drive.google.com/u/0/uc?id=1_s3ntkw9ikFaqVDJ8mklAGjSSYkeUXOX&export=download",
+  //   },
+  //   {
+  //     label: "# MVSK",
+  //     url: "https://drive.google.com/u/0/uc?id=1MiEdK4Sj0eLRXAdOrkSuS-0vDdV2_0va&export=download",
+  //   },
+  // ];
 
   useEffect(() => {
     loadData();
@@ -161,8 +185,14 @@ const CardSection = () => {
 
   return (
     <Section>
-      <SectionComponent title="PhotoCard" subTitle={`다양한 디자인의 포토카드 보고가세요!`} tag={gubunArr} type={"download"}>
-        {loading && (
+      <SectionContent>
+        <SectionTitleWrap>
+          <SectionTitle>
+            <SectionSpan>브레이브걸스</SectionSpan> 포토카드
+            <SectionSubTitle>각 멤버들의 개성을 살린 포토카드 구경하고 가세요!</SectionSubTitle>
+          </SectionTitle>
+        </SectionTitleWrap>
+        {loading ? (
           <CustomSlider {...settings}>
             {_.map(photoCard, (card, index) => (
               <CardWrapper key={Number(index)}>
@@ -178,8 +208,10 @@ const CardSection = () => {
               </CardWrapper>
             ))}
           </CustomSlider>
+        ) : (
+          <Loading />
         )}
-      </SectionComponent>
+      </SectionContent>
     </Section>
   );
 };

@@ -6,7 +6,7 @@ import styled from "styled-components";
 const Section = styled.div`
   width: 100%;
   padding: 10px 0px;
-  margin-bottom: 150px;
+  margin: 50px 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,7 +21,7 @@ const SectionWrap = styled.div`
 `;
 
 const SectionContent = styled.div`
-  width: 990px;
+  width: ${({ width }) => (width ? `${width}px` : "990px")};
 `;
 
 const Tag = styled.button`
@@ -58,7 +58,7 @@ const RightSide = styled.div`
 const SectionComponent = (props) => {
   const { title, subTitle } = props;
   const { tag } = props;
-  const { children } = props;
+  const { width, children } = props;
 
   return (
     <Section>
@@ -80,7 +80,7 @@ const SectionComponent = (props) => {
           </RightSide>
         ) : null}
       </SectionWrap>
-      <SectionContent>{children}</SectionContent>
+      <SectionContent width={width}>{children}</SectionContent>
     </Section>
   );
 };

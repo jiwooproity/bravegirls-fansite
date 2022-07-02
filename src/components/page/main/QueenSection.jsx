@@ -100,7 +100,6 @@ const QueenSection = () => {
   const [loading, setLoading] = useState(false);
 
   const settings = {
-    dots: true,
     centerMode: true,
     centerPadding: "-50px",
     speed: 500,
@@ -123,7 +122,7 @@ const QueenSection = () => {
 
   return (
     <Section>
-      <SectionComponent>
+      <SectionComponent width={990}>
         {loading ? (
           <CustomSlider {...settings}>
             {_.map(videoList, (video, index) => (

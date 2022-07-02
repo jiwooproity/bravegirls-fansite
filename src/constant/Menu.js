@@ -9,11 +9,17 @@ export const Menu = [
     path: "bravegirls",
   },
   {
+    name: "Member",
+    type: "text",
+    root: "/member",
+    path: "/member",
+  },
+  {
     name: "PhotoCard",
     type: "text",
     // root: Url.PHOTOCARD,
     root: "/",
-    path: "bravegirls/photocard",
+    path: "/photocard",
   },
   {
     name: "Login",

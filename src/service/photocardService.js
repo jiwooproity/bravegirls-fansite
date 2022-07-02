@@ -8,7 +8,7 @@ const instance = axios.create({
 
 const getMethod = (url, params) => {
   if (params) {
-    return instance.get(url, params);
+    return instance.get(url, { params: { ...params } });
   } else {
     return instance.get(url);
   }
@@ -44,6 +44,7 @@ export const photocardService = {
   getPhotocardData: (params) => settingMethod("photocard/getPhotocard.php", params, "GET"),
   getVideoList: (params) => settingMethod("photocard/getVideoList.php", params, "GET"),
   getMusicList: (params) => settingMethod("photocard/getMusicList.php", params, "GET"),
+  getMemberList: (params) => settingMethod("photocard/getMemberList.php", params, "GET"),
 };
 
 export const onDownload = async (e, member_name, photocardName, photocard_image, photocard_image_back) => {
