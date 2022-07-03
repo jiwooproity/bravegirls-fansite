@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 import banner from "static/img/specialBanner.jpg";
 
 const BannerContainer = styled.div`
   width: 100%;
-  height: 700px;
+  height: 100vh;
 `;
 
 const BannerImageWrapper = styled.div`
@@ -50,6 +50,12 @@ const BannerTitleWrapper = styled.div`
   transform: translate(-50%, -50%);
 `;
 
+const typingAnimation = keyframes`
+    to {
+        opacity: 0;
+    }
+`;
+
 const BannerTitle = styled.span`
   font-size: 43px;
   font-weight: 400;
@@ -57,6 +63,20 @@ const BannerTitle = styled.span`
   display: block;
 
   color: rgba(255, 255, 255, 0.5);
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    width: 5px;
+    margin-left: 2px;
+    height: 55px;
+
+    background-color: rgba(255, 255, 255, 0.5);
+
+    animation: ${typingAnimation} 1s infinite;
+  }
 `;
 
 const BannerSubTitle = styled.span`
@@ -69,13 +89,35 @@ const BannerSubTitle = styled.span`
 `;
 
 const Banner = () => {
+  const [number, setNumber] = useState(0);
+  const [text, setText] = useState("1");
+
+  const clear = () => {
+    clearTimeout();
+  };
+
+  setTimeout(() => {
+    let nowTxt = text;
+    const txt = "854일의 기적";
+    const char = txt.split("");
+
+    if (number < txt.length) {
+      let index = number;
+      nowTxt = nowTxt += char[index];
+      setNumber(index + 1);
+      setText(nowTxt);
+    } else {
+      clear();
+    }
+  }, 500);
+
   return (
     <BannerContainer>
       <BannerImageWrapper>
         <BannerImage src={banner} />
         <BannerBlur />
         <BannerTitleWrapper>
-          <BannerTitle>1854일의 기적</BannerTitle>
+          <BannerTitle>{text}</BannerTitle>
           <BannerSubTitle>B'Girls Are Back! "안녕하세요, 브레이브걸스입니다!"</BannerSubTitle>
         </BannerTitleWrapper>
       </BannerImageWrapper>

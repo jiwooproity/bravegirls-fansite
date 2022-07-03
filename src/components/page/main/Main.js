@@ -3,7 +3,7 @@ import React from "react";
 import Section from "./Section";
 import CardSection from "./CardSection";
 import MusicSection from "./MusicSection";
-import NewSection from "./QueenSection";
+// import NewSection from "./QueenSection";
 // import TopBanner from "./TopBanner";
 import Banner from "./Banner";
 
@@ -26,7 +26,7 @@ const Main = () => {
       {/* ------------------------- 두번째 섹션 ------------------------- */}
 
       {/* ------------------------- 세번째 섹션 ------------------------- */}
-      {<NewSection />}
+      {/* {<NewSection />} */}
       {/* ------------------------- 세번째 섹션 ------------------------- */}
     </>
   );

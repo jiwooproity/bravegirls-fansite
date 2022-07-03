@@ -4,7 +4,7 @@ import _ from "lodash";
 import styled from "styled-components";
 
 import { onDownload, photocardService } from "service/photocardService";
-import { Loading } from "components";
+import { Loading, SectionComponent } from "components";
 
 import Slider from "react-slick";
 import "../../../../node_modules/slick-carousel/slick/slick.css";
@@ -20,36 +20,7 @@ const Section = styled.div`
   justify-content: center;
   align-items: center;
 
-  background-color: rgb(245, 245, 245);
-`;
-
-const SectionContent = styled.div`
-  width: 1360px;
-`;
-
-const SectionTitleWrap = styled.div`
-  width: 100%;
-  padding: 0px 0px 50px 0px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  text-align: center;
-`;
-
-const SectionTitle = styled.h1`
-  font-size: 30px;
-`;
-
-const SectionSpan = styled.span`
-  font-size: 30px;
-  font-weight: 400;
-`;
-
-const SectionSubTitle = styled.p`
-  font-size: 12px;
-  font-weight: 100;
+  background-color: white;
 `;
 
 const CardWrapper = styled.div`
@@ -108,13 +79,12 @@ const CardImage = styled.img`
 
 const CustomSlider = styled(Slider)`
   .slick-list {
-    overflow: visible;
   }
 
   .slick-slide {
     pointer-events: none;
     opacity: 0.5;
-    padding: 0px 10px 25px 10px;
+    padding: 25px 10px 40px 10px;
     transform: scale(0.9);
     transition: transform 0.5s ease, opacity 0.5s ease;
   }
@@ -154,7 +124,7 @@ const CardSection = () => {
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 1,
-    initialSlide: 2,
+    initialSlide: 0,
     autoplay: true,
     autoplaySpeed: 5000,
   };
@@ -185,13 +155,7 @@ const CardSection = () => {
 
   return (
     <Section>
-      <SectionContent>
-        <SectionTitleWrap>
-          <SectionTitle>
-            <SectionSpan>브레이브걸스</SectionSpan> 포토카드
-            <SectionSubTitle>각 멤버들의 개성을 살린 포토카드 구경하고 가세요!</SectionSubTitle>
-          </SectionTitle>
-        </SectionTitleWrap>
+      <SectionComponent width={1360} title={"브레이브걸스"} active={"포토카드"} subTitle={"각 멤버들의 개성을 살린 포토카드 구경하고 가세요!"}>
         {loading ? (
           <CustomSlider {...settings}>
             {_.map(photoCard, (card, index) => (
@@ -211,7 +175,7 @@ const CardSection = () => {
         ) : (
           <Loading />
         )}
-      </SectionContent>
+      </SectionComponent>
     </Section>
   );
 };

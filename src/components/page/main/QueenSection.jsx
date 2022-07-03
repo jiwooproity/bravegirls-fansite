@@ -11,6 +11,7 @@ const Section = styled.div`
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  background-color: rgba(245, 245, 245);
 `;
 
 const Title = styled.h1`

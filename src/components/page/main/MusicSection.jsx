@@ -6,7 +6,7 @@ import styled, { css, keyframes } from "styled-components";
 import useAudio from "hooks/useAudio";
 
 import { highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle } from "static/music";
-import { Loading } from "components";
+import { Loading, SectionComponent } from "components";
 
 import { photocardService } from "service/photocardService";
 
@@ -18,38 +18,13 @@ const Section = styled.div`
   position: relative;
 `;
 
-const SectionTitleWrap = styled.div`
-  width: 100%;
-  padding: 0px 0px 50px 0px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  text-align: center;
-`;
-
-const SectionTitle = styled.h1`
-  font-size: 30px;
-`;
-
-const SectionSpan = styled.span`
-  font-size: 30px;
-  font-weight: 400;
-`;
-
-const SectionSubTitle = styled.p`
-  font-size: 12px;
-  font-weight: 100;
-`;
-
 const SectionBackground = styled.img`
   width: 100%;
   height: 100%;
 
   z-index: -2;
 
-  position: absolute;
+  position: fixed;
   top: 0;
   object-fit: cover;
 `;
@@ -57,15 +32,11 @@ const SectionBackground = styled.img`
 const SectionBackgroundBlur = styled.div`
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(100px);
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.2);
   position: absolute;
   top: 0;
   z-index: -1;
-`;
-
-const SectionContent = styled.div`
-  width: 990px;
-  padding: 50px 0px 100px 0px;
 `;
 
 const MusicCustomWrap = styled.div`
@@ -123,7 +94,7 @@ const Description = styled.div`
   display: flex;
   flex-direction: column;
 
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.7);
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
   border-radius: 5px;
 `;
@@ -246,13 +217,14 @@ const MusicSection = () => {
     <Section>
       <SectionBackgroundBlur />
       {loading && <SectionBackground src={musicList[musicId].music_album_image} />}
-      <SectionContent width={990}>
-        <SectionTitleWrap>
-          <SectionTitle>
-            <SectionSpan>브레이브걸스</SectionSpan> 앨범
-            <SectionSubTitle>브레이브걸스의 타이틀 곡 듣고 가세요!</SectionSubTitle>
-          </SectionTitle>
-        </SectionTitleWrap>
+      <SectionComponent
+        width={990}
+        padding={"50px 0px 100px 0px"}
+        color={"white"}
+        title={"브레이브걸스"}
+        active={"앨범"}
+        subTitle={"브레이브걸스의 타이틀 곡 듣고 가세요!"}
+      >
         {loading ? (
           <>
             <MusicCustomWrap>
@@ -320,7 +292,7 @@ const MusicSection = () => {
         ) : (
           <Loading />
         )}
-      </SectionContent>
+      </SectionComponent>
     </Section>
   );
 };
