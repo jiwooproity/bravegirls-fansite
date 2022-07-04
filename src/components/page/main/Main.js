@@ -6,6 +6,7 @@ import MusicSection from "./MusicSection";
 // import NewSection from "./QueenSection";
 // import TopBanner from "./TopBanner";
 import Banner from "./Banner";
+import LogoSection from "./LogoSection";
 
 const Main = () => {
   return (
@@ -14,12 +15,14 @@ const Main = () => {
       <Banner />
 
       {/* ------------------------- 첫번째 섹션 ------------------------- */}
-      <Section />
+      <LogoSection />
       {/* ------------------------- 첫번째 섹션 ------------------------- */}
 
       {/* ------------------------- 세번째 섹션 ------------------------- */}
       {<MusicSection />}
       {/* ------------------------- 세번째 섹션 ------------------------- */}
+
+      <Section />
 
       {/* ------------------------- 두번째 섹션 ------------------------- */}
       <CardSection />

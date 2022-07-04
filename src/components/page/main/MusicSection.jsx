@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import _ from "lodash";
 
 import styled, { css, keyframes } from "styled-components";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 import useAudio from "hooks/useAudio";
 
@@ -16,27 +20,6 @@ const Section = styled.div`
   align-items: center;
 
   position: relative;
-`;
-
-const SectionBackground = styled.img`
-  width: 100%;
-  height: 100%;
-
-  z-index: -2;
-
-  position: fixed;
-  top: 0;
-  object-fit: cover;
-`;
-
-const SectionBackgroundBlur = styled.div`
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(10px);
-  background-color: rgba(0, 0, 0, 0.2);
-  position: absolute;
-  top: 0;
-  z-index: -1;
 `;
 
 const MusicCustomWrap = styled.div`
@@ -95,7 +78,7 @@ const Description = styled.div`
   flex-direction: column;
 
   background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  /* box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset; */
   border-radius: 5px;
 `;
 
@@ -109,6 +92,8 @@ const MainColor = styled.div`
   margin: 0px 5px 5px 0px;
   box-shadow: rgb(0 0 0 / 40%) 0px 2px 4px, rgb(0 0 0 / 30%) 0px 7px 13px -3px, rgb(0 0 0 / 20%) 0px -3px 0px inset;
   background-color: ${({ musicColor }) => musicColor};
+
+  transition: background-color 0.5s ease;
 `;
 
 const AlbumTitle = styled.h1`
@@ -130,38 +115,103 @@ const AlbumDescription = styled.span`
   color: rgba(0, 0, 0, 0.6);
 `;
 
-const AlbumMenu = styled.div`
-  width: 990px;
-  margin: 50px 0px 0px 0px;
+const AlbumMenuOpener = styled.button`
+  width: 100%;
+  padding: 5px 0px;
+  background-color: rgba(255, 255, 255, 0.6);
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+
+  position: relative;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
+  svg {
+    color: black;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 1);
+    color: white;
+
+    svg {
+      color: white;
+    }
+  }
+
+  transition: background-color 0.5s ease, color 0.5s ease;
+  cursor: pointer;
+`;
+
+const AlbumMenuButtonArrow = styled(FontAwesomeIcon)`
+  font-size: 15px;
+  line-height: 15px;
+  margin-top: ${({ open }) => (open ? "2px" : "0px")};
+  margin-left: 5px;
+  transform: ${({ open }) => (open ? "rotate(180deg)" : "rotate(0deg)")};
+  color: white;
+  transition: transform 0.5s ease, margin-top 0.5s ease, color 0.5s ease;
+`;
+
+const AlbumMenu = styled.div`
+  width: 990px;
+  height: ${({ open }) => (open ? "336.63px" : "0px")};
+  overflow: hidden;
+  margin: 0px 0px 0px 0px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  transition: height 0.5s ease;
 `;
 
 const ButtomWrap = styled.div`
   display: flex;
-  margin: 0px 5px 0px 5px;
-  padding: 8px;
-  background-color: ${({ mainColor }) => mainColor};
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  margin-top: 8px;
+  background-color: white;
 
-  &:hover {
-    transform: translateY(-2px);
-  }
-
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-  transition: transform 0.5s ease;
+  /* box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset; */
 
   cursor: pointer;
 `;
 
 const MusicButton = styled.button`
+  width: 100%;
+  margin-left: 8px;
   font-size: 14px;
   line-height: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
   border: none;
   background-color: transparent;
-  color: ${({ mainColor }) => (mainColor === "#ffffff" ? "rgba(0, 0, 0, 0.8)" : "white")};
+  /* color: ${({ mainColor }) => (mainColor === "#ffffff" ? "rgba(0, 0, 0, 0.8)" : "white")}; */
 
   cursor: pointer;
+`;
+
+const MusicButtonText = styled.span`
+  width: 100%;
+  margin-top: 5px;
+  font-size: 12px;
+`;
+
+const MusicButtonImage = styled.img`
+  width: 40px;
+  border-radius: 3px;
+`;
+
+const FontAwesomeCustom = styled(FontAwesomeIcon)`
+  display: block;
+  color: black;
+  margin-right: 8px;
 `;
 
 // 음악 파일 인덱스 별로 구분
@@ -170,6 +220,7 @@ const musicArr = [highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, af
 const MusicSection = () => {
   const [access, setAccess] = useState(false);
   const [clonePlay, setClonePlay] = useState(false);
+  const [openList, setOpenList] = useState(false);
 
   const [albumList, setAlbumList] = useState([]);
 
@@ -200,8 +251,10 @@ const MusicSection = () => {
     setLoading(false);
     const response = await photocardService.getMusicList();
     const albumData = response.map((res) => ({
+      musicId: res.music_idx,
       title: res.music_title,
       color: res.music_color,
+      cover: res.music_album_image,
     }));
 
     setAlbumList(albumData);
@@ -213,14 +266,27 @@ const MusicSection = () => {
     setMusicId(index);
   };
 
+  const onOpen = () => {
+    setOpenList(!openList);
+  };
+
+  const onHandleChange = (result) => {
+    if (!result.destination) return;
+    const items = [...albumList];
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setAlbumList(items);
+  };
+
   return (
     <Section>
-      <SectionBackgroundBlur />
-      {loading && <SectionBackground src={musicList[musicId].music_album_image} />}
+      {/* <SectionBackgroundBlur /> */}
+      {/* {loading && <SectionBackground src={musicList[musicId].music_album_image} />} */}
       <SectionComponent
         width={990}
-        padding={"50px 0px 100px 0px"}
-        color={"white"}
+        padding={"50px 0px 50px 0px"}
+        // color={"white"}
         title={"브레이브걸스"}
         active={"앨범"}
         subTitle={"브레이브걸스의 타이틀 곡 듣고 가세요!"}
@@ -279,15 +345,33 @@ const MusicSection = () => {
                 <AlbumDescription>{musicList[musicId].music_description_second && musicList[musicId].music_description_second}</AlbumDescription>
               </Description>
             </MusicCustomWrap>
-            <AlbumMenu>
-              {_.map(albumList, (music, index) => (
-                <ButtomWrap key={index} mainColor={music.color}>
-                  <MusicButton mainColor={music.color} onClick={() => onClickTitle(index)}>
-                    {music.title}
-                  </MusicButton>
-                </ButtomWrap>
-              ))}
-            </AlbumMenu>
+            <AlbumMenuOpener mainColor={musicList[musicId].music_color} onClick={onOpen}>
+              플레이리스트 더보기
+              <AlbumMenuButtonArrow open={openList} icon={faCaretDown} />
+            </AlbumMenuOpener>
+            <DragDropContext onDragEnd={onHandleChange}>
+              <Droppable droppableId="musicList">
+                {(provided) => (
+                  <AlbumMenu {...provided.droppableProps} ref={provided.innerRef} className="musicList" open={openList}>
+                    {_.map(albumList, (music, index) => (
+                      <Draggable key={String(index)} index={index} draggableId={String(index)}>
+                        {(provided) => (
+                          <ButtomWrap ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} key={index} mainColor={music.color}>
+                            <MusicButtonImage src={music.cover} />
+                            <MusicButton mainColor={music.color} onClick={() => onClickTitle(music.musicId - 1)}>
+                              {music.title}
+                              <MusicButtonText>브레이브걸스</MusicButtonText>
+                            </MusicButton>
+                            <FontAwesomeCustom icon={faBars} />
+                          </ButtomWrap>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </AlbumMenu>
+                )}
+              </Droppable>
+            </DragDropContext>
           </>
         ) : (
           <Loading />

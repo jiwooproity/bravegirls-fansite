@@ -10,8 +10,8 @@ import yuna_icon from "static/img/yuna_icon.png";
 
 const FirstSectionWrapper = styled.div`
   width: 100%;
-  height: 300px;
-  padding: 0px 30px;
+
+  padding: 50px 0px;
   display: flex;
   flex-direction: column;
   justify-content: center;

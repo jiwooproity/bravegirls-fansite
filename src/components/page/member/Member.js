@@ -18,23 +18,68 @@ const MemberContainer = styled.div`
 const MemberNavbar = styled.div`
   width: 100%;
   height: 84px;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 1);
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 `;
 
 const WindowContainer = styled.div`
   width: 100%;
-  padding: 100px 50px 100px 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  position: relative;
+`;
+
+const LoadingWrapper = styled.div`
+  width: 100%;
+  height: 620px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const WindowBackground = styled.img`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+
+  background-color: black;
+  z-index: -2;
+`;
+
+const WindowBlur = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(50px);
+  z-index: -1;
 `;
 
 const WindowWrapper = styled.div`
   width: 990px;
+  padding: 80px 0px 20px 0px;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  position: relative;
+`;
+
+const WindowWrapperSkew = styled.div`
+  width: 390px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 180px;
+  background-color: white;
+  transform: skew(-20deg);
+  z-index: -1;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 `;
 
 const WindowSectionWrapper = styled.div`
@@ -119,9 +164,16 @@ const InfoText = styled.span`
   color: rgba(0, 0, 0, 0.5);
 `;
 
+const SelectMemberContainer = styled.div`
+  width: 100%;
+  margin: 50px 0px 50px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const SelectMemberWrapper = styled.div`
   width: 990px;
-  margin: 120px 0px 0px 0px;
   display: flex;
   justify-content: space-between;
 `;
@@ -130,8 +182,9 @@ const SelectMemberImageRelative = styled.div`
   position: relative;
   border-radius: 5px;
   overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px,
-    rgba(0, 0, 0, 0.07) 0px 16px 16px;
+  /* box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px,
+    rgba(0, 0, 0, 0.07) 0px 16px 16px; */
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 `;
 
 const SelectMemberImage = styled.img`
@@ -224,32 +277,41 @@ const Member = () => {
     <MemberContainer>
       <MemberNavbar />
       <WindowContainer>
+        <WindowBlur />
         {loading ? (
-          <WindowWrapper>
-            <WindowImageContainer>
-              <WindowImageWrapper>
-                {_.map(member_background, (data, index) => (
-                  <WindowBlock key={index}>
-                    <WindowImage src={data.window} />
-                    {data.member ? <WindowMemberImage src={data.member} /> : null}
-                  </WindowBlock>
-                ))}
-              </WindowImageWrapper>
-            </WindowImageContainer>
-            <WindowSectionWrapper>
-              <MemberTitleWrapper>
-                <MemberTitle>{member_eng_name}</MemberTitle>
-                <MemberSubTitle>{member_kor_name}</MemberSubTitle>
-              </MemberTitleWrapper>
-              <BirthDayText>BIRTHDAY _ {member_birthday}</BirthDayText>
-              <InfoText>MBTI: {member_mbti}</InfoText>
-              <InfoText>신체: {member_physical}</InfoText>
-              <InfoText>소속사: {member_enter}</InfoText>
-            </WindowSectionWrapper>
-          </WindowWrapper>
+          <>
+            <WindowBackground src={member_background[0].window} />
+            <WindowWrapper>
+              <WindowWrapperSkew />
+              <WindowImageContainer>
+                <WindowImageWrapper>
+                  {_.map(member_background, (data, index) => (
+                    <WindowBlock key={index}>
+                      <WindowImage src={data.window} />
+                      {data.member ? <WindowMemberImage src={data.member} /> : null}
+                    </WindowBlock>
+                  ))}
+                </WindowImageWrapper>
+              </WindowImageContainer>
+              <WindowSectionWrapper>
+                <MemberTitleWrapper>
+                  <MemberTitle>{member_eng_name}</MemberTitle>
+                  <MemberSubTitle>{member_kor_name}</MemberSubTitle>
+                </MemberTitleWrapper>
+                <BirthDayText>BIRTHDAY _ {member_birthday}</BirthDayText>
+                <InfoText>MBTI: {member_mbti}</InfoText>
+                <InfoText>신체: {member_physical}</InfoText>
+                <InfoText>소속사: {member_enter}</InfoText>
+              </WindowSectionWrapper>
+            </WindowWrapper>
+          </>
         ) : (
-          <Loading />
+          <LoadingWrapper>
+            <Loading />
+          </LoadingWrapper>
         )}
+      </WindowContainer>
+      <SelectMemberContainer>
         <SelectMemberWrapper>
           {_.map(memberArr, (member, index) => (
             <SelectMemberImageRelative key={index} onClick={() => onSelect(member.image_id)}>
@@ -258,7 +320,7 @@ const Member = () => {
             </SelectMemberImageRelative>
           ))}
         </SelectMemberWrapper>
-      </WindowContainer>
+      </SelectMemberContainer>
     </MemberContainer>
   );
 };
