@@ -30,6 +30,11 @@ const WindowContainer = styled.div`
   align-items: center;
 
   position: relative;
+
+  @media screen and (max-width: 768px) {
+    padding: 0px 20px;
+    overflow: hidden;
+  }
 `;
 
 const LoadingWrapper = styled.div`
@@ -68,6 +73,11 @@ const WindowWrapper = styled.div`
   align-items: center;
 
   position: relative;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    flex-direction: column;
+  }
 `;
 
 const WindowWrapperSkew = styled.div`
@@ -80,6 +90,11 @@ const WindowWrapperSkew = styled.div`
   transform: skew(-20deg);
   z-index: -1;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    right: 0;
+  }
 `;
 
 const WindowSectionWrapper = styled.div`
@@ -88,6 +103,12 @@ const WindowSectionWrapper = styled.div`
   padding: 0px 10px 10px 10px;
   display: flex;
   flex-direction: column;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+    padding: 12px 10px 10px 20px;
+  }
 `;
 
 const MemberTitleWrapper = styled.div`
@@ -110,6 +131,10 @@ const WindowImageContainer = styled.div`
   width: 600px;
   height: 520px;
   position: relative;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const WindowImageWrapper = styled.div`
@@ -126,6 +151,10 @@ const WindowImageWrapper = styled.div`
   }
 
   transition: gap 0.5s ease;
+
+  @media screen and (max-width: 768px) {
+    gap: 10px;
+  }
 `;
 
 const WindowBlock = styled.div`
@@ -133,6 +162,11 @@ const WindowBlock = styled.div`
   height: 250px;
   margin: 5px;
   position: relative;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin: 0px;
+  }
 `;
 
 const WindowMemberImage = styled.img`
@@ -176,6 +210,15 @@ const SelectMemberWrapper = styled.div`
   width: 990px;
   display: flex;
   justify-content: space-between;
+
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 15px;
+    padding: 20px;
+  }
 `;
 
 const SelectMemberImageRelative = styled.div`
@@ -192,6 +235,11 @@ const SelectMemberImage = styled.img`
   height: 240px;
   object-fit: cover;
   display: block;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const SelectMemberBackdrop = styled.div`
@@ -208,6 +256,11 @@ const SelectMemberBackdrop = styled.div`
 
   transition: background-color 0.5s ease;
   cursor: pointer;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const Member = () => {

@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import _ from "lodash";
 
 import { Link } from "react-router-dom";
 import { Menu } from "constant";
 
 import styled from "styled-components";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 const NavbarContainer = styled.div`
   width: 100%;
@@ -17,10 +20,14 @@ const NavbarContainer = styled.div`
 `;
 
 const NavbarWrap = styled.div`
-  min-width: 990px;
+  width: 990px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const NavbarLogo = styled.h1`
@@ -39,6 +46,10 @@ const NavbarMenu = styled.ul`
   justify-content: center;
   align-items: center;
   list-style: none;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const NavbarList = styled.li`
@@ -55,6 +66,10 @@ const NavbarList = styled.li`
     }
 
     transition: color 0.5s ease;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
   }
 `;
 
@@ -76,7 +91,62 @@ const NavbarButton = styled.button`
   cursor: pointer;
 `;
 
+const FontAwesomeCustom = styled(FontAwesomeIcon)`
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+
+  z-index: 1;
+
+  display: none;
+
+  @media screen and (max-width: 768px) {
+    display: block;
+  }
+`;
+
+const MediaNavbar = styled.div`
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: fixed;
+  top: 0;
+  left: ${({ media }) => (media ? "0px" : "-100%")};
+
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+
+  transition: left 0.5s ease;
+`;
+
+const MediaMenu = styled.ul`
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+`;
+
+const MediaList = styled.li`
+  padding: 2px 0px;
+
+  a {
+    font-size: 20px;
+    color: white;
+    text-decoration: none;
+    &:hover {
+      color: rgba(251, 187, 98);
+    }
+
+    text-transform: uppercase;
+  }
+`;
+
 const Navbar = () => {
+  const [media, setMedia] = useState(false);
+
   const getElement = () => {
     return _.map(Menu, (list, index) => {
       switch (list.type) {
@@ -98,6 +168,31 @@ const Navbar = () => {
     });
   };
 
+  const getMediaElement = () => {
+    return _.map(Menu, (list, index) => {
+      switch (list.type) {
+        case "text":
+          return (
+            <MediaList key={index}>
+              <Link to={list.root} onClick={() => setMedia(!media)}>
+                {list.name}
+              </Link>
+            </MediaList>
+          );
+        case "button":
+          return (
+            <MediaList key={index}>
+              <Link to={list.root} onClick={() => setMedia(!media)}>
+                {list.name}
+              </Link>
+            </MediaList>
+          );
+        default:
+          break;
+      }
+    });
+  };
+
   return (
     <NavbarContainer>
       <NavbarWrap>
@@ -105,7 +200,11 @@ const Navbar = () => {
           <Link to={"/"}>BraveGirls</Link>
         </NavbarLogo>
         <NavbarMenu>{getElement()}</NavbarMenu>
+        <FontAwesomeCustom icon={faBars} onClick={() => setMedia(!media)} />
       </NavbarWrap>
+      <MediaNavbar media={media}>
+        <MediaMenu>{getMediaElement()}</MediaMenu>
+      </MediaNavbar>
     </NavbarContainer>
   );
 };

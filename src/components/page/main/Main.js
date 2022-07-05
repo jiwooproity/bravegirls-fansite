@@ -1,12 +1,9 @@
 import React from "react";
 
-import Section from "./Section";
 import CardSection from "./CardSection";
 import MusicSection from "./MusicSection";
-// import NewSection from "./QueenSection";
-// import TopBanner from "./TopBanner";
-import Banner from "./Banner";
 import LogoSection from "./LogoSection";
+import Banner from "./MainBanner";
 
 const Main = () => {
   return (
@@ -21,8 +18,6 @@ const Main = () => {
       {/* ------------------------- 세번째 섹션 ------------------------- */}
       {<MusicSection />}
       {/* ------------------------- 세번째 섹션 ------------------------- */}
-
-      <Section />
 
       {/* ------------------------- 두번째 섹션 ------------------------- */}
       <CardSection />

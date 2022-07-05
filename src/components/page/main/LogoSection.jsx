@@ -5,6 +5,7 @@ import bravegirls from "static/img/bravegirls_first.jpg";
 
 const LogoContainer = styled.div`
   width: 100%;
+  height: 600px;
 
   display: flex;
   justify-content: center;
@@ -13,7 +14,7 @@ const LogoContainer = styled.div`
 
 const LogoWrapper = styled.div`
   width: 990px;
-  padding: 50px 0px 30px 0px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,6 +23,12 @@ const LogoWrapper = styled.div`
   /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
 
   background-color: white;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    text-align: center;
+    padding: 50px 20px 30px 20px;
+  }
 `;
 
 const LogoText = styled.h1`
@@ -29,22 +36,40 @@ const LogoText = styled.h1`
   font-size: 165px;
   line-height: 165px;
   background-image: url(${bravegirls});
-  background-size: 1050px;
+  background-size: 100%;
   background-repeat: no-repeat;
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
+
+  @media screen and (max-width: 768px) {
+    font-size: 15vw;
+    line-height: 15vw;
+  }
+
+  transition: font-size 0.5s ease, line-height 0.5s ease;
 `;
 
 const LogoDescription = styled.span`
   font-size: 15px;
+  font-weight: 500;
   color: rgba(0, 0, 0, 0.4);
+
+  @media screen and (max-width: 768px) {
+    font-size: 0.8rem;
+    line-height: 1.3rem;
+  }
 `;
 
 const DescriptionActive = styled.span`
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   color: rgba(0, 0, 0, 0.6);
+
+  @media screen and (max-width: 768px) {
+    font-size: 0.8rem;
+    line-height: 1.3rem;
+  }
 `;
 
 const LogoSection = () => {

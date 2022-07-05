@@ -21,12 +21,21 @@ const Section = styled.div`
   align-items: center;
 
   background-color: white;
+
+  @media screen and (max-width: 768px) {
+    padding: 0px;
+  }
 `;
 
 const CardWrapper = styled.div`
   height: 390px;
   display: block;
   position: relative;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 80vh;
+  }
 `;
 
 const CardAnchor = styled.a`
@@ -87,16 +96,29 @@ const CustomSlider = styled(Slider)`
     padding: 25px 10px 40px 10px;
     transform: scale(0.9);
     transition: transform 0.5s ease, opacity 0.5s ease;
+
+    @media screen and (max-width: 768px) {
+      padding: 25px 50px 40px 50px;
+    }
   }
 
   .slick-slide div {
     outline: none; // 슬라이드 클릭시 파란선을 제거하기 위해서 작성
   }
 
+  .slick-dots {
+    @media screen and (max-width: 768px) {
+      height: 65px;
+    }
+  }
+
   .slick-center {
     pointer-events: all;
     opacity: 1;
     transform: scale(1.1);
+    @media screen and (max-width: 768px) {
+      transform: scale(1);
+    }
   }
 
   .slick-prev {
@@ -117,7 +139,6 @@ const CardSection = () => {
   const [loading, setLoading] = useState(false);
 
   const settings = {
-    dots: true,
     infinite: true,
     centerMode: true,
     centerPadding: "0px",
@@ -127,6 +148,16 @@ const CardSection = () => {
     initialSlide: 0,
     autoplay: true,
     autoplaySpeed: 5000,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
+        },
+      },
+    ],
   };
 
   // const gubunArr = [

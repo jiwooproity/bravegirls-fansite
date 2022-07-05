@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import _ from "lodash";
 
 import styled, { css, keyframes } from "styled-components";
@@ -20,6 +20,9 @@ const Section = styled.div`
   align-items: center;
 
   position: relative;
+
+  @media screen and (max-width: 768px) {
+  }
 `;
 
 const MusicCustomWrap = styled.div`
@@ -45,6 +48,14 @@ const AlbumImage = styled.img`
   top: 0;
   left: 0;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+
+  @media screen and (max-width: 768px) {
+    width: 320px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  transition: left 0.5s ease, width 0.5s ease, transform 0.5s ease;
 `;
 
 const rotateLP = keyframes`
@@ -69,6 +80,14 @@ const LpImage = styled.img`
 
   transform-origin: 50% 50%;
   cursor: pointer;
+
+  @media screen and (max-width: 768px) {
+    width: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  transition: left 0.5s ease, width 0.5s ease, transform 0.5s ease;
 `;
 
 const Description = styled.div`
@@ -80,6 +99,10 @@ const Description = styled.div`
   background-color: rgba(255, 255, 255, 0.7);
   /* box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset; */
   border-radius: 5px;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const MainTitle = styled.div`
@@ -102,8 +125,8 @@ const AlbumTitle = styled.h1`
 `;
 
 const AlbumSubTitle = styled.span`
-  font-weight: 500;
   font-size: 12px;
+  font-weight: 400;
   line-height: 12px;
   margin: 5px 0px;
 `;
@@ -117,10 +140,10 @@ const AlbumDescription = styled.span`
 
 const AlbumMenuOpener = styled.button`
   width: 100%;
-  padding: 5px 0px;
+  padding: 8px 0px;
   background-color: rgba(255, 255, 255, 0.6);
   color: black;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 5px;
 
   position: relative;
@@ -146,9 +169,13 @@ const AlbumMenuOpener = styled.button`
   cursor: pointer;
 `;
 
+const AlbumMenuButtonText = styled.span`
+  font-size: 12px;
+`;
+
 const AlbumMenuButtonArrow = styled(FontAwesomeIcon)`
-  font-size: 15px;
-  line-height: 15px;
+  font-size: 12px;
+  line-height: 12px;
   margin-top: ${({ open }) => (open ? "2px" : "0px")};
   margin-left: 5px;
   transform: ${({ open }) => (open ? "rotate(180deg)" : "rotate(0deg)")};
@@ -158,7 +185,7 @@ const AlbumMenuButtonArrow = styled(FontAwesomeIcon)`
 
 const AlbumMenu = styled.div`
   width: 990px;
-  height: ${({ open }) => (open ? "336.63px" : "0px")};
+  height: ${({ open }) => (open ? "357.63px" : "0px")};
   overflow: hidden;
   margin: 0px 0px 0px 0px;
   justify-content: center;
@@ -166,17 +193,21 @@ const AlbumMenu = styled.div`
   position: relative;
 
   transition: height 0.5s ease;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const ButtomWrap = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
-  margin-top: 8px;
+  margin-top: 0px;
+  padding: 5px;
   background-color: white;
 
-  /* box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset; */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 
   cursor: pointer;
 `;
@@ -247,7 +278,7 @@ const MusicSection = () => {
     // eslint-disable-next-line
   }, [musicId]);
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setLoading(false);
     const response = await photocardService.getMusicList();
     const albumData = response.map((res) => ({
@@ -260,7 +291,9 @@ const MusicSection = () => {
     setAlbumList(albumData);
     setMusicList(response);
     setLoading(true);
-  };
+
+    // eslint-disable-next-line
+  }, [albumList, musicList]);
 
   const onClickTitle = (index) => {
     setMusicId(index);
@@ -346,7 +379,7 @@ const MusicSection = () => {
               </Description>
             </MusicCustomWrap>
             <AlbumMenuOpener mainColor={musicList[musicId].music_color} onClick={onOpen}>
-              플레이리스트 더보기
+              <AlbumMenuButtonText>플레이리스트 더보기</AlbumMenuButtonText>
               <AlbumMenuButtonArrow open={openList} icon={faCaretDown} />
             </AlbumMenuOpener>
             <DragDropContext onDragEnd={onHandleChange}>
