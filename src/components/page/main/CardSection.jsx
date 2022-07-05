@@ -28,13 +28,11 @@ const Section = styled.div`
 `;
 
 const CardWrapper = styled.div`
-  height: 390px;
   display: block;
   position: relative;
 
   @media screen and (max-width: 768px) {
     width: 100%;
-    height: 80vh;
   }
 `;
 
@@ -63,8 +61,10 @@ const CardImage = styled.img`
   display: block;
   border-radius: 8px;
 
-  position: absolute;
-  top: 0;
+  &:nth-child(2) {
+    position: absolute;
+    top: 0;
+  }
 
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 
@@ -98,18 +98,12 @@ const CustomSlider = styled(Slider)`
     transition: transform 0.5s ease, opacity 0.5s ease;
 
     @media screen and (max-width: 768px) {
-      padding: 25px 50px 40px 50px;
+      padding: 25px 30px 40px 30px;
     }
   }
 
   .slick-slide div {
     outline: none; // 슬라이드 클릭시 파란선을 제거하기 위해서 작성
-  }
-
-  .slick-dots {
-    @media screen and (max-width: 768px) {
-      height: 65px;
-    }
   }
 
   .slick-center {
@@ -139,6 +133,7 @@ const CardSection = () => {
   const [loading, setLoading] = useState(false);
 
   const settings = {
+    dots: false,
     infinite: true,
     centerMode: true,
     centerPadding: "0px",

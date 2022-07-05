@@ -31,6 +31,10 @@ const MusicCustomWrap = styled.div`
   align-items: center;
 
   height: 388px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Album = styled.div`
@@ -38,6 +42,10 @@ const Album = styled.div`
   height: 350px;
   position: relative;
   display: block;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const AlbumImage = styled.img`
@@ -167,6 +175,10 @@ const AlbumMenuOpener = styled.button`
 
   transition: background-color 0.5s ease, color 0.5s ease;
   cursor: pointer;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const AlbumMenuButtonText = styled.span`
@@ -196,6 +208,7 @@ const AlbumMenu = styled.div`
 
   @media screen and (max-width: 768px) {
     width: 100%;
+    height: 357.63px;
   }
 `;
 

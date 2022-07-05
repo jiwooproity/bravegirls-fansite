@@ -32,6 +32,7 @@ const WindowContainer = styled.div`
   position: relative;
 
   @media screen and (max-width: 768px) {
+    width: 100%;
     padding: 0px 20px;
     overflow: hidden;
   }
@@ -43,6 +44,10 @@ const LoadingWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+    height: 754px;
+  }
 `;
 
 const WindowBackground = styled.img`
@@ -107,7 +112,7 @@ const WindowSectionWrapper = styled.div`
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 100%;
-    padding: 12px 10px 10px 20px;
+    padding: 20px 10px 10px 20px;
   }
 `;
 
@@ -134,6 +139,7 @@ const WindowImageContainer = styled.div`
 
   @media screen and (max-width: 768px) {
     width: 100%;
+    height: 480px;
   }
 `;
 
@@ -153,6 +159,8 @@ const WindowImageWrapper = styled.div`
   transition: gap 0.5s ease;
 
   @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 100%;
     gap: 10px;
   }
 `;
@@ -165,6 +173,7 @@ const WindowBlock = styled.div`
 
   @media screen and (max-width: 768px) {
     width: 100%;
+    height: 235px;
     margin: 0px;
   }
 `;
@@ -174,6 +183,10 @@ const WindowMemberImage = styled.img`
   position: absolute;
   bottom: 0px;
   right: 0px;
+
+  @media screen and (max-width: 768px) {
+    width: 550px;
+  }
 `;
 
 const WindowImage = styled.img`

@@ -115,7 +115,7 @@ const MediaNavbar = styled.div`
 
   position: fixed;
   top: 0;
-  left: ${({ media }) => (media ? "0px" : "-100%")};
+  left: ${({ active }) => (active ? "0px" : "-100%")};
 
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
@@ -202,7 +202,7 @@ const Navbar = () => {
         <NavbarMenu>{getElement()}</NavbarMenu>
         <FontAwesomeCustom icon={faBars} onClick={() => setMedia(!media)} />
       </NavbarWrap>
-      <MediaNavbar media={media}>
+      <MediaNavbar active={media}>
         <MediaMenu>{getMediaElement()}</MediaMenu>
       </MediaNavbar>
     </NavbarContainer>
