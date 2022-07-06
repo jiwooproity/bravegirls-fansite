@@ -5,6 +5,11 @@ import styled from "styled-components";
 const SectionContent = styled.div`
   width: ${({ width }) => (width ? `${width}px` : "990px")};
   padding: ${({ padding }) => (padding ? padding : "0px 0px 0px 0px")};
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    padding: 15px;
+  }
 `;
 
 const SectionTitleWrap = styled.div`

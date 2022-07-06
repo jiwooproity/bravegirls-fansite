@@ -45,7 +45,7 @@ const MemberImage = styled.img`
   transition: opacity 0.5s ease;
 `;
 
-const Section = () => {
+const PocketSection = () => {
   const memberArr = [minyoung_icon, yujeong_icon, eunji_icon, yuna_icon];
 
   return (
@@ -61,4 +61,4 @@ const Section = () => {
   );
 };
 
-export default Section;
+export default PocketSection;

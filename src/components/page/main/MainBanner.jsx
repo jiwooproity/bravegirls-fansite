@@ -41,6 +41,7 @@ const BannerBlur = styled.div`
 `;
 
 const BannerTitleWrapper = styled.div`
+  width: 100%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -76,6 +77,14 @@ const BannerTitle = styled.span`
     background-color: rgba(255, 255, 255, 0.5);
 
     animation: ${typingAnimation} 1s infinite;
+
+    @media screen and (max-width: 768px) {
+      height: 44px;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 35px;
   }
 `;
 
@@ -88,7 +97,7 @@ const BannerSubTitle = styled.span`
   color: rgba(255, 255, 255, 0.5);
 `;
 
-const Banner = () => {
+const MainBanner = () => {
   const [number, setNumber] = useState(0);
   const [text, setText] = useState("1");
 
@@ -125,4 +134,4 @@ const Banner = () => {
   );
 };
 
-export default Banner;
+export default MainBanner;

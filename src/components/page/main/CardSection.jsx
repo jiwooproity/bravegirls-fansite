@@ -21,12 +21,19 @@ const Section = styled.div`
   align-items: center;
 
   background-color: white;
+
+  @media screen and (max-width: 768px) {
+    padding: 0px;
+  }
 `;
 
 const CardWrapper = styled.div`
-  height: 390px;
   display: block;
   position: relative;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const CardAnchor = styled.a`
@@ -54,8 +61,10 @@ const CardImage = styled.img`
   display: block;
   border-radius: 8px;
 
-  position: absolute;
-  top: 0;
+  &:nth-child(2) {
+    position: absolute;
+    top: 0;
+  }
 
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 
@@ -87,6 +96,10 @@ const CustomSlider = styled(Slider)`
     padding: 25px 10px 40px 10px;
     transform: scale(0.9);
     transition: transform 0.5s ease, opacity 0.5s ease;
+
+    @media screen and (max-width: 768px) {
+      padding: 25px 30px 40px 30px;
+    }
   }
 
   .slick-slide div {
@@ -97,6 +110,9 @@ const CustomSlider = styled(Slider)`
     pointer-events: all;
     opacity: 1;
     transform: scale(1.1);
+    @media screen and (max-width: 768px) {
+      transform: scale(1);
+    }
   }
 
   .slick-prev {
@@ -117,7 +133,7 @@ const CardSection = () => {
   const [loading, setLoading] = useState(false);
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     centerMode: true,
     centerPadding: "0px",
@@ -127,6 +143,16 @@ const CardSection = () => {
     initialSlide: 0,
     autoplay: true,
     autoplaySpeed: 5000,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
+        },
+      },
+    ],
   };
 
   // const gubunArr = [
