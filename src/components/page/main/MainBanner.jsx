@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import styled, { keyframes } from "styled-components";
 
@@ -102,23 +102,29 @@ const MainBanner = () => {
   const [text, setText] = useState("1");
 
   const clear = () => {
-    clearTimeout();
+    clearTimeout(typing);
   };
 
-  setTimeout(() => {
-    let nowTxt = text;
-    const txt = "854일의 기적";
-    const char = txt.split("");
+  const typing = () => {
+    setTimeout(() => {
+      let nowTxt = text;
+      const txt = "854일의 기적";
+      const char = txt.split("");
 
-    if (number < txt.length) {
-      let index = number;
-      nowTxt = nowTxt += char[index];
-      setNumber(index + 1);
-      setText(nowTxt);
-    } else {
-      clear();
-    }
-  }, 500);
+      if (number < txt.length) {
+        let index = number;
+        nowTxt = nowTxt += char[index];
+        setNumber(index + 1);
+        setText(nowTxt);
+      } else {
+        clear();
+      }
+    }, 500);
+  };
+
+  useEffect(() => {
+    typing();
+  });
 
   return (
     <BannerContainer>

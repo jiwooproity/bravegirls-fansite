@@ -9,12 +9,13 @@ import { faBars, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 import useAudio from "hooks/useAudio";
 
-import { highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle } from "static/music";
+import { highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle, red_sun } from "static/music";
 import { Loading, SectionComponent } from "components";
 
 import { photocardService } from "service/photocardService";
 
 const Section = styled.div`
+  min-height: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -197,7 +198,7 @@ const AlbumMenuButtonArrow = styled(FontAwesomeIcon)`
 
 const AlbumMenu = styled.div`
   width: 990px;
-  height: ${({ open }) => (open ? "357.63px" : "0px")};
+  height: ${({ open, musicLength }) => (open ? `${musicLength * 51.09}px` : "0px")};
   overflow: hidden;
   margin: 0px 0px 0px 0px;
   justify-content: center;
@@ -208,7 +209,7 @@ const AlbumMenu = styled.div`
 
   @media screen and (max-width: 768px) {
     width: 100%;
-    height: 357.63px;
+    height: ${({ musicLength }) => `${musicLength * 51.09}px`};
   }
 `;
 
@@ -259,7 +260,7 @@ const FontAwesomeCustom = styled(FontAwesomeIcon)`
 `;
 
 // 음악 파일 인덱스 별로 구분
-const musicArr = [highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle];
+const musicArr = [highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle, red_sun];
 
 const MusicSection = () => {
   const [access, setAccess] = useState(false);
@@ -285,9 +286,9 @@ const MusicSection = () => {
       if (playing) {
         toggle();
       }
-
-      load();
     }
+
+    load();
     // eslint-disable-next-line
   }, [musicId]);
 
@@ -398,7 +399,7 @@ const MusicSection = () => {
             <DragDropContext onDragEnd={onHandleChange}>
               <Droppable droppableId="musicList">
                 {(provided) => (
-                  <AlbumMenu {...provided.droppableProps} ref={provided.innerRef} className="musicList" open={openList}>
+                  <AlbumMenu {...provided.droppableProps} ref={provided.innerRef} className="musicList" open={openList} musicLength={musicList.length}>
                     {_.map(albumList, (music, index) => (
                       <Draggable key={String(index)} index={index} draggableId={String(index)}>
                         {(provided) => (

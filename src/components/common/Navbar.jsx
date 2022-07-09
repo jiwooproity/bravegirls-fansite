@@ -117,7 +117,7 @@ const MediaNavbar = styled.div`
   top: 0;
   left: ${({ active }) => (active ? "0px" : "-100%")};
 
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(10px);
 
   transition: left 0.5s ease;

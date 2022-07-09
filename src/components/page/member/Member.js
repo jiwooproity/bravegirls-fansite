@@ -277,7 +277,7 @@ const SelectMemberBackdrop = styled.div`
 `;
 
 const Member = () => {
-  const [member, setMember] = useState(3);
+  const [member, setMember] = useState(1);
   const [memberData, setMemberData] = useState({});
   const [loading, setLoading] = useState(false);
 

@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import CardSection from "../main/CardSection";
+import MusicSection from "../main/MusicSection";
 
-const PhotoCardContainer = styled.div`
+const AlbumContainer = styled.div`
   width: 100%;
 `;
 
-const PhotoCardNavbar = styled.div`
+const AlbumNavbar = styled.div`
   width: 100%;
   height: 84px;
   background-color: rgba(0, 0, 0, 1);
@@ -15,23 +15,21 @@ const PhotoCardNavbar = styled.div`
 
 const Section = styled.div`
   min-height: calc(100vh - 284px);
-  display: flex;
-  justify-content: center;
 
   @media screen and (max-width: 768px) {
     padding: 20px 0px 0px 0px;
   }
 `;
 
-const PhotoCardPage = () => {
+const Album = () => {
   return (
-    <PhotoCardContainer>
-      <PhotoCardNavbar />
+    <AlbumContainer>
+      <AlbumNavbar />
       <Section>
-        <CardSection />
+        <MusicSection />
       </Section>
-    </PhotoCardContainer>
+    </AlbumContainer>
   );
 };
 
-export default PhotoCardPage;
+export default Album;

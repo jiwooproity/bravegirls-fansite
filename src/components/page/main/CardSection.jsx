@@ -12,15 +12,11 @@ import "../../../../node_modules/slick-carousel/slick/slick-theme.css";
 
 const Section = styled.div`
   width: 100%;
-  padding: 50px 0px 100px 0px;
-
-  overflow: hidden;
+  padding: 50px 0px;
 
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background-color: white;
 
   @media screen and (max-width: 768px) {
     padding: 0px;
@@ -87,6 +83,12 @@ const CardImage = styled.img`
 // `;
 
 const CustomSlider = styled(Slider)`
+  .slick-dots {
+    @media screen and (max-width: 768px) {
+      height: 55px;
+    }
+  }
+
   .slick-list {
   }
 
@@ -98,7 +100,7 @@ const CustomSlider = styled(Slider)`
     transition: transform 0.5s ease, opacity 0.5s ease;
 
     @media screen and (max-width: 768px) {
-      padding: 25px 30px 40px 30px;
+      padding: 0px 70px 40px 70px;
     }
   }
 
@@ -133,7 +135,7 @@ const CardSection = () => {
   const [loading, setLoading] = useState(false);
 
   const settings = {
-    dots: false,
+    dots: true,
     infinite: true,
     centerMode: true,
     centerPadding: "0px",
@@ -154,17 +156,6 @@ const CardSection = () => {
       },
     ],
   };
-
-  // const gubunArr = [
-  //   {
-  //     label: "# RED SUN",
-  //     url: "https://drive.google.com/u/0/uc?id=1_s3ntkw9ikFaqVDJ8mklAGjSSYkeUXOX&export=download",
-  //   },
-  //   {
-  //     label: "# MVSK",
-  //     url: "https://drive.google.com/u/0/uc?id=1MiEdK4Sj0eLRXAdOrkSuS-0vDdV2_0va&export=download",
-  //   },
-  // ];
 
   useEffect(() => {
     loadData();

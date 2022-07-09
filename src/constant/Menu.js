@@ -2,28 +2,34 @@
 
 export const Menu = [
   {
-    name: "Home",
+    name: "홈",
     type: "text",
     // root: Url.ROOT,
     root: "/",
     path: "bravegirls",
   },
   {
-    name: "Member",
+    name: "멤버",
     type: "text",
     root: "/member",
     path: "/member",
   },
   {
-    name: "PhotoCard",
+    name: "앨범",
+    type: "text",
+    root: "/album",
+    path: "/album",
+  },
+  {
+    name: "포토카드",
     type: "text",
     // root: Url.PHOTOCARD,
-    root: "/",
+    root: "/photocard",
     path: "/photocard",
   },
   {
-    name: "Login",
-    type: "button",
+    name: "로그인",
+    type: "text",
     root: "",
     path: "bravegirls/login",
   },
