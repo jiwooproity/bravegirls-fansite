@@ -6,5 +6,7 @@ import highheel from "./highheel.flac";
 import whistle from "./whistle.flac";
 import afterWeRide from "./after_we_ride.flac";
 import red_sun from "./red_sun.flac";
+import changed from "./changed.flac";
+import youhu from "./youhu.flac";
 
-export { highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle, red_sun };
+export { highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle, red_sun, changed, youhu };

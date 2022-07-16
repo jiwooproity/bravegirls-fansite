@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import CardSection from "../main/CardSection";
+import CardSection from "../useSection/CardSection";
 
 const PhotoCardContainer = styled.div`
   width: 100%;

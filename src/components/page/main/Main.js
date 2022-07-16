@@ -1,9 +1,10 @@
 import React from "react";
 
-// import CardSection from "./CardSection";
-// import MusicSection from "./MusicSection";
+import HistoryBanner from "./HistoryBanner";
 import LogoSection from "./LogoSection";
 import Banner from "./MainBanner";
+import PrizeSection from "./PrizeSection";
+import TestSection from "./TestSection";
 
 const Main = () => {
   return (
@@ -14,18 +15,11 @@ const Main = () => {
       {/* ------------------------- 첫번째 섹션 ------------------------- */}
       <LogoSection />
       {/* ------------------------- 첫번째 섹션 ------------------------- */}
+      <HistoryBanner />
 
-      {/* ------------------------- 세번째 섹션 ------------------------- */}
-      {/* {<MusicSection />} */}
-      {/* ------------------------- 세번째 섹션 ------------------------- */}
+      <PrizeSection />
 
-      {/* ------------------------- 두번째 섹션 ------------------------- */}
-      {/* <CardSection /> */}
-      {/* ------------------------- 두번째 섹션 ------------------------- */}
-
-      {/* ------------------------- 세번째 섹션 ------------------------- */}
-      {/* {<NewSection />} */}
-      {/* ------------------------- 세번째 섹션 ------------------------- */}
+      <TestSection />
     </>
   );
 };

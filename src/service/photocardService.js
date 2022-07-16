@@ -45,6 +45,7 @@ export const photocardService = {
   getVideoList: (params) => settingMethod("photocard/getVideoList.php", params, "GET"),
   getMusicList: (params) => settingMethod("photocard/getMusicList.php", params, "GET"),
   getMemberList: (params) => settingMethod("photocard/getMemberList.php", params, "GET"),
+  getHistoryList: (params) => settingMethod("photocard/getHistoryList.php", params, "GET"),
 };
 
 export const onDownload = async (e, member_name, photocardName, photocard_image, photocard_image_back) => {

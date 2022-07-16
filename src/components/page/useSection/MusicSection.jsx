@@ -9,7 +9,7 @@ import { faBars, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 import useAudio from "hooks/useAudio";
 
-import { highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle, red_sun } from "static/music";
+import { highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle, red_sun, changed, youhu } from "static/music";
 import { Loading, SectionComponent } from "components";
 
 import { photocardService } from "service/photocardService";
@@ -260,7 +260,7 @@ const FontAwesomeCustom = styled(FontAwesomeIcon)`
 `;
 
 // 음악 파일 인덱스 별로 구분
-const musicArr = [highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle, red_sun];
+const musicArr = [changed, highheel, youhu, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle, red_sun];
 
 const MusicSection = () => {
   const [access, setAccess] = useState(false);
@@ -269,7 +269,7 @@ const MusicSection = () => {
 
   const [albumList, setAlbumList] = useState([]);
 
-  const [musicId, setMusicId] = useState(1);
+  const [musicId, setMusicId] = useState(3);
   const [musicList, setMusicList] = useState([]);
   const [loading, setLoading] = useState(false);
 

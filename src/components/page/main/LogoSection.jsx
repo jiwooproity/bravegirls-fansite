@@ -10,6 +10,10 @@ const LogoContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+    height: 300px;
+  }
 `;
 
 const LogoWrapper = styled.div`
@@ -22,7 +26,7 @@ const LogoWrapper = styled.div`
 
   /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
 
-  background-color: white;
+  /* background-color: white; */
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -36,6 +40,7 @@ const LogoText = styled.h1`
   font-size: 165px;
   line-height: 165px;
   background-image: url(${bravegirls});
+  mix-blend-mode: difference;
   background-size: 100%;
   background-repeat: no-repeat;
   color: transparent;

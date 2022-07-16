@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import MusicSection from "../main/MusicSection";
+import MusicSection from "../useSection/MusicSection";
 
 const AlbumContainer = styled.div`
   width: 100%;
