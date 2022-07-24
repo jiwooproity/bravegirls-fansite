@@ -3,4 +3,5 @@ export const Url = {
   MEMBER: `${process.env.PUBLIC_URL}/member`,
   ALBUM: `${process.env.PUBLIC_URL}/album`,
   PHOTOCARD: `${process.env.PUBLIC_URL}/photocard`,
+  LOGIN: `${process.env.PUBLIC_URL}/login`,
 };

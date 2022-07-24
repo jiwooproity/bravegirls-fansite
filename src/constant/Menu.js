@@ -59,7 +59,7 @@ export const Menu = [
   {
     name: "LOGIN",
     type: "text",
-    root: "",
-    path: "bravegirls/login",
+    root: "/login",
+    path: "/login",
   },
 ];
