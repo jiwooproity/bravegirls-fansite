@@ -9,12 +9,15 @@ import { faYoutubeSquare, faInstagramSquare, faTwitterSquare } from "@fortawesom
 
 const MemberContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+  }
 `;
 
 const MemberIntroduceWrap = styled.div`
@@ -25,6 +28,17 @@ const MemberIntroduceWrap = styled.div`
   display: flex;
 
   position: relative;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    padding: 0px 30px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+  }
 `;
 
 const MemberBackgroundWrap = styled.div`
@@ -34,6 +48,13 @@ const MemberBackgroundWrap = styled.div`
 
   position: relative;
   box-shadow: rgb(38 57 77) 0px 20px 30px -10px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 450px;
+    margin: 80px 0px 0px 0px;
+    padding: 0px 30px 0px 30px;
+  }
 `;
 
 const MemberBackground = styled.img`
@@ -55,6 +76,11 @@ const MemberImage = styled.img`
   position: absolute;
   bottom: 0;
   left: -100px;
+
+  @media screen and (max-width: 768px) {
+    width: 500px;
+    left: -100px;
+  }
 `;
 
 const MemberDesWrap = styled.div`
@@ -64,6 +90,11 @@ const MemberDesWrap = styled.div`
   padding: 0px 0px 0px 50px;
 
   position: relative;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    padding: 30px 0px 0px 0px;
+  }
 `;
 
 const MemberDesBar = styled.img`
@@ -136,19 +167,36 @@ const MemberSign = styled.img`
   display: block;
 
   opacity: 0.03;
+
+  @media screen and (max-width: 768px) {
+  }
+`;
+
+const TabContainer = styled.div`
+  width: 990px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    padding: 0px 30px;
+  }
+
+  z-index: 1;
 `;
 
 const TabWrapper = styled.div`
-  width: 990px;
+  width: 100%;
 
   margin: 30px 0px 0px 0px;
 
   display: flex;
+
   justify-content: space-between;
 
-  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  @media screen and (max-width: 768px) {
+    width: 100%;
 
-  z-index: 1;
+    margin: 30px 0px 30px 0px;
+  }
 `;
 
 const MemberTab = styled.span`
@@ -157,6 +205,8 @@ const MemberTab = styled.span`
   font-weight: 700;
   padding: 5px 8px;
   color: rgba(54, 54, 54);
+
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 
   &:nth-child(1) {
     border-right: 1px solid rgba(54, 54, 54);
@@ -185,6 +235,21 @@ const MemberTab = styled.span`
   cursor: pointer;
 
   transition: background-color 0.5s ease, color 0.5s ease;
+
+  @media screen and (max-width: 768px) {
+    font-size: 15px;
+  }
+`;
+
+const MediaNavbar = styled.div`
+  width: 100%;
+  height: 85px;
+
+  display: none;
+
+  @media screen and (max-width: 768px) {
+    display: block;
+  }
 `;
 
 const NewMember = () => {
@@ -228,6 +293,7 @@ const NewMember = () => {
 
   return (
     <MemberContainer>
+      <MediaNavbar />
       <MemberIntroduceWrap>
         <MemberSign src={memberData.sign} />
         {!_.isEmpty(memberData) ? (
@@ -259,13 +325,15 @@ const NewMember = () => {
           </>
         ) : null}
       </MemberIntroduceWrap>
-      <TabWrapper>
-        {_.map(memberID, (tab, index) => (
-          <MemberTab active={selectId === tab.id} key={index} onClick={() => onSelect(tab.id)}>
-            {tab.name}
-          </MemberTab>
-        ))}
-      </TabWrapper>
+      <TabContainer>
+        <TabWrapper>
+          {_.map(memberID, (tab, index) => (
+            <MemberTab active={selectId === tab.id} key={index} onClick={() => onSelect(tab.id)}>
+              {tab.name}
+            </MemberTab>
+          ))}
+        </TabWrapper>
+      </TabContainer>
     </MemberContainer>
   );
 };
