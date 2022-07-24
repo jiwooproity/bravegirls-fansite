@@ -35,7 +35,7 @@ const ContainerImage = styled.img`
   left: 0;
   z-index: -1;
   object-fit: cover;
-  position: fixed;
+
   animation: ${bubbleAnimation} 4s linear alternate;
 `;
 
