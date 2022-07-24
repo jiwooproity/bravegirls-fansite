@@ -5,7 +5,7 @@ import _ from "lodash";
 
 import { photocardService } from "service/photocardService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInstagramSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
+import { faYoutubeSquare, faInstagramSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 
 const MemberContainer = styled.div`
   width: 100%;
@@ -215,6 +215,7 @@ const NewMember = () => {
       korName: res.member_kor_name,
       enter: res.member_enter,
       introduction: res.member_introduction.split("<br/>").join("\r\n\n"),
+      youtube: res.member_youtube,
       instagram: res.member_instagram,
       twitter: res.member_twitter,
       sign: res.member_sign,
@@ -244,6 +245,9 @@ const NewMember = () => {
 
               <MemberDesIntroduction>{memberData.introduction}</MemberDesIntroduction>
               <MemberSNSWrapper>
+                <a href={memberData.youtube} target={"_blank"} rel="noreferrer">
+                  <MemberSNSIcon icon={faYoutubeSquare} />
+                </a>
                 <a href={memberData.instagram} target={"_blank"} rel="noreferrer">
                   <MemberSNSIcon icon={faInstagramSquare} />
                 </a>
