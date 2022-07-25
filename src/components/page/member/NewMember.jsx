@@ -5,7 +5,11 @@ import _ from "lodash";
 
 import { photocardService } from "service/photocardService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faYoutubeSquare, faInstagramSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
+import {
+  faYoutubeSquare,
+  faInstagramSquare,
+  faTwitterSquare,
+} from "@fortawesome/free-brands-svg-icons";
 
 const MemberContainer = styled.div`
   width: 100%;
@@ -206,7 +210,8 @@ const MemberTab = styled.span`
   padding: 5px 8px;
   color: rgba(54, 54, 54);
 
-  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 
   &:nth-child(1) {
     border-right: 1px solid rgba(54, 54, 54);
@@ -245,11 +250,7 @@ const MediaNavbar = styled.div`
   width: 100%;
   height: 85px;
 
-  display: none;
-
-  @media screen and (max-width: 768px) {
-    display: block;
-  }
+  display: block;
 `;
 
 const NewMember = () => {
@@ -292,8 +293,9 @@ const NewMember = () => {
   };
 
   return (
+    <>
+    <MediaNavbar />
     <MemberContainer>
-      <MediaNavbar />
       <MemberIntroduceWrap>
         <MemberSign src={memberData.sign} />
         {!_.isEmpty(memberData) ? (
@@ -309,12 +311,18 @@ const NewMember = () => {
                 {memberData.enter} / {memberData.korName}
               </MemberDesSubTitle>
 
-              <MemberDesIntroduction>{memberData.introduction}</MemberDesIntroduction>
+              <MemberDesIntroduction>
+                {memberData.introduction}
+              </MemberDesIntroduction>
               <MemberSNSWrapper>
                 <a href={memberData.youtube} target={"_blank"} rel="noreferrer">
                   <MemberSNSIcon icon={faYoutubeSquare} />
                 </a>
-                <a href={memberData.instagram} target={"_blank"} rel="noreferrer">
+                <a
+                  href={memberData.instagram}
+                  target={"_blank"}
+                  rel="noreferrer"
+                >
                   <MemberSNSIcon icon={faInstagramSquare} />
                 </a>
                 <a href={memberData.twitter} target={"_blank"} rel="noreferrer">
@@ -328,13 +336,18 @@ const NewMember = () => {
       <TabContainer>
         <TabWrapper>
           {_.map(memberID, (tab, index) => (
-            <MemberTab active={selectId === tab.id} key={index} onClick={() => onSelect(tab.id)}>
+            <MemberTab
+              active={selectId === tab.id}
+              key={index}
+              onClick={() => onSelect(tab.id)}
+            >
               {tab.name}
             </MemberTab>
           ))}
         </TabWrapper>
       </TabContainer>
-    </MemberContainer>
+      </MemberContainer>
+      </>
   );
 };
 
