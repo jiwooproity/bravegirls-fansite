@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import loginBackground from "static/img/bravegirls_first.jpg";
-
 const LoginContainer = styled.div`
   width: 100%;
   height: 100vh;
+
+  padding: 30px;
 
   display: flex;
   flex-direction: column;
@@ -13,30 +13,6 @@ const LoginContainer = styled.div`
   align-items: center;
 
   position: relative;
-`;
-
-const LoginBackground = styled.img`
-  width: 100%;
-  height: 100%;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  object-fit: cover;
-
-  filter: grayscale(20%);
-`;
-
-const LoginWhiteFilter = styled.div`
-  width: 100%;
-  height: 100%;
-
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  background-color: rgba(255, 255, 255, 0.2);
 `;
 
 const LoginBox = styled.div`
@@ -46,8 +22,12 @@ const LoginBox = styled.div`
 
   border-radius: 5px;
 
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const LoginBoxWrapper = styled.div`
@@ -57,26 +37,33 @@ const LoginBoxWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const LoginBoxTitle = styled.h1`
   font-size: 30px;
   line-height: 30px;
 
-  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 15px;
+
+  color: rgba(54, 54, 54);
 `;
 
 const LoginBoxInput = styled.input`
   width: 100%;
   height: 30px;
+  font-size: 12px;
 
   margin: 20px 0px 0px 0px;
 
   border: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(54, 54, 54);
   background-color: transparent;
 
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(54, 54, 54);
 
   &:focus {
     outline: none;
@@ -90,15 +77,15 @@ const LoginBoxButton = styled.button`
   font-weight: 700;
 
   margin: 20px 0px 0px 0px;
-  padding: 5px 10px;
+  padding: 8px 10px;
 
   border: none;
 
-  color: rgba(20, 20, 20, 0.8);
-  background-color: rgba(255, 255, 255, 0.5);
+  color: white;
+  background-color: rgba(54, 54, 54);
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(0, 0, 0);
   }
 
   cursor: pointer;
@@ -112,7 +99,7 @@ const LoginBoxRegisterDes = styled.span`
 
   display: flex;
 
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(54, 54, 54);
 `;
 
 const LoginBoxRegister = styled.a`
@@ -122,7 +109,7 @@ const LoginBoxRegister = styled.a`
 
   display: block;
 
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(54, 54, 54);
 `;
 
 const Login = () => {
@@ -142,14 +129,11 @@ const Login = () => {
 
   return (
     <LoginContainer>
-      <LoginBackground src={loginBackground} />
-      <LoginWhiteFilter />
-
       <LoginBox>
         <LoginBoxWrapper>
           <LoginBoxTitle>Hello, Fearless</LoginBoxTitle>
-          <LoginBoxInput type={"text"} name="address" placeholder="Enter Address" value={inputData.address} onChange={onChangeInput} />
-          <LoginBoxInput type={"password"} name="password" placeholder="Password" value={inputData.password} onChange={onChangeInput} />
+          <LoginBoxInput type={"text"} name="address" placeholder="이메일을 입력해주세요." value={inputData.address} onChange={onChangeInput} />
+          <LoginBoxInput type={"password"} name="password" placeholder="비밀번호를 입력해주세요." value={inputData.password} onChange={onChangeInput} />
           <LoginBoxButton>로그인</LoginBoxButton>
           <LoginBoxRegisterDes>
             아직 아이디가 없으신가요?<LoginBoxRegister>회원가입</LoginBoxRegister>

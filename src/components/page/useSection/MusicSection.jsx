@@ -10,11 +10,13 @@ import { faBars, faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import useAudio from "hooks/useAudio";
 
 import { highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle, red_sun, changed, youhu } from "static/music";
-import { Loading, SectionComponent } from "components";
+import { Loading } from "components";
 
 import { photocardService } from "service/photocardService";
 
 const Section = styled.div`
+  width: 100%;
+  padding: 0px 30px 30px 30px;
   min-height: 600px;
   display: flex;
   flex-direction: column;
@@ -23,6 +25,14 @@ const Section = styled.div`
   position: relative;
 
   @media screen and (max-width: 768px) {
+  }
+`;
+
+const SectionWrapper = styled.div`
+  width: 990px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
   }
 `;
 
@@ -40,7 +50,7 @@ const MusicCustomWrap = styled.div`
 
 const Album = styled.div`
   width: 55%;
-  height: 350px;
+  height: 100%;
   position: relative;
   display: block;
 
@@ -59,7 +69,6 @@ const AlbumImage = styled.img`
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 
   @media screen and (max-width: 768px) {
-    width: 320px;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -101,7 +110,7 @@ const LpImage = styled.img`
 
 const Description = styled.div`
   width: 45%;
-  padding: 10px 10px;
+  height: 100%;
   display: flex;
   flex-direction: column;
 
@@ -114,30 +123,40 @@ const Description = styled.div`
   }
 `;
 
-const MainTitle = styled.div`
+const AlbumTitleWrap = styled.div`
   display: flex;
+  align-items: flex-start;
 `;
 
 const MainColor = styled.div`
-  width: 20px;
-  height: 20px;
-  margin: 0px 5px 5px 0px;
-  box-shadow: rgb(0 0 0 / 40%) 0px 2px 4px, rgb(0 0 0 / 30%) 0px 7px 13px -3px, rgb(0 0 0 / 20%) 0px -3px 0px inset;
-  background-color: ${({ musicColor }) => musicColor};
+  width: 40px;
+  height: 40px;
+  margin: 3px 10px 5px 0px;
 
+  background-color: ${({ musicColor }) => musicColor};
+  box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
   transition: background-color 0.5s ease;
 `;
 
 const AlbumTitle = styled.h1`
-  font-size: 20px;
-  line-height: 20px;
+  font-size: 40px;
+  line-height: 40px;
+
+  margin: 0px 0px 15px 0px;
 `;
 
 const AlbumSubTitle = styled.span`
   font-size: 12px;
   font-weight: 400;
   line-height: 12px;
-  margin: 5px 0px;
+  margin: 4px 0px;
+
+  color: rgba(54, 54, 54);
+
+  a {
+    color: rgba(54, 54, 54);
+    text-decoration: none;
+  }
 `;
 
 const AlbumDescription = styled.span`
@@ -330,14 +349,7 @@ const MusicSection = () => {
     <Section>
       {/* <SectionBackgroundBlur /> */}
       {/* {loading && <SectionBackground src={musicList[musicId].music_album_image} />} */}
-      <SectionComponent
-        width={990}
-        padding={"50px 0px 50px 0px"}
-        // color={"white"}
-        title={"브레이브걸스"}
-        active={"앨범"}
-        subTitle={"브레이브걸스의 타이틀 곡 듣고 가세요!"}
-      >
+      <SectionWrapper>
         {loading ? (
           <>
             <MusicCustomWrap>
@@ -371,18 +383,18 @@ const MusicSection = () => {
               </Album>
 
               <Description>
-                <MainTitle>
+                <AlbumTitleWrap>
                   <MainColor musicColor={musicList[musicId].music_color} />
                   <AlbumTitle>{musicList[musicId].music_title}</AlbumTitle>
-                </MainTitle>
-                <AlbumSubTitle>장르 : {musicList[musicId].music_genre}</AlbumSubTitle>
-                <AlbumSubTitle>발매일 : {musicList[musicId].music_release}</AlbumSubTitle>
-                <AlbumSubTitle>작사 : {musicList[musicId].music_lyricist}</AlbumSubTitle>
-                <AlbumSubTitle>작곡 : {musicList[musicId].music_composition}</AlbumSubTitle>
-                <AlbumSubTitle>편곡 : {musicList[musicId].music_arrangement}</AlbumSubTitle>
+                </AlbumTitleWrap>
+                <AlbumSubTitle>장르 / {musicList[musicId].music_genre}</AlbumSubTitle>
+                <AlbumSubTitle>발매일 / {musicList[musicId].music_release}</AlbumSubTitle>
+                <AlbumSubTitle>작사 / {musicList[musicId].music_lyricist}</AlbumSubTitle>
+                <AlbumSubTitle>작곡 / {musicList[musicId].music_composition}</AlbumSubTitle>
+                <AlbumSubTitle>편곡 / {musicList[musicId].music_arrangement}</AlbumSubTitle>
 
                 <AlbumSubTitle>
-                  기획 :{" "}
+                  기획 /{" "}
                   <a href="http://www.bravesound.com/" target={"_blank"} rel="noreferrer">
                     {musicList[musicId].music_plan}
                   </a>
@@ -423,7 +435,7 @@ const MusicSection = () => {
         ) : (
           <Loading />
         )}
-      </SectionComponent>
+      </SectionWrapper>
     </Section>
   );
 };

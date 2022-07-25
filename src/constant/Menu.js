@@ -49,13 +49,13 @@ export const Menu = [
     root: "/album",
     path: "/album",
   },
-  {
-    name: "PHOTOCARD",
-    type: "text",
-    // root: Url.PHOTOCARD,
-    root: "/photocard",
-    path: "/photocard",
-  },
+  // {
+  //   name: "PHOTOCARD",
+  //   type: "text",
+  //   // root: Url.PHOTOCARD,
+  //   root: "/photocard",
+  //   path: "/photocard",
+  // },
   {
     name: "LOGIN",
     type: "text",

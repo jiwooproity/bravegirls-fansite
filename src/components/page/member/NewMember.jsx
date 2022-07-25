@@ -5,15 +5,11 @@ import _ from "lodash";
 
 import { photocardService } from "service/photocardService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faYoutubeSquare,
-  faInstagramSquare,
-  faTwitterSquare,
-} from "@fortawesome/free-brands-svg-icons";
+import { faYoutubeSquare, faInstagramSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 
 const MemberContainer = styled.div`
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 85px);
 
   display: flex;
   flex-direction: column;
@@ -56,7 +52,7 @@ const MemberBackgroundWrap = styled.div`
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 450px;
-    margin: 80px 0px 0px 0px;
+    margin: 30px 0px 0px 0px;
     padding: 0px 30px 0px 30px;
   }
 `;
@@ -210,8 +206,7 @@ const MemberTab = styled.span`
   padding: 5px 8px;
   color: rgba(54, 54, 54);
 
-  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
-    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 
   &:nth-child(1) {
     border-right: 1px solid rgba(54, 54, 54);
@@ -242,7 +237,7 @@ const MemberTab = styled.span`
   transition: background-color 0.5s ease, color 0.5s ease;
 
   @media screen and (max-width: 768px) {
-    font-size: 15px;
+    font-size: 13px;
   }
 `;
 
@@ -294,60 +289,50 @@ const NewMember = () => {
 
   return (
     <>
-    <MediaNavbar />
-    <MemberContainer>
-      <MemberIntroduceWrap>
-        <MemberSign src={memberData.sign} />
-        {!_.isEmpty(memberData) ? (
-          <>
-            <MemberBackgroundWrap>
-              <MemberBackground src={memberData.backgroundImage} />
-              <MemberImage src={memberData.image} />
-            </MemberBackgroundWrap>
-            <MemberDesWrap>
-              <MemberDesBar src={memberData.backgroundImage} />
-              <MemberDesTitle>{memberData.engName}</MemberDesTitle>
-              <MemberDesSubTitle>
-                {memberData.enter} / {memberData.korName}
-              </MemberDesSubTitle>
+      <MediaNavbar />
+      <MemberContainer>
+        <MemberIntroduceWrap>
+          <MemberSign src={memberData.sign} />
+          {!_.isEmpty(memberData) ? (
+            <>
+              <MemberBackgroundWrap>
+                <MemberBackground src={memberData.backgroundImage} />
+                <MemberImage src={memberData.image} />
+              </MemberBackgroundWrap>
+              <MemberDesWrap>
+                <MemberDesBar src={memberData.backgroundImage} />
+                <MemberDesTitle>{memberData.engName}</MemberDesTitle>
+                <MemberDesSubTitle>
+                  {memberData.enter} / {memberData.korName}
+                </MemberDesSubTitle>
 
-              <MemberDesIntroduction>
-                {memberData.introduction}
-              </MemberDesIntroduction>
-              <MemberSNSWrapper>
-                <a href={memberData.youtube} target={"_blank"} rel="noreferrer">
-                  <MemberSNSIcon icon={faYoutubeSquare} />
-                </a>
-                <a
-                  href={memberData.instagram}
-                  target={"_blank"}
-                  rel="noreferrer"
-                >
-                  <MemberSNSIcon icon={faInstagramSquare} />
-                </a>
-                <a href={memberData.twitter} target={"_blank"} rel="noreferrer">
-                  <MemberSNSIcon icon={faTwitterSquare} />
-                </a>
-              </MemberSNSWrapper>
-            </MemberDesWrap>
-          </>
-        ) : null}
-      </MemberIntroduceWrap>
-      <TabContainer>
-        <TabWrapper>
-          {_.map(memberID, (tab, index) => (
-            <MemberTab
-              active={selectId === tab.id}
-              key={index}
-              onClick={() => onSelect(tab.id)}
-            >
-              {tab.name}
-            </MemberTab>
-          ))}
-        </TabWrapper>
-      </TabContainer>
+                <MemberDesIntroduction>{memberData.introduction}</MemberDesIntroduction>
+                <MemberSNSWrapper>
+                  <a href={memberData.youtube} target={"_blank"} rel="noreferrer">
+                    <MemberSNSIcon icon={faYoutubeSquare} />
+                  </a>
+                  <a href={memberData.instagram} target={"_blank"} rel="noreferrer">
+                    <MemberSNSIcon icon={faInstagramSquare} />
+                  </a>
+                  <a href={memberData.twitter} target={"_blank"} rel="noreferrer">
+                    <MemberSNSIcon icon={faTwitterSquare} />
+                  </a>
+                </MemberSNSWrapper>
+              </MemberDesWrap>
+            </>
+          ) : null}
+        </MemberIntroduceWrap>
+        <TabContainer>
+          <TabWrapper>
+            {_.map(memberID, (tab, index) => (
+              <MemberTab active={selectId === tab.id} key={index} onClick={() => onSelect(tab.id)}>
+                {tab.name}
+              </MemberTab>
+            ))}
+          </TabWrapper>
+        </TabContainer>
       </MemberContainer>
-      </>
+    </>
   );
 };
 

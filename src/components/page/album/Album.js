@@ -14,7 +14,11 @@ const AlbumNavbar = styled.div`
 `;
 
 const Section = styled.div`
-  min-height: calc(100vh - 284px);
+  min-height: calc(100vh - 85px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   @media screen and (max-width: 768px) {
     padding: 20px 0px 0px 0px;
