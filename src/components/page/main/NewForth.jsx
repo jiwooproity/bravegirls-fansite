@@ -14,6 +14,10 @@ const ForthSection = styled.div`
   position: relative;
 
   background-color: #f5f7f8;
+
+  @media screen and (max-width: 768px) {
+    height: 200px;
+  }
 `;
 
 const ForthBackgroundImage = styled.img`

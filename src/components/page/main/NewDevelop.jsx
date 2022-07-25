@@ -82,13 +82,17 @@ const MainBannerTop = styled.div`
 `;
 
 const MainBannerBottomImageWrap = styled.div`
-  width: 900px;
+  width: 1400px;
   position: absolute;
   bottom: -450px;
-  z-index: 1;
+  z-index: 2;
+
+  mix-blend-mode: difference;
+
+  opacity: 0.1;
 
   @media screen and (max-width: 768px) {
-    width: 570px;
+    width: 800px;
     bottom: -220px;
   }
 `;
@@ -108,6 +112,11 @@ const MainBannerTitle = styled.span`
   display: block;
 
   z-index: 2;
+
+  @media screen and (max-width: 768px) {
+    font-size: 8vw;
+    line-height: 8vw;
+  }
 `;
 
 const NewDevelop = () => {
