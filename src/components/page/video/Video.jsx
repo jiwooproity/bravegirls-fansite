@@ -8,6 +8,9 @@ import { Loading } from "components";
 import { Fade } from "react-reveal";
 import { useLocation } from "react-router-dom";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp, faPencil } from "@fortawesome/free-solid-svg-icons";
+
 const NavbarBox = styled.div`
   width: 100%;
   height: 85px;
@@ -125,6 +128,41 @@ const VideoDescription = styled.span`
   color: rgba(54, 54, 54, 0.5);
 `;
 
+const VideoCountIconWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+
+  padding: 8px 0px 0px 0px;
+`;
+
+const VideoCountIcon = styled(FontAwesomeIcon)`
+  font-size: 15px;
+  line-height: 15px;
+
+  margin-right: 5px;
+
+  color: rgba(54, 54, 54);
+
+  @media screen and (max-width: 768px) {
+    font-size: 2.8vw;
+    line-height: 2.8vw;
+  }
+`;
+
+const VideoThumbCount = styled.span`
+  font-size: 18px;
+  line-height: 18px;
+
+  margin-right: 10px;
+
+  color: rgba(54, 54, 54);
+
+  @media screen and (max-width: 768px) {
+    font-size: 3vw;
+    line-height: 3vw;
+  }
+`;
+
 const Video = () => {
   const [videoData, setVideoData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -171,7 +209,7 @@ const Video = () => {
   };
 
   const getComma = (number) => {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "???";
   };
 
   return (
@@ -197,6 +235,12 @@ const Video = () => {
                     <VideoDesWrap>
                       <VideoTitleWrap>
                         <VideoTitle>{video.title}</VideoTitle>
+                        <VideoCountIconWrapper>
+                          <VideoCountIcon icon={faThumbsUp} />
+                          <VideoThumbCount>{getComma(video.likeCount)}</VideoThumbCount>
+                          <VideoCountIcon icon={faPencil} />
+                          <VideoThumbCount>{getComma(video.commentCount)}</VideoThumbCount>
+                        </VideoCountIconWrapper>
                         <VideoCountNumber>{`${getComma(video.viewCount)}만 회`}</VideoCountNumber>
                       </VideoTitleWrap>
 
