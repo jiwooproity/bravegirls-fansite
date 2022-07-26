@@ -1,28 +1,17 @@
 import React from "react";
 
-// import HistoryBanner from "./HistoryBanner";
-// import LogoSection from "./LogoSection";
-// import Banner from "./MainBanner";
-import NewDevelop from "./NewDevelop";
-import NewForth from "./NewForth";
-import NewSecond from "./NewSecond";
-import NewThree from "./NewThree";
-// import PrizeSection from "./PrizeSection";
-// import TestSection from "./TestSection";
+import TopBanner from "./TopBanner";
+import TextBackground from "./TextBackground";
+import Introduction from "./Introduction";
+import MemberList from "./MemberList";
 
 const Main = () => {
   return (
     <>
-      {/* <TopBanner /> */}
-      <NewDevelop />
-      <NewSecond />
-      <NewThree />
-      <NewForth />
-      {/* <Banner /> */}
-      {/* <LogoSection /> */}
-      {/* <HistoryBanner /> */}
-      {/* <PrizeSection /> */}
-      {/* <TestSection />  */}
+      <TopBanner />
+      <Introduction />
+      <MemberList />
+      <TextBackground />
     </>
   );
 };

@@ -6,6 +6,7 @@ import _ from "lodash";
 import { photocardService } from "service/photocardService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutubeSquare, faInstagramSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
+import { Loading } from "components";
 
 const MemberContainer = styled.div`
   width: 100%;
@@ -320,7 +321,9 @@ const NewMember = () => {
                 </MemberSNSWrapper>
               </MemberDesWrap>
             </>
-          ) : null}
+          ) : (
+            <Loading />
+          )}
         </MemberIntroduceWrap>
         <TabContainer>
           <TabWrapper>

@@ -1,30 +1,31 @@
 import React from "react";
 import styled from "styled-components";
 
+import loadingIcon from "static/img/loading/loading.png";
+
 const LoadingBarWrapper = styled.div`
   width: 100%;
-  height: 2px;
+  height: 100vh;
 
-  position: relative;
-
-  background-color: white;
+  position: fixed;
 `;
 
 const Bar = styled.div`
-  width: 20%;
-  height: 100%;
+  width: 20px;
+`;
 
-  position: absolute;
-  top: 0;
-  left: 0;
+const Icon = styled.img`
+  width: 100%;
 
-  background-color: red;
+  object-fit: cover;
 `;
 
 const LoadingBar = () => {
   return (
     <LoadingBarWrapper>
-      <Bar />
+      <Bar>
+        <Icon src={loadingIcon} />
+      </Bar>
     </LoadingBarWrapper>
   );
 };

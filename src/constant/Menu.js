@@ -49,6 +49,18 @@ export const Menu = [
     root: "/album",
     path: "/album",
   },
+  {
+    name: "VIDEO",
+    type: "text",
+    root: "/video",
+    path: "/video",
+  },
+  {
+    name: "QUEENDOM",
+    type: "text",
+    root: "/queendom",
+    path: "/queendom",
+  },
   // {
   //   name: "PHOTOCARD",
   //   type: "text",

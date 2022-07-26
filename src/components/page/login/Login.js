@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Fade } from "react-reveal";
 import styled from "styled-components";
 
 const LoginContainer = styled.div`
@@ -22,16 +23,13 @@ const LoginBox = styled.div`
 
   border-radius: 5px;
 
-  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
-    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
-
   @media screen and (max-width: 768px) {
     width: 100%;
   }
 `;
 
 const LoginBoxWrapper = styled.div`
-  width: 350px;
+  width: 100%;
 
   display: flex;
   flex-direction: column;
@@ -44,12 +42,21 @@ const LoginBoxWrapper = styled.div`
 `;
 
 const LoginBoxTitle = styled.h1`
-  font-size: 30px;
-  line-height: 30px;
+  font-size: 100px;
+  line-height: 100px;
 
-  margin-bottom: 15px;
+  margin-bottom: 100px;
 
   color: rgba(54, 54, 54);
+
+  @media screen and (max-width: 768px) {
+    font-size: 10vw;
+    line-height: 10vw;
+  }
+`;
+
+const LoginBoxInputWrap = styled.div`
+  width: 400px;
 `;
 
 const LoginBoxInput = styled.input`
@@ -60,14 +67,23 @@ const LoginBoxInput = styled.input`
   margin: 20px 0px 0px 0px;
 
   border: none;
-  border-bottom: 1px solid rgba(54, 54, 54);
+  border-radius: 0px;
+  outline: none;
   background-color: transparent;
+  border-bottom: 1px solid rgba(54, 54, 54, 0.1);
 
   color: rgba(54, 54, 54);
 
   &:focus {
     outline: none;
+    border-bottom: 1px solid rgba(54, 54, 54, 0.5);
   }
+
+  &:hover {
+    border-bottom: 1px solid rgba(54, 54, 54, 0.5);
+  }
+
+  transition: border-bottom 0.5s ease;
 `;
 
 const LoginBoxButton = styled.button`
@@ -131,13 +147,17 @@ const Login = () => {
     <LoginContainer>
       <LoginBox>
         <LoginBoxWrapper>
-          <LoginBoxTitle>Hello, Fearless</LoginBoxTitle>
-          <LoginBoxInput type={"text"} name="address" placeholder="이메일을 입력해주세요." value={inputData.address} onChange={onChangeInput} />
-          <LoginBoxInput type={"password"} name="password" placeholder="비밀번호를 입력해주세요." value={inputData.password} onChange={onChangeInput} />
-          <LoginBoxButton>로그인</LoginBoxButton>
-          <LoginBoxRegisterDes>
-            아직 아이디가 없으신가요?<LoginBoxRegister>회원가입</LoginBoxRegister>
-          </LoginBoxRegisterDes>
+          <Fade bottom>
+            <LoginBoxTitle>Hello! Fearless</LoginBoxTitle>
+          </Fade>
+          <LoginBoxInputWrap>
+            <LoginBoxInput type={"text"} name="address" placeholder="@ 이메일을 입력해주세요." value={inputData.address} onChange={onChangeInput} />
+            <LoginBoxInput type={"password"} name="password" placeholder="* 비밀번호를 입력해주세요." value={inputData.password} onChange={onChangeInput} />
+            <LoginBoxButton>로그인</LoginBoxButton>
+            <LoginBoxRegisterDes>
+              아직 아이디가 없으신가요?<LoginBoxRegister>회원가입</LoginBoxRegister>
+            </LoginBoxRegisterDes>
+          </LoginBoxInputWrap>
         </LoginBoxWrapper>
       </LoginBox>
     </LoginContainer>

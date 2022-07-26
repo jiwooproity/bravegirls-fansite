@@ -41,12 +41,24 @@ const settingMethod = async (url, params, method) => {
 };
 
 export const photocardService = {
-  getPhotocardData: (params) => settingMethod("photocard/getPhotocard.php", params, "GET"),
-  getVideoList: (params) => settingMethod("photocard/getVideoList.php", params, "GET"),
-  getMusicList: (params) => settingMethod("photocard/getMusicList.php", params, "GET"),
-  getMemberList: (params) => settingMethod("photocard/getMemberList.php", params, "GET"),
-  getAllMemberList: (params) => settingMethod("photocard/getAllMemberList.php", params, "GET"),
-  getHistoryList: (params) => settingMethod("photocard/getHistoryList.php", params, "GET"),
+  getPhotocardData: (params) => settingMethod("http://bglovely.com/photocard/getPhotocard.php", params, "GET"),
+  getVideoList: (params) => settingMethod("http://bglovely.com/photocard/getVideoList.php", params, "GET"),
+  getMusicList: (params) => settingMethod("http://bglovely.com/photocard/getMusicList.php", params, "GET"),
+  getMemberList: (params) => settingMethod("http://bglovely.com/photocard/getMemberList.php", params, "GET"),
+  getAllMemberList: (params) => settingMethod("http://bglovely.com/photocard/getAllMemberList.php", params, "GET"),
+  getHistoryList: (params) => settingMethod("http://bglovely.com/photocard/getHistoryList.php", params, "GET"),
+};
+
+const playListID = {
+  video: "PLbyawjNs-tN0XkBqUFAabwhEQIgNiH_5q",
+  queendom: "PLbyawjNs-tN3afg6Z8Af5Gox28scN2TWy",
+};
+const youtubeApiKey = "AIzaSyCF-FNDFft8wCmBnslkwA5Xxn8Cp0eiPuI";
+
+export const youtubeService = {
+  getPlayList: (location, params) =>
+    settingMethod(`https://www.googleapis.com/youtube/v3/playlistItems?playlistId=${playListID[location]}&key=${youtubeApiKey}`, params, "GET"),
+  getVideo: (params) => settingMethod(`https://www.googleapis.com/youtube/v3/videos?key=${youtubeApiKey}`, params, "GET"),
 };
 
 export const onDownload = async (e, member_name, photocardName, photocard_image, photocard_image_back) => {

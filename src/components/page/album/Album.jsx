@@ -14,13 +14,19 @@ import { Loading } from "components";
 
 import { photocardService } from "service/photocardService";
 
-const Section = styled.div`
+const NavbarBox = styled.div`
   width: 100%;
-  padding: 0px 30px 30px 30px;
-  min-height: 600px;
+  height: 85px;
+`;
+
+const AlbumContainer = styled.div`
+  width: 100%;
+  min-height: calc(100vh - 85px);
+  padding: 0px 15px 30px 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 
   position: relative;
 
@@ -28,7 +34,7 @@ const Section = styled.div`
   }
 `;
 
-const SectionWrapper = styled.div`
+const AlbumWrapper = styled.div`
   width: 990px;
 
   @media screen and (max-width: 768px) {
@@ -346,97 +352,100 @@ const MusicSection = () => {
   };
 
   return (
-    <Section>
-      {/* <SectionBackgroundBlur /> */}
-      {/* {loading && <SectionBackground src={musicList[musicId].music_album_image} />} */}
-      <SectionWrapper>
-        {loading ? (
-          <>
-            <MusicCustomWrap>
-              <Album>
-                {access ? (
-                  <LpImage playing={playing} src={musicList[musicId].music_lp_image} onClick={pause} />
-                ) : (
-                  // Access 코드를 받을 경우
-                  <LpImage
-                    playing={clonePlay}
-                    src={musicList[musicId].music_lp_image}
-                    onClick={() => {
-                      if (clonePlay) {
-                        setClonePlay(false);
-                      } else {
-                        const question = window.prompt("음원을 듣기 위해서는 Access 코드를 입력해주세요.\n확인이 필요한 부분이 있어 잠시 비활성화 합니다.");
+    <>
+      <NavbarBox />
+      <AlbumContainer>
+        {/* <SectionBackgroundBlur /> */}
+        {/* {loading && <SectionBackground src={musicList[musicId].music_album_image} />} */}
+        <AlbumWrapper>
+          {loading ? (
+            <>
+              <MusicCustomWrap>
+                <Album>
+                  {access ? (
+                    <LpImage playing={playing} src={musicList[musicId].music_lp_image} onClick={pause} />
+                  ) : (
+                    // Access 코드를 받을 경우
+                    <LpImage
+                      playing={clonePlay}
+                      src={musicList[musicId].music_lp_image}
+                      onClick={() => {
+                        if (clonePlay) {
+                          setClonePlay(false);
+                        } else {
+                          const question = window.prompt("음원을 듣기 위해서는 Access 코드를 입력해주세요.\n확인이 필요한 부분이 있어 잠시 비활성화 합니다.");
 
-                        if (question === "3380") {
-                          setAccess(true);
+                          if (question === "3380") {
+                            setAccess(true);
+                          }
+
+                          setClonePlay(true);
                         }
+                      }}
+                    />
+                  )}
 
-                        setClonePlay(true);
-                      }
-                    }}
-                  />
-                )}
-
-                <a href={musicList[musicId].music_video} target={"_blank"} rel={"noreferrer"}>
-                  <AlbumImage src={musicList[musicId].music_album_image} />
-                </a>
-              </Album>
-
-              <Description>
-                <AlbumTitleWrap>
-                  <MainColor musicColor={musicList[musicId].music_color} />
-                  <AlbumTitle>{musicList[musicId].music_title}</AlbumTitle>
-                </AlbumTitleWrap>
-                <AlbumSubTitle>장르 / {musicList[musicId].music_genre}</AlbumSubTitle>
-                <AlbumSubTitle>발매일 / {musicList[musicId].music_release}</AlbumSubTitle>
-                <AlbumSubTitle>작사 / {musicList[musicId].music_lyricist}</AlbumSubTitle>
-                <AlbumSubTitle>작곡 / {musicList[musicId].music_composition}</AlbumSubTitle>
-                <AlbumSubTitle>편곡 / {musicList[musicId].music_arrangement}</AlbumSubTitle>
-
-                <AlbumSubTitle>
-                  기획 /{" "}
-                  <a href="http://www.bravesound.com/" target={"_blank"} rel="noreferrer">
-                    {musicList[musicId].music_plan}
+                  <a href={musicList[musicId].music_video} target={"_blank"} rel={"noreferrer"}>
+                    <AlbumImage src={musicList[musicId].music_album_image} />
                   </a>
-                </AlbumSubTitle>
+                </Album>
 
-                <AlbumDescription>{musicList[musicId].music_description}</AlbumDescription>
-                <AlbumDescription>{musicList[musicId].music_description_second && musicList[musicId].music_description_second}</AlbumDescription>
-              </Description>
-            </MusicCustomWrap>
-            <AlbumMenuOpener mainColor={musicList[musicId].music_color} onClick={onOpen}>
-              <AlbumMenuButtonText>플레이리스트 더보기</AlbumMenuButtonText>
-              <AlbumMenuButtonArrow open={openList} icon={faCaretDown} />
-            </AlbumMenuOpener>
-            <DragDropContext onDragEnd={onHandleChange}>
-              <Droppable droppableId="musicList">
-                {(provided) => (
-                  <AlbumMenu {...provided.droppableProps} ref={provided.innerRef} className="musicList" open={openList} musicLength={musicList.length}>
-                    {_.map(albumList, (music, index) => (
-                      <Draggable key={String(index)} index={index} draggableId={String(index)}>
-                        {(provided) => (
-                          <ButtomWrap ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} key={index} mainColor={music.color}>
-                            <MusicButtonImage src={music.cover} />
-                            <MusicButton mainColor={music.color} onClick={() => onClickTitle(music.musicId - 1)}>
-                              {music.title}
-                              <MusicButtonText>브레이브걸스</MusicButtonText>
-                            </MusicButton>
-                            <FontAwesomeCustom icon={faBars} />
-                          </ButtomWrap>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </AlbumMenu>
-                )}
-              </Droppable>
-            </DragDropContext>
-          </>
-        ) : (
-          <Loading />
-        )}
-      </SectionWrapper>
-    </Section>
+                <Description>
+                  <AlbumTitleWrap>
+                    <MainColor musicColor={musicList[musicId].music_color} />
+                    <AlbumTitle>{musicList[musicId].music_title}</AlbumTitle>
+                  </AlbumTitleWrap>
+                  <AlbumSubTitle>장르 / {musicList[musicId].music_genre}</AlbumSubTitle>
+                  <AlbumSubTitle>발매일 / {musicList[musicId].music_release}</AlbumSubTitle>
+                  <AlbumSubTitle>작사 / {musicList[musicId].music_lyricist}</AlbumSubTitle>
+                  <AlbumSubTitle>작곡 / {musicList[musicId].music_composition}</AlbumSubTitle>
+                  <AlbumSubTitle>편곡 / {musicList[musicId].music_arrangement}</AlbumSubTitle>
+
+                  <AlbumSubTitle>
+                    기획 /{" "}
+                    <a href="http://www.bravesound.com/" target={"_blank"} rel="noreferrer">
+                      {musicList[musicId].music_plan}
+                    </a>
+                  </AlbumSubTitle>
+
+                  <AlbumDescription>{musicList[musicId].music_description}</AlbumDescription>
+                  <AlbumDescription>{musicList[musicId].music_description_second && musicList[musicId].music_description_second}</AlbumDescription>
+                </Description>
+              </MusicCustomWrap>
+              <AlbumMenuOpener mainColor={musicList[musicId].music_color} onClick={onOpen}>
+                <AlbumMenuButtonText>플레이리스트 더보기</AlbumMenuButtonText>
+                <AlbumMenuButtonArrow open={openList} icon={faCaretDown} />
+              </AlbumMenuOpener>
+              <DragDropContext onDragEnd={onHandleChange}>
+                <Droppable droppableId="musicList">
+                  {(provided) => (
+                    <AlbumMenu {...provided.droppableProps} ref={provided.innerRef} className="musicList" open={openList} musicLength={musicList.length}>
+                      {_.map(albumList, (music, index) => (
+                        <Draggable key={String(index)} index={index} draggableId={String(index)}>
+                          {(provided) => (
+                            <ButtomWrap ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} key={index} mainColor={music.color}>
+                              <MusicButtonImage src={music.cover} />
+                              <MusicButton mainColor={music.color} onClick={() => onClickTitle(music.musicId - 1)}>
+                                {music.title}
+                                <MusicButtonText>브레이브걸스</MusicButtonText>
+                              </MusicButton>
+                              <FontAwesomeCustom icon={faBars} />
+                            </ButtomWrap>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </AlbumMenu>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            </>
+          ) : (
+            <Loading />
+          )}
+        </AlbumWrapper>
+      </AlbumContainer>
+    </>
   );
 };
 
