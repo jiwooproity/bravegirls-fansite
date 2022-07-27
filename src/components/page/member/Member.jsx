@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 
 import _ from "lodash";
 
-import { photocardService } from "service/photocardService";
+import { photocardService } from "service/configService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutubeSquare, faInstagramSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 import { Loading } from "components";

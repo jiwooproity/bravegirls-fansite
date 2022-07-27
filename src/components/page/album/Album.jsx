@@ -12,7 +12,7 @@ import useAudio from "hooks/useAudio";
 import { highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle, red_sun, changed, youhu } from "static/music";
 import { Loading } from "components";
 
-import { photocardService } from "service/photocardService";
+import { photocardService } from "service/configService";
 
 const NavbarBox = styled.div`
   width: 100%;

@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 import _ from "lodash";
+
 import { useEffect } from "react";
-import { youtubeService } from "service/photocardService";
+import { youtubeService } from "service/configService";
 import { Loading } from "components";
 import { Fade } from "react-reveal";
 import { useLocation } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faPencil } from "@fortawesome/free-solid-svg-icons";
+
+import { utils } from "util/utils";
 
 const NavbarBox = styled.div`
   width: 100%;
@@ -194,9 +197,9 @@ const Video = () => {
             // thumbnail: snippet.thumbnails.maxres.url,
             title: snippet.title,
             description: snippet.description,
-            viewCount: statistics.viewCount,
-            likeCount: statistics.likeCount,
-            commentCount: statistics.commentCount,
+            viewCount: `${utils.setComma(statistics.viewCount)}만 회`,
+            likeCount: utils.setComma(statistics.likeCount),
+            commentCount: utils.setComma(statistics.commentCount),
           });
         }
       } catch (e) {
@@ -206,10 +209,6 @@ const Video = () => {
 
     setVideoData(videoArr);
     setLoading(true);
-  };
-
-  const getComma = (number) => {
-    return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "???";
   };
 
   return (
@@ -237,11 +236,11 @@ const Video = () => {
                         <VideoTitle>{video.title}</VideoTitle>
                         <VideoCountIconWrapper>
                           <VideoCountIcon icon={faThumbsUp} />
-                          <VideoThumbCount>{getComma(video.likeCount)}</VideoThumbCount>
+                          <VideoThumbCount>{video.likeCount}</VideoThumbCount>
                           <VideoCountIcon icon={faPencil} />
-                          <VideoThumbCount>{getComma(video.commentCount)}</VideoThumbCount>
+                          <VideoThumbCount>{video.commentCount}</VideoThumbCount>
                         </VideoCountIconWrapper>
-                        <VideoCountNumber>{`${getComma(video.viewCount)}만 회`}</VideoCountNumber>
+                        <VideoCountNumber>{video.viewCount}</VideoCountNumber>
                       </VideoTitleWrap>
 
                       <VideoDescription>{video.description}</VideoDescription>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import _ from "lodash";
 
-import { photocardService } from "service/photocardService";
+import { photocardService } from "service/configService";
 import { Fade } from "react-reveal";
 
 const ThreeSection = styled.div`
