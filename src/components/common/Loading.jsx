@@ -1,24 +1,46 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-const LoadingWrapper = styled.div`
+import loadingIcon from "static/img/loading/loading.png";
+
+const LoadingBarWrapper = styled.div`
   width: 100%;
-  height: 380px;
+  height: 100vh;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const LoadingText = styled.h1`
-  font-size: 20px;
+const rotateLoading = keyframes`
+    100% {
+        transform: rotate(360deg);
+    }
 `;
 
-const Loading = () => {
+const Bar = styled.div`
+  width: 90px;
+
+  overflow: visible;
+  animation: ${rotateLoading} 1s linear infinite;
+`;
+
+const Icon = styled.img`
+  width: 100%;
+`;
+
+const LoadingBar = () => {
   return (
-    <LoadingWrapper>
-      <LoadingText>Loading...</LoadingText>
-    </LoadingWrapper>
+    <LoadingBarWrapper>
+      <Bar>
+        <Icon src={loadingIcon} />
+      </Bar>
+    </LoadingBarWrapper>
   );
 };
 
-export default Loading;
+export default LoadingBar;

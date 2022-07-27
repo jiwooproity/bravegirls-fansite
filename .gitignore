@@ -11,6 +11,9 @@
 # production
 /build
 
+# apiKey
+.env
+
 # misc
 .DS_Store
 .env.local
@@ -30,3 +33,6 @@ chimatbaram_eng.flac
 highheel.flac
 after_we_ride.flac
 whistle.flac
+red_sun.flac
+youhu.flac
+changed.flac

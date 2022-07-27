@@ -1,22 +1,30 @@
 import React, { useState } from "react";
 import _ from "lodash";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu } from "constant";
 
 import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { snsMenu } from "constant/Menu";
+import { useEffect } from "react";
+import { useCallback } from "react";
 
 const NavbarContainer = styled.div`
   width: 100%;
-  padding: 30px 30px;
+  padding: 30px 15px;
   display: flex;
   justify-content: center;
-  position: absolute;
+  position: fixed;
 
-  z-index: 2;
+  background-color: ${({ active }) => (active ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0)")};
+  backdrop-filter: ${({ active }) => (active ? "blur(5px)" : "")};
+
+  z-index: 3;
+
+  transition: background-color 0.5s ease;
 `;
 
 const NavbarWrap = styled.div`
@@ -30,14 +38,20 @@ const NavbarWrap = styled.div`
   }
 `;
 
+const LeftWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const NavbarLogo = styled.h1`
   display: block;
-  font-size: 20px;
-  line-height: 20px;
+  font-size: 25px;
+  line-height: 25px;
 
   a {
     text-decoration: none;
-    color: white;
+    color: rgba(0, 0, 0);
   }
 `;
 
@@ -53,16 +67,47 @@ const NavbarMenu = styled.ul`
 `;
 
 const NavbarList = styled.li`
-  font-size: 14px;
-  line-height: 14px;
-  padding: 0px 0px 0px 10px;
+  font-size: 15px;
+  line-height: 15px;
+  font-weight: 600;
+  padding: 0px 0px 0px 25px;
 
   a {
     text-decoration: none;
-    color: white;
+    color: rgba(0, 0, 0);
+
+    position: relative;
+
+    &::before {
+      content: "";
+      width: ${({ focus }) => (focus ? "100%" : "0px")};
+      height: 4px;
+
+      position: absolute;
+      top: 50%;
+
+      z-index: -1;
+
+      background-color: rgb(254, 187, 108);
+
+      transition: width 0.5s ease;
+    }
 
     &:hover {
-      color: rgba(251, 187, 98);
+      color: rgba(0, 0, 0);
+
+      &::before {
+        content: "";
+        width: 100%;
+        height: 6px;
+
+        position: absolute;
+        top: 50%;
+
+        z-index: -1;
+
+        background-color: rgb(254, 187, 108);
+      }
     }
 
     transition: color 0.5s ease;
@@ -93,16 +138,26 @@ const NavbarButton = styled.button`
 
 const FontAwesomeCustom = styled(FontAwesomeIcon)`
   font-size: 20px;
-  color: white;
+  color: ${({ active }) => (active ? "rgba(255, 255, 255)" : "rgba(0, 0, 0)")};
   cursor: pointer;
 
-  z-index: 1;
+  z-index: 3;
 
   display: none;
 
   @media screen and (max-width: 768px) {
     display: block;
   }
+
+  transition: color 0.5s ease;
+`;
+
+const SnSFontAwesomeCustom = styled(FontAwesomeIcon)`
+  font-size: 20px;
+  color: rgba(0, 0, 0);
+  cursor: pointer;
+
+  z-index: 3;
 `;
 
 const MediaNavbar = styled.div`
@@ -117,8 +172,10 @@ const MediaNavbar = styled.div`
   top: 0;
   left: ${({ active }) => (active ? "0px" : "-100%")};
 
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(10px);
+
+  z-index: 2;
 
   transition: left 0.5s ease;
 `;
@@ -146,13 +203,26 @@ const MediaList = styled.li`
 
 const Navbar = () => {
   const [media, setMedia] = useState(false);
+  const [scrollY, setScrollY] = useState(false);
+  const history = useLocation();
+  const { pathname } = history;
 
-  const getElement = () => {
+  // eslint-disable-next-line
+  useEffect(
+    useCallback(() => {
+      window.addEventListener("scroll", () => {
+        setScrollY(window.scrollY > 0);
+      });
+    }, []),
+    [scrollY]
+  );
+
+  const getElement = (Menu) => {
     return _.map(Menu, (list, index) => {
       switch (list.type) {
         case "text":
           return (
-            <NavbarList key={index}>
+            <NavbarList focus={pathname === list.root} key={index}>
               <Link to={list.root}>{list.name}</Link>
             </NavbarList>
           );
@@ -162,6 +232,15 @@ const Navbar = () => {
               <NavbarButton>{list.name}</NavbarButton>
             </NavbarList>
           );
+        case "icon":
+          return (
+            <NavbarList key={index}>
+              <a href={list.root} target={"_blank"} rel="noreferrer">
+                <SnSFontAwesomeCustom icon={list.icon} />
+              </a>
+            </NavbarList>
+          );
+
         default:
           break;
       }
@@ -194,13 +273,16 @@ const Navbar = () => {
   };
 
   return (
-    <NavbarContainer>
+    <NavbarContainer active={scrollY}>
       <NavbarWrap>
         <NavbarLogo>
-          <Link to={"/"}>BraveGirls</Link>
+          <LeftWrap>
+            <Link to={"/"}>BRAVEGIRLS</Link>
+            <NavbarMenu>{getElement(Menu)}</NavbarMenu>
+          </LeftWrap>
         </NavbarLogo>
-        <NavbarMenu>{getElement()}</NavbarMenu>
-        <FontAwesomeCustom icon={faBars} onClick={() => setMedia(!media)} />
+        <NavbarMenu>{getElement(snsMenu)}</NavbarMenu>
+        <FontAwesomeCustom active={media} icon={faBars} onClick={() => setMedia(!media)} />
       </NavbarWrap>
       <MediaNavbar active={media}>
         <MediaMenu>{getMediaElement()}</MediaMenu>
