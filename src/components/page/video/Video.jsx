@@ -22,7 +22,7 @@ const NavbarBox = styled.div`
 const VideoContainer = styled.div`
   width: 100%;
   min-height: calc(100vh - 85px);
-  padding: 0px 30px 30px 30px;
+  padding: 0px 15px 30px 15px;
 
   display: flex;
   justify-content: center;
@@ -61,22 +61,29 @@ const VideoThumbnailImageFrame = styled.div`
   position: relative;
   border-radius: 10px;
   overflow: hidden;
+  display: block;
+  -webkit-overflow-scrolling: touch;
 
   box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
 `;
 
 const VideoCustomIframe = styled.iframe`
-  width: 100%;
-  height: 100%;
+  height: 0;
+  max-height: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  min-width: 100%;
+  width: 0;
   display: block;
 
   position: absolute;
   top: 0;
   left: 0;
 
-  z-index: -1;
+  z-index: 2;
 
   border: none;
+  border-radius: 10px;
 `;
 
 // const VideoThumbnaillImage = styled.img`
@@ -108,7 +115,7 @@ const VideoTitle = styled.h1`
 
   @media screen and (max-width: 768px) {
     font-size: 4vw;
-    line-height: 4.8vw;
+    line-height: 5.5vw;
   }
 `;
 
@@ -185,25 +192,20 @@ const Video = () => {
 
     for (const playData of playList.items) {
       const snippet = playData.snippet;
+      const detailData = await youtubeService.getVideo({ part: "statistics", id: snippet.resourceId.videoId });
 
-      try {
-        const detailData = await youtubeService.getVideo({ part: "statistics", id: snippet.resourceId.videoId });
+      for (const detail of detailData.items) {
+        const statistics = detail.statistics;
 
-        for (const detail of detailData.items) {
-          const statistics = detail.statistics;
-
-          videoArr.push({
-            videoId: snippet.resourceId.videoId,
-            // thumbnail: snippet.thumbnails.maxres.url,
-            title: snippet.title,
-            description: snippet.description,
-            viewCount: `${utils.setComma(statistics.viewCount)}만 회`,
-            likeCount: utils.setComma(statistics.likeCount),
-            commentCount: utils.setComma(statistics.commentCount),
-          });
-        }
-      } catch (e) {
-        console.log(e);
+        videoArr.push({
+          videoId: snippet.resourceId.videoId,
+          // thumbnail: snippet.thumbnails.maxres.url,
+          title: snippet.title,
+          description: snippet.description,
+          viewCount: `${utils.setComma(statistics.viewCount)}만 회`,
+          likeCount: utils.setComma(statistics.likeCount),
+          commentCount: utils.setComma(statistics.commentCount),
+        });
       }
     }
 
@@ -226,8 +228,11 @@ const Video = () => {
                       <VideoCustomIframe
                         id="gangnamStyleIframe"
                         type="text/html"
-                        src={`http://www.youtube.com/embed/${video.videoId}?rel=0&enablejsapi=1`}
+                        width="100%"
+                        height="100%"
+                        src={`https://www.youtube.com/embed/${video.videoId}?rel=0&enablejsapi=1&origin=http://bglovely.com`}
                         frameborder="0"
+                        scrolling="no"
                         allowfullscreen="1"
                       />
                     </VideoThumbnailImageFrame>

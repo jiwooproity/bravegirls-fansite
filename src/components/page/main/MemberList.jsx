@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import _ from "lodash";
 
-import { photocardService } from "service/configService";
+import { configService } from "service/configService";
 import { Fade } from "react-reveal";
 
 const ThreeSection = styled.div`
   width: 100%;
-  padding: 0px 30px 100px 30px;
+  padding: 0px 15px 100px 15px;
 
   display: flex;
   flex-direction: column;
@@ -205,7 +205,7 @@ const NewThree = () => {
 
   const onLoad = async () => {
     const resArr = [];
-    const response = await photocardService.getAllMemberList();
+    const response = await configService.getAllMemberList();
 
     _.forEach(response, (res) => {
       let birthday = res.member_birthday;

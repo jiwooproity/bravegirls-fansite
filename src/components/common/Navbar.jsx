@@ -14,7 +14,7 @@ import { useCallback } from "react";
 
 const NavbarContainer = styled.div`
   width: 100%;
-  padding: 30px 30px;
+  padding: 30px 15px;
   display: flex;
   justify-content: center;
   position: fixed;

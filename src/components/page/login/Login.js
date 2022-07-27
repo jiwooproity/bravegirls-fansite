@@ -25,6 +25,7 @@ const LoginBox = styled.div`
 
   @media screen and (max-width: 768px) {
     width: 100%;
+    padding: 0px;
   }
 `;
 
@@ -57,6 +58,10 @@ const LoginBoxTitle = styled.h1`
 
 const LoginBoxInputWrap = styled.div`
   width: 400px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const LoginBoxInput = styled.input`

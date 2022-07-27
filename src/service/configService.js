@@ -47,7 +47,7 @@ const settingMethod = async (url, params, method) => {
   }
 };
 
-export const photocardService = {
+export const configService = {
   getPhotocardData: (params) => settingMethod("http://bglovely.com/photocard/getPhotocard.php", params, "GET"),
   getVideoList: (params) => settingMethod("http://bglovely.com/photocard/getVideoList.php", params, "GET"),
   getMusicList: (params) => settingMethod("http://bglovely.com/photocard/getMusicList.php", params, "GET"),

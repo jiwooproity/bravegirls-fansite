@@ -12,7 +12,7 @@ import useAudio from "hooks/useAudio";
 import { highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle, red_sun, changed, youhu } from "static/music";
 import { Loading } from "components";
 
-import { photocardService } from "service/configService";
+import { configService } from "service/configService";
 
 const NavbarBox = styled.div`
   width: 100%;
@@ -29,9 +29,6 @@ const AlbumContainer = styled.div`
   justify-content: center;
 
   position: relative;
-
-  @media screen and (max-width: 768px) {
-  }
 `;
 
 const AlbumWrapper = styled.div`
@@ -319,7 +316,7 @@ const MusicSection = () => {
 
   const loadData = useCallback(async () => {
     setLoading(false);
-    const response = await photocardService.getMusicList();
+    const response = await configService.getMusicList();
     const albumData = response.map((res) => ({
       musicId: res.music_idx,
       title: res.music_title,

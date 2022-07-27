@@ -4,7 +4,7 @@ import styled from "styled-components";
 const SecondSection = styled.div`
   width: 100%;
 
-  padding: 50px 30px 30px 30px;
+  padding: 50px 15px 30px 15px;
 
   display: flex;
   flex-direction: column;

@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 
 import _ from "lodash";
 
-import { photocardService } from "service/configService";
+import { configService } from "service/configService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutubeSquare, faInstagramSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 import { Loading } from "components";
@@ -33,7 +33,7 @@ const MemberIntroduceWrap = styled.div`
   @media screen and (max-width: 768px) {
     width: 100%;
     height: auto;
-    padding: 0px 30px;
+    padding: 0px 15px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -178,7 +178,7 @@ const TabContainer = styled.div`
 
   @media screen and (max-width: 768px) {
     width: 100%;
-    padding: 0px 30px;
+    padding: 0px 15px;
   }
 
   z-index: 1;
@@ -266,7 +266,7 @@ const NewMember = () => {
   }, [selectId]);
 
   const onLoad = useCallback(async () => {
-    const res = await photocardService.getMemberList({ member_idx: selectId });
+    const res = await configService.getMemberList({ member_idx: selectId });
 
     setMemberData({
       backgroundImage: res.member_background,

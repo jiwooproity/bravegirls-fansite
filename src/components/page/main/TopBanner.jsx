@@ -20,7 +20,7 @@ const MainBanner = styled.div`
   overflow: hidden;
 
   @media screen and (max-width: 768px) {
-    padding: 0px 30px;
+    padding: 0px 15px;
   }
 `;
 
