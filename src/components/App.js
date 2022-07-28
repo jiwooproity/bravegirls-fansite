@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import styled from "styled-components";
 
-import { Main, Album, Login, Member, Video } from ".";
+import { Main, Login, Member, Video } from ".";
 import TestAlbum from "components/page/album/TestAlbum";
 import { Navbar } from "components";
 import { Url } from "../constant";
