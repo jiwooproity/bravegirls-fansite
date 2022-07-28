@@ -52,6 +52,7 @@ const Album = () => {
         id: Number(res.music_idx),
         title: res.music_title,
         description: res.music_description,
+        descriptionSecond: res.music_description_second ? res.music_description_second : "",
         cover: res.music_album_image,
         lp: res.music_lp_image,
         color: res.music_color,
@@ -89,11 +90,7 @@ const Album = () => {
         {loading ? (
           <>
             <AlbumInfo data={selectAlbum} />
-            <AlbumList
-              data={albumList}
-              selectValue={selectId}
-              func={{ isLightColor, selectMusic }}
-            />
+            <AlbumList data={albumList} selectValue={selectId} func={{ isLightColor, selectMusic }} />
           </>
         ) : (
           <Loading />

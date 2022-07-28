@@ -11,6 +11,7 @@ const AlbumWrapper = styled.div`
 
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
+    grid-template-rows: 1fr 0.7fr;
     width: 100%;
 
     padding: 0px;
@@ -35,6 +36,9 @@ const AlbumImageWrap = styled.div`
 
   @media screen and (max-width: 768px) {
     width: 100%;
+
+    border-radius: 5px;
+    overflow: hidden;
   }
 `;
 
@@ -98,12 +102,18 @@ const AlbumTitleText = styled.h1`
   line-height: 30px;
 
   color: rgba(54, 54, 54);
+
+  @media screen and (max-width: 768px) {
+    font-size: 35px;
+    line-height: 35px;
+  }
 `;
 
 const DescriptionText = styled.p`
   font-size: 13px;
   line-height: 20px;
 
+  padding: 0px 0px 10px 0px;
   color: rgba(54, 54, 54, 0.4);
 `;
 
@@ -123,7 +133,7 @@ const AlbumInfo = (props) => {
   const { cover, lp } = data;
 
   // 앨범 INFO 데이터
-  const { title, enter, description } = data;
+  const { title, enter, description, descriptionSecond } = data;
 
   return (
     <AlbumWrapper>
@@ -140,6 +150,7 @@ const AlbumInfo = (props) => {
           <AlbumTitleText>{title}</AlbumTitleText>
           <AlbumEntertainment>{enter}</AlbumEntertainment>
           <DescriptionText>{description}</DescriptionText>
+          <DescriptionText>{descriptionSecond}</DescriptionText>
         </AlbumDescription>
       </AlbumRightSide>
     </AlbumWrapper>

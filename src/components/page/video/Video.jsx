@@ -202,7 +202,7 @@ const Video = () => {
           // thumbnail: snippet.thumbnails.maxres.url,
           title: snippet.title,
           description: snippet.description,
-          viewCount: `${utils.setComma(statistics.viewCount)}만 회`,
+          viewCount: `${utils.setComma(statistics.viewCount)}회`,
           likeCount: utils.setComma(statistics.likeCount),
           commentCount: utils.setComma(statistics.commentCount),
         });
