@@ -3,8 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import styled from "styled-components";
 
-import { Main, Album, Login, Member, Video } from ".";
-import TestAlbum from "components/page/album/TestAlbum";
+import { Main, Member, Album, Video, Login } from ".";
 import { Navbar } from "components";
 import { Url } from "../constant";
 import Footer from "./common/Footer";
@@ -21,7 +20,7 @@ function App() {
         <Routes>
           <Route path={`${Url.ROOT}`} element={<Main />} />
           <Route path={`${Url.MEMBER}`} element={<Member />} />
-          <Route path={`${Url.ALBUM}`} element={<TestAlbum />} />
+          <Route path={`${Url.ALBUM}`} element={<Album />} />
           <Route path={`${Url.VIDEO}`} element={<Video />} />
           <Route path={`${Url.QUEENDOM}`} element={<Video />} />
           <Route path={`${Url.LOGIN}`} element={<Login />} />
