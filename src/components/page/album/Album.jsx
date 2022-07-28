@@ -8,6 +8,7 @@ import { configService } from "service/configService";
 import { Loading } from "components";
 import AlbumList from "./AlbumList";
 import AlbumInfo from "./AlbumInfo";
+import AlbumSidebar from "./AlbumSidebar";
 
 const TopNavbar = styled.div`
   width: 100%;
@@ -98,6 +99,7 @@ const Album = () => {
           <Loading />
         )}
       </AlbumContainer>
+      <AlbumSidebar data={albumList} />
     </>
   );
 };

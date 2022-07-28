@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const AlbumWrapper = styled.div`
   width: 990px;
@@ -64,9 +64,17 @@ const LpImageWrap = styled.div`
   transition: transform 0.5s ease;
 `;
 
+const rotateLP = keyframes`
+    100% {
+        transform: rotate(360deg);
+    }
+`;
+
 const LpImage = styled.img`
   width: 100%;
   display: block;
+
+  animation: ${rotateLP} 2s linear infinite;
 `;
 
 const AlbumRightSide = styled.div`

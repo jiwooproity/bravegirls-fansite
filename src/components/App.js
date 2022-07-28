@@ -24,6 +24,7 @@ function App() {
           <Route path={`${Url.VIDEO}`} element={<Video />} />
           <Route path={`${Url.QUEENDOM}`} element={<Video />} />
           <Route path={`${Url.LOGIN}`} element={<Login />} />
+          <Route path={`*`} element={<Main />} />
         </Routes>
         <Footer />
       </MainContainer>
