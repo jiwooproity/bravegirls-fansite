@@ -137,10 +137,22 @@ const NavbarButton = styled.button`
   cursor: pointer;
 `;
 
+const MediaMenuButtonWrap = styled.div`
+  display: flex;
+`;
+
 const FontAwesomeCustom = styled(FontAwesomeIcon)`
   font-size: 20px;
 
-  color: ${(props) => props.theme.navbarTextColor};
+  ${(props) =>
+    ({ setting, active }) =>
+      setting === "false"
+        ? css`
+            color: ${active === "false" ? props.theme.navbarTextColor : props.theme.navbarBgColor};
+          `
+        : css`
+            color: rgba(255, 255, 255, 0.9);
+          `};
 
   cursor: pointer;
 
@@ -150,6 +162,7 @@ const FontAwesomeCustom = styled(FontAwesomeIcon)`
 
   @media screen and (max-width: 768px) {
     display: block;
+    padding: 0px 0px 0px 10px;
   }
 `;
 
@@ -301,7 +314,10 @@ const Navbar = () => {
           </MediaList>
           {getElement(snsMenu)}
         </NavbarMenu>
-        <FontAwesomeCustom active={media.toString()} icon={faBars} onClick={() => setMedia(!media)} />
+        <MediaMenuButtonWrap>
+          <FontAwesomeCustom setting={themeStore.theme.toString()} active={media.toString()} icon={themeStore.theme ? faMoon : faSun} onClick={setTheme} />
+          <FontAwesomeCustom setting={themeStore.theme.toString()} active={media.toString()} icon={faBars} onClick={() => setMedia(!media)} />
+        </MediaMenuButtonWrap>
       </NavbarWrap>
       <MediaNavbar active={media.toString()}>
         <MediaMenu>{getMediaElement()}</MediaMenu>
