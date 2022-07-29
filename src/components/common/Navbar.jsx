@@ -163,8 +163,6 @@ const SnSFontAwesomeCustom = styled(FontAwesomeIcon)`
   z-index: 3;
 `;
 
-const ThemeButtonWrapper = styled.div``;
-
 const ThemeButton = styled(FontAwesomeIcon)`
   font-size: 20px;
   color: ${(props) => props.theme.navbarTextColor};
