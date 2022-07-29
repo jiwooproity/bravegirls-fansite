@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useObserver } from "mobx-react";
 
@@ -19,6 +19,13 @@ const MainContainer = styled.div`
 
 const App = () => {
   const { themeStore } = useStore();
+
+  useEffect(() => {
+    if (localStorage.getItem("theme")) {
+      themeStore.setLocalData(localStorage.getItem("theme") === "false");
+    }
+    // eslint-disable-next-line
+  }, []);
 
   return useObserver(() => {
     const { lightTheme, darkTheme } = theme;
