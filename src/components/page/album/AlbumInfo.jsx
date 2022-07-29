@@ -11,6 +11,7 @@ const AlbumWrapper = styled.div`
 
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
+    grid-template-rows: 1fr 0.7fr;
     width: 100%;
 
     padding: 0px;
@@ -35,12 +36,18 @@ const AlbumImageWrap = styled.div`
 
   @media screen and (max-width: 768px) {
     width: 100%;
+
+    border-radius: 5px;
+    overflow: hidden;
   }
 `;
 
 const AlbumImage = styled.img`
   width: 100%;
   display: block;
+  position: relative;
+
+  z-index: 2;
 `;
 
 const LpImageWrap = styled.div`
@@ -52,7 +59,7 @@ const LpImageWrap = styled.div`
 
   transform: translateY(-50%);
 
-  z-index: -1;
+  z-index: 1;
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -97,14 +104,20 @@ const AlbumTitleText = styled.h1`
   font-size: 30px;
   line-height: 30px;
 
-  color: rgba(54, 54, 54);
+  color: ${(props) => props.theme.titleTextColor};
+
+  @media screen and (max-width: 768px) {
+    font-size: 35px;
+    line-height: 35px;
+  }
 `;
 
 const DescriptionText = styled.p`
   font-size: 13px;
   line-height: 20px;
 
-  color: rgba(54, 54, 54, 0.4);
+  padding: 0px 0px 10px 0px;
+  color: ${(props) => props.theme.desTextColor};
 `;
 
 const AlbumEntertainment = styled.h1`
@@ -113,7 +126,7 @@ const AlbumEntertainment = styled.h1`
 
   padding: 10px 0px;
 
-  color: rgba(54, 54, 54, 0.6);
+  color: ${(props) => props.theme.subTitleTexatColor};
 `;
 
 const AlbumInfo = (props) => {
@@ -123,7 +136,7 @@ const AlbumInfo = (props) => {
   const { cover, lp } = data;
 
   // 앨범 INFO 데이터
-  const { title, enter, description } = data;
+  const { title, enter, description, descriptionSecond } = data;
 
   return (
     <AlbumWrapper>
@@ -140,6 +153,7 @@ const AlbumInfo = (props) => {
           <AlbumTitleText>{title}</AlbumTitleText>
           <AlbumEntertainment>{enter}</AlbumEntertainment>
           <DescriptionText>{description}</DescriptionText>
+          <DescriptionText>{descriptionSecond}</DescriptionText>
         </AlbumDescription>
       </AlbumRightSide>
     </AlbumWrapper>

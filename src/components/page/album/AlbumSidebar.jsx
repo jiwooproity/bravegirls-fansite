@@ -12,11 +12,12 @@ const AlbumSidebarContainer = styled.div`
   right: 0;
 
   background-color: black;
+
+  display: none;
 `;
 
 const AlbumSidebar = (props) => {
   const { data } = props;
-  console.log(data);
 
   return <AlbumSidebarContainer></AlbumSidebarContainer>;
 };

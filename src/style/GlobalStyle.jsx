@@ -8,6 +8,14 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Noto Sans KR', sans-serif;
     }
 
+    div {
+        transition: background-color 0.5s ease;
+    }
+
+    span, p, h1, h2, h3, a, svg {
+        transition: color 0.5s ease;
+    }
+
     body::-webkit-scrollbar {
         display: none;
     }

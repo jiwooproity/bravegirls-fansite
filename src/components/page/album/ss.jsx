@@ -69,8 +69,7 @@ const AlbumImage = styled.img`
   object-fit: contain;
   top: 0;
   left: 0;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
-    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 
   @media screen and (max-width: 768px) {
     left: 50%;
@@ -139,7 +138,6 @@ const MainColor = styled.div`
 
   background-color: ${({ musicColor }) => musicColor};
   box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
-  transition: background-color 0.5s ease;
 `;
 
 const AlbumTitle = styled.h1`
@@ -197,7 +195,6 @@ const AlbumMenuOpener = styled.button`
     }
   }
 
-  transition: background-color 0.5s ease, color 0.5s ease;
   cursor: pointer;
 
   @media screen and (max-width: 768px) {
@@ -216,13 +213,12 @@ const AlbumMenuButtonArrow = styled(FontAwesomeIcon)`
   margin-left: 5px;
   transform: ${({ open }) => (open ? "rotate(180deg)" : "rotate(0deg)")};
   color: white;
-  transition: transform 0.5s ease, margin-top 0.5s ease, color 0.5s ease;
+  transition: transform 0.5s ease, margin-top 0.5s ease;
 `;
 
 const AlbumMenu = styled.div`
   width: 990px;
-  height: ${({ open, musicLength }) =>
-    open ? `${musicLength * 51.09}px` : "0px"};
+  height: ${({ open, musicLength }) => (open ? `${musicLength * 51.09}px` : "0px")};
   overflow: hidden;
   margin: 0px 0px 0px 0px;
   justify-content: center;
@@ -261,8 +257,7 @@ const MusicButton = styled.button`
   text-align: left;
   border: none;
   background-color: transparent;
-  /* color: ${({ mainColor }) =>
-    mainColor === "#ffffff" ? "rgba(0, 0, 0, 0.8)" : "white"}; */
+  /* color: ${({ mainColor }) => (mainColor === "#ffffff" ? "rgba(0, 0, 0, 0.8)" : "white")}; */
 
   cursor: pointer;
 `;
@@ -363,11 +358,7 @@ const MusicSection = () => {
               <MusicCustomWrap>
                 <Album>
                   {access ? (
-                    <LpImage
-                      playing={playing}
-                      src={musicList[musicId].music_lp_image}
-                      onClick={pause}
-                    />
+                    <LpImage playing={playing} src={musicList[musicId].music_lp_image} onClick={pause} />
                   ) : (
                     // Access 코드를 받을 경우
                     <LpImage
@@ -377,9 +368,7 @@ const MusicSection = () => {
                         if (clonePlay) {
                           setClonePlay(false);
                         } else {
-                          const question = window.prompt(
-                            "음원을 듣기 위해서는 Access 코드를 입력해주세요.\n확인이 필요한 부분이 있어 잠시 비활성화 합니다."
-                          );
+                          const question = window.prompt("음원을 듣기 위해서는 Access 코드를 입력해주세요.\n확인이 필요한 부분이 있어 잠시 비활성화 합니다.");
 
                           if (question === "3380") {
                             setAccess(true);
@@ -391,11 +380,7 @@ const MusicSection = () => {
                     />
                   )}
 
-                  <a
-                    href={musicList[musicId].music_video}
-                    target={"_blank"}
-                    rel={"noreferrer"}
-                  >
+                  <a href={musicList[musicId].music_video} target={"_blank"} rel={"noreferrer"}>
                     <AlbumImage src={musicList[musicId].music_album_image} />
                   </a>
                 </Album>
@@ -405,78 +390,37 @@ const MusicSection = () => {
                     <MainColor musicColor={musicList[musicId].music_color} />
                     <AlbumTitle>{musicList[musicId].music_title}</AlbumTitle>
                   </AlbumTitleWrap>
-                  <AlbumSubTitle>
-                    장르 / {musicList[musicId].music_genre}
-                  </AlbumSubTitle>
-                  <AlbumSubTitle>
-                    발매일 / {musicList[musicId].music_release}
-                  </AlbumSubTitle>
-                  <AlbumSubTitle>
-                    작사 / {musicList[musicId].music_lyricist}
-                  </AlbumSubTitle>
-                  <AlbumSubTitle>
-                    작곡 / {musicList[musicId].music_composition}
-                  </AlbumSubTitle>
-                  <AlbumSubTitle>
-                    편곡 / {musicList[musicId].music_arrangement}
-                  </AlbumSubTitle>
+                  <AlbumSubTitle>장르 / {musicList[musicId].music_genre}</AlbumSubTitle>
+                  <AlbumSubTitle>발매일 / {musicList[musicId].music_release}</AlbumSubTitle>
+                  <AlbumSubTitle>작사 / {musicList[musicId].music_lyricist}</AlbumSubTitle>
+                  <AlbumSubTitle>작곡 / {musicList[musicId].music_composition}</AlbumSubTitle>
+                  <AlbumSubTitle>편곡 / {musicList[musicId].music_arrangement}</AlbumSubTitle>
 
                   <AlbumSubTitle>
                     기획 /{" "}
-                    <a
-                      href="http://www.bravesound.com/"
-                      target={"_blank"}
-                      rel="noreferrer"
-                    >
+                    <a href="http://www.bravesound.com/" target={"_blank"} rel="noreferrer">
                       {musicList[musicId].music_plan}
                     </a>
                   </AlbumSubTitle>
 
-                  <AlbumDescription>
-                    {musicList[musicId].music_description}
-                  </AlbumDescription>
-                  <AlbumDescription>
-                    {musicList[musicId].music_description_second &&
-                      musicList[musicId].music_description_second}
-                  </AlbumDescription>
+                  <AlbumDescription>{musicList[musicId].music_description}</AlbumDescription>
+                  <AlbumDescription>{musicList[musicId].music_description_second && musicList[musicId].music_description_second}</AlbumDescription>
                 </Description>
               </MusicCustomWrap>
-              <AlbumMenuOpener
-                mainColor={musicList[musicId].music_color}
-                onClick={onOpen}
-              >
+              <AlbumMenuOpener mainColor={musicList[musicId].music_color} onClick={onOpen}>
                 <AlbumMenuButtonText>플레이리스트 더보기</AlbumMenuButtonText>
                 <AlbumMenuButtonArrow open={openList} icon={faCaretDown} />
               </AlbumMenuOpener>
               <DragDropContext onDragEnd={onHandleChange}>
                 <Droppable droppableId="musicList">
                   {(provided) => (
-                    <AlbumMenu
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                      className="musicList"
-                      open={openList}
-                      musicLength={musicList.length}
-                    >
+                    <AlbumMenu {...provided.droppableProps} ref={provided.innerRef} className="musicList" open={openList} musicLength={musicList.length}>
                       {_.map(albumList, (music, index) => (
-                        <Draggable
-                          key={String(index)}
-                          index={index}
-                          draggableId={String(index)}
-                        >
+                        <Draggable key={String(index)} index={index} draggableId={String(index)}>
                           {(provided) => (
-                            <ButtomWrap
-                              ref={provided.innerRef}
-                              {...provided.dragHandleProps}
-                              {...provided.draggableProps}
-                              key={index}
-                              mainColor={music.color}
-                            >
+                            <ButtomWrap ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps} key={index} mainColor={music.color}>
                               <MusicButtonImage src={music.cover} />
-                              <MusicButton
-                                mainColor={music.color}
-                                onClick={() => onClickTitle(music.musicId - 1)}
-                              >
+                              <MusicButton mainColor={music.color} onClick={() => onClickTitle(music.musicId - 1)}>
                                 {music.title}
                                 <MusicButtonText>브레이브걸스</MusicButtonText>
                               </MusicButton>

@@ -18,7 +18,7 @@ const BarHeight = styled.div`
 
   margin: 30px 0px 0px 0px;
 
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: ${(props) => props.theme.barBgColor};
 
   position: relative;
 
@@ -33,7 +33,7 @@ const BarHeight = styled.div`
     top: 0;
     left: -2px;
 
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: ${(props) => props.theme.barCircleColor};
 
     animation: "moveY" 3s ease infinite;
   }
@@ -56,7 +56,7 @@ const BarHeight = styled.div`
 const LogoDescription = styled.span`
   font-size: 15px;
   font-weight: 500;
-  color: rgba(0, 0, 0, 0.4);
+  color: ${(props) => props.theme.lightDesTextColor};
 
   text-align: center;
 
@@ -69,7 +69,7 @@ const LogoDescription = styled.span`
 const DescriptionActive = styled.span`
   font-size: 15px;
   font-weight: 600;
-  color: rgba(0, 0, 0, 0.6);
+  color: ${(props) => props.theme.desTextColor};
 
   @media screen and (max-width: 768px) {
     font-size: 0.8rem;

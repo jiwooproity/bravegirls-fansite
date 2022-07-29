@@ -48,7 +48,7 @@ const LoginBoxTitle = styled.h1`
 
   margin-bottom: 100px;
 
-  color: rgba(54, 54, 54);
+  color: ${(props) => props.theme.titleTextColor};
 
   @media screen and (max-width: 768px) {
     font-size: 10vw;
@@ -75,17 +75,17 @@ const LoginBoxInput = styled.input`
   border-radius: 0px;
   outline: none;
   background-color: transparent;
-  border-bottom: 1px solid rgba(54, 54, 54, 0.1);
+  border-bottom: 1px solid ${(props) => props.theme.inputBottomColor};
 
-  color: rgba(54, 54, 54);
+  color: ${(props) => props.theme.titleTextColor};
 
   &:focus {
     outline: none;
-    border-bottom: 1px solid rgba(54, 54, 54, 0.5);
+    border-bottom: 1px solid ${(props) => props.theme.inputBottomActiveColor};
   }
 
   &:hover {
-    border-bottom: 1px solid rgba(54, 54, 54, 0.5);
+    border-bottom: 1px solid ${(props) => props.theme.inputBottomActiveColor};
   }
 
   transition: border-bottom 0.5s ease;
@@ -102,15 +102,15 @@ const LoginBoxButton = styled.button`
 
   border: none;
 
-  color: white;
-  background-color: rgba(54, 54, 54);
+  color: ${(props) => props.theme.diffTitleTextColor};
+  background-color: ${(props) => props.theme.backgroundOpacityColor};
 
   &:hover {
-    background-color: rgba(0, 0, 0);
+    background-color: ${(props) => props.theme.black};
   }
 
-  cursor: pointer;
   transition: background-color 0.5s ease;
+  cursor: pointer;
 `;
 
 const LoginBoxRegisterDes = styled.span`
@@ -120,7 +120,7 @@ const LoginBoxRegisterDes = styled.span`
 
   display: flex;
 
-  color: rgba(54, 54, 54);
+  color: ${(props) => props.theme.titleTextColor};
 `;
 
 const LoginBoxRegister = styled.a`
@@ -130,7 +130,7 @@ const LoginBoxRegister = styled.a`
 
   display: block;
 
-  color: rgba(54, 54, 54);
+  color: ${(props) => props.theme.titleTextColor};
 `;
 
 const Login = () => {
