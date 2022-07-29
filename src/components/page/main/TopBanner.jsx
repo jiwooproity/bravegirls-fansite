@@ -42,7 +42,7 @@ const MainBannerBottom = styled.div`
   position: absolute;
   bottom: 0;
 
-  background-color: rgba(15, 15, 15, 0.8);
+  background-color: ${(props) => props.theme.bannerBottomBgColor};
 
   @keyframes ScrollHeight {
     0% {
@@ -65,7 +65,7 @@ const MainBannerTop = styled.div`
   position: absolute;
   top: 0;
 
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: ${(props) => props.theme.bannerTopBgColor};
 
   @keyframes ScrollHeight {
     0% {

@@ -113,6 +113,8 @@ const VideoTitle = styled.h1`
   line-height: 30px;
   padding: 5px 0px 0px 0px;
 
+  color: ${(props) => props.theme.titleTextColor};
+
   @media screen and (max-width: 768px) {
     font-size: 4vw;
     line-height: 5.5vw;
@@ -123,6 +125,8 @@ const VideoCountNumber = styled.h1`
   font-size: 20px;
   line-height: 20px;
   padding: 10px 0px 0px 0px;
+
+  color: ${(props) => props.theme.titleTextColor};
 
   @media screen and (max-width: 768px) {
     font-size: 3vw;
@@ -135,7 +139,7 @@ const VideoDescription = styled.span`
   line-height: 20px;
   white-space: pre-line;
 
-  color: rgba(54, 54, 54, 0.5);
+  color: ${(props) => props.theme.desTextColor};
 `;
 
 const VideoCountIconWrapper = styled.div`
@@ -151,7 +155,7 @@ const VideoCountIcon = styled(FontAwesomeIcon)`
 
   margin-right: 5px;
 
-  color: rgba(54, 54, 54);
+  color: ${(props) => props.theme.subTitleTexatColor};
 
   @media screen and (max-width: 768px) {
     font-size: 2.8vw;
@@ -165,7 +169,7 @@ const VideoThumbCount = styled.span`
 
   margin-right: 10px;
 
-  color: rgba(54, 54, 54);
+  color: ${(props) => props.theme.subTitleTexatColor};
 
   @media screen and (max-width: 768px) {
     font-size: 3vw;

@@ -45,6 +45,9 @@ const AlbumImageWrap = styled.div`
 const AlbumImage = styled.img`
   width: 100%;
   display: block;
+  position: relative;
+
+  z-index: 2;
 `;
 
 const LpImageWrap = styled.div`
@@ -56,7 +59,7 @@ const LpImageWrap = styled.div`
 
   transform: translateY(-50%);
 
-  z-index: -1;
+  z-index: 1;
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -101,7 +104,7 @@ const AlbumTitleText = styled.h1`
   font-size: 30px;
   line-height: 30px;
 
-  color: rgba(54, 54, 54);
+  color: ${(props) => props.theme.titleTextColor};
 
   @media screen and (max-width: 768px) {
     font-size: 35px;
@@ -114,7 +117,7 @@ const DescriptionText = styled.p`
   line-height: 20px;
 
   padding: 0px 0px 10px 0px;
-  color: rgba(54, 54, 54, 0.4);
+  color: ${(props) => props.theme.desTextColor};
 `;
 
 const AlbumEntertainment = styled.h1`
@@ -123,7 +126,7 @@ const AlbumEntertainment = styled.h1`
 
   padding: 10px 0px;
 
-  color: rgba(54, 54, 54, 0.6);
+  color: ${(props) => props.theme.subTitleTexatColor};
 `;
 
 const AlbumInfo = (props) => {

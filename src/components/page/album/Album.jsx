@@ -9,6 +9,7 @@ import { Loading } from "components";
 import AlbumList from "./AlbumList";
 import AlbumInfo from "./AlbumInfo";
 import AlbumSidebar from "./AlbumSidebar";
+import useStore from "hooks/useStore";
 
 const TopNavbar = styled.div`
   width: 100%;

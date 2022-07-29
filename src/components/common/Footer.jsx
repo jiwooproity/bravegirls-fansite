@@ -6,7 +6,7 @@ const FooterContainer = styled.div`
   width: 100%;
   height: 200px;
 
-  background-color: rgb(240, 240, 240);
+  background-color: ${(props) => props.theme.footerBgColor};
 `;
 
 const Footer = () => {

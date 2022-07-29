@@ -115,7 +115,7 @@ const MemberDesTitle = styled.h1`
 
   margin: 15px 0px 0px 0px;
 
-  color: rgba(54, 54, 54);
+  color: ${(props) => props.theme.titleTextColor};
 `;
 
 const MemberDesSubTitle = styled.span`
@@ -124,7 +124,7 @@ const MemberDesSubTitle = styled.span`
 
   margin: 5px 0px 0px 0px;
 
-  color: rgba(54, 54, 54, 0.8);
+  color: ${(props) => props.theme.subTitleTexatColor};
 `;
 
 const MemberDesIntroduction = styled.p`
@@ -135,7 +135,7 @@ const MemberDesIntroduction = styled.p`
 
   margin: 15px 0px 0px 0px;
 
-  color: rgba(54, 54, 54, 0.8);
+  color: ${(props) => props.theme.desTextColor};
 `;
 
 const MemberSNSWrapper = styled.div`
@@ -143,15 +143,13 @@ const MemberSNSWrapper = styled.div`
   margin: 15px 0px 0px 0px;
 
   display: flex;
-
-  a {
-    color: rgba(54, 54, 54);
-  }
 `;
 
 const MemberSNSIcon = styled(FontAwesomeIcon)`
   font-size: 30px;
   margin: 0px 2px 0px 0px;
+
+  color: ${(props) => props.theme.titleTextColor};
 `;
 
 const MemberSign = styled.img`
@@ -168,6 +166,10 @@ const MemberSign = styled.img`
   display: block;
 
   opacity: 0.03;
+
+  filter: ${(props) => `brightness(${props.theme.signFilter})`};
+
+  transition: filter 0.5s ease;
 
   @media screen and (max-width: 768px) {
   }
@@ -205,20 +207,20 @@ const MemberTab = styled.span`
   font-size: 18px;
   font-weight: 700;
   padding: 5px 8px;
-  color: rgba(54, 54, 54);
+  color: ${(props) => props.theme.titleTextColor};
 
   box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 
   &:nth-child(1) {
-    border-right: 1px solid rgba(54, 54, 54);
+    border-right: 1px solid ${(props) => props.theme.titleTextColor};
   }
 
   &:nth-child(2) {
-    border-right: 1px solid rgba(54, 54, 54);
+    border-right: 1px solid ${(props) => props.theme.titleTextColor};
   }
 
   &:nth-child(3) {
-    border-right: 1px solid rgba(54, 54, 54);
+    border-right: 1px solid ${(props) => props.theme.titleTextColor};
   }
 
   &:nth-child(4) {
@@ -229,13 +231,12 @@ const MemberTab = styled.span`
   ${({ active }) =>
     active &&
     css`
-      background-color: rgba(0, 0, 0, 0.8);
-      color: white;
+      background-color: ${(props) => props.theme.backgroundOpacityColor};
+      color: ${(props) => props.theme.diffTitleTextColor};
     `}
 
+  transition: background-color 0.5s ease;
   cursor: pointer;
-
-  transition: background-color 0.5s ease, color 0.5s ease;
 
   @media screen and (max-width: 768px) {
     font-size: 13px;

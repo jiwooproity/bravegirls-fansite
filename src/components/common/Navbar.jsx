@@ -4,13 +4,15 @@ import _ from "lodash";
 import { Link, useLocation } from "react-router-dom";
 import { Menu } from "constant";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+
 import { snsMenu } from "constant/Menu";
 import { useEffect } from "react";
 import { useCallback } from "react";
+import useStore from "hooks/useStore";
 
 const NavbarContainer = styled.div`
   width: 100%;
@@ -19,12 +21,13 @@ const NavbarContainer = styled.div`
   justify-content: center;
   position: fixed;
 
-  background-color: ${({ active }) => (active ? "rgba(255, 255, 255, 0.9)" : "rgba(0, 0, 0, 0)")};
-  backdrop-filter: ${({ active }) => (active ? "blur(5px)" : "")};
+  ${(props) =>
+    css`
+      background-color: ${({ active }) => (active ? props.theme.navbarBgColor : props.theme.navbarActiveColor)};
+      backdrop-filter: ${({ active }) => (active ? "blur(5px)" : "")};
+    `}
 
   z-index: 3;
-
-  transition: background-color 0.5s ease;
 `;
 
 const NavbarWrap = styled.div`
@@ -51,7 +54,7 @@ const NavbarLogo = styled.h1`
 
   a {
     text-decoration: none;
-    color: rgba(0, 0, 0);
+    color: ${(props) => props.theme.navbarTextColor};
   }
 `;
 
@@ -74,7 +77,8 @@ const NavbarList = styled.li`
 
   a {
     text-decoration: none;
-    color: rgba(0, 0, 0);
+
+    color: ${(props) => props.theme.navbarTextColor};
 
     position: relative;
 
@@ -88,13 +92,13 @@ const NavbarList = styled.li`
 
       z-index: -1;
 
-      background-color: rgb(254, 187, 108);
+      background-color: ${(props) => props.theme.hoverColor};
 
       transition: width 0.5s ease;
     }
 
     &:hover {
-      color: rgba(0, 0, 0);
+      color: ${(props) => props.theme.navbarTextColor};
 
       &::before {
         content: "";
@@ -106,11 +110,9 @@ const NavbarList = styled.li`
 
         z-index: -1;
 
-        background-color: rgb(254, 187, 108);
+        background-color: ${(props) => props.theme.hoverColor};
       }
     }
-
-    transition: color 0.5s ease;
   }
 
   @media screen and (max-width: 768px) {
@@ -132,13 +134,14 @@ const NavbarButton = styled.button`
     background-color: rgba(0, 0, 0, 0.9);
   }
 
-  transition: background-color 0.5s ease;
   cursor: pointer;
 `;
 
 const FontAwesomeCustom = styled(FontAwesomeIcon)`
   font-size: 20px;
-  color: ${({ active }) => (active ? "rgba(255, 255, 255)" : "rgba(0, 0, 0)")};
+
+  color: ${(props) => props.theme.navbarTextColor};
+
   cursor: pointer;
 
   z-index: 3;
@@ -148,16 +151,23 @@ const FontAwesomeCustom = styled(FontAwesomeIcon)`
   @media screen and (max-width: 768px) {
     display: block;
   }
-
-  transition: color 0.5s ease;
 `;
 
 const SnSFontAwesomeCustom = styled(FontAwesomeIcon)`
   font-size: 20px;
-  color: rgba(0, 0, 0);
+
+  color: ${(props) => props.theme.navbarTextColor};
+
   cursor: pointer;
 
   z-index: 3;
+`;
+
+const ThemeButtonWrapper = styled.div``;
+
+const ThemeButton = styled(FontAwesomeIcon)`
+  font-size: 20px;
+  color: ${(props) => props.theme.navbarTextColor};
 `;
 
 const MediaNavbar = styled.div`
@@ -170,7 +180,7 @@ const MediaNavbar = styled.div`
 
   position: fixed;
   top: 0;
-  left: ${({ active }) => (active ? "0px" : "-100%")};
+  left: ${({ active }) => (active === "true" ? "0px" : "-100%")};
 
   background-color: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(10px);
@@ -204,7 +214,9 @@ const MediaList = styled.li`
 const Navbar = () => {
   const [media, setMedia] = useState(false);
   const [scrollY, setScrollY] = useState(false);
+  const { themeStore } = useStore();
   const history = useLocation();
+
   const { pathname } = history;
 
   // eslint-disable-next-line
@@ -216,6 +228,10 @@ const Navbar = () => {
     }, []),
     [scrollY]
   );
+
+  const setTheme = () => {
+    themeStore.changeTheme();
+  };
 
   const getElement = (Menu) => {
     return _.map(Menu, (list, index) => {
@@ -281,10 +297,15 @@ const Navbar = () => {
             <NavbarMenu>{getElement(Menu)}</NavbarMenu>
           </LeftWrap>
         </NavbarLogo>
-        <NavbarMenu>{getElement(snsMenu)}</NavbarMenu>
-        <FontAwesomeCustom active={media} icon={faBars} onClick={() => setMedia(!media)} />
+        <NavbarMenu>
+          <MediaList>
+            <ThemeButton onClick={setTheme} icon={themeStore.theme ? faMoon : faSun} />
+          </MediaList>
+          {getElement(snsMenu)}
+        </NavbarMenu>
+        <FontAwesomeCustom active={media.toString()} icon={faBars} onClick={() => setMedia(!media)} />
       </NavbarWrap>
-      <MediaNavbar active={media}>
+      <MediaNavbar active={media.toString()}>
         <MediaMenu>{getMediaElement()}</MediaMenu>
       </MediaNavbar>
     </NavbarContainer>

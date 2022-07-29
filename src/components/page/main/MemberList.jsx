@@ -36,7 +36,7 @@ const ProfileTitle = styled.h1`
 
   display: block;
 
-  color: rgba(0, 0, 0, 0.8);
+  color: ${(props) => props.theme.subTitleTexatColor};
 `;
 
 const ProfileWrap = styled.div`

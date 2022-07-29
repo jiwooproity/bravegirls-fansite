@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import _ from "lodash";
 
@@ -53,7 +53,7 @@ const AlbumListWrapper = styled.div`
 
 const AlbumListShadow = styled.div`
   height: 180px;
-  background: linear-gradient(180deg, hsla(0, 0%, 100%, 0), #fff);
+  background: ${(props) => `linear-gradient(180deg, hsla(0, 0%, 100%, 0), ${props.theme.backgroundColor})`};
   bottom: 0;
   content: "";
   left: 0;
@@ -98,15 +98,16 @@ const AlbumLists = styled.div`
 
   background-color: ${({ active, color }) => (active ? color : "")};
 
-  color: ${({ active, light }) => (active ? (light ? "black" : "white") : "rgba(54, 54, 54)")};
+  ${(props) =>
+    css`
+      color: ${({ active, light }) => (active ? (light ? "black" : "white") : props.theme.titleTextColor)};
+    `}
 
   border-radius: 10px;
 
-  transition: box-shadow 0.5s ease;
+  transition: box-shadow 0.5s ease, background-color 0.5s ease;
 
   cursor: pointer;
-
-  transition: background-color 0.5s, color 0.5s;
 
   @media screen and (max-width: 768px) {
     grid-template-columns: 0fr 1fr 1fr 1fr 1fr 0fr;
@@ -143,6 +144,8 @@ const AlbumInfoColum = styled.span`
   line-height: 12px;
 
   text-align: center;
+
+  color: ${(props) => props.theme.titleTextColor};
 
   @media screen and (max-width: 768px) {
     font-size: 8px;
