@@ -9,6 +9,7 @@ import { faYoutubeSquare, faInstagramSquare, faTwitterSquare } from "@fortawesom
 import { Loading } from "components";
 import useStore from "hooks/useStore";
 import { useObserver } from "mobx-react";
+import { utils } from "util/utils";
 
 const MemberContainer = styled.div`
   width: 100%;
@@ -270,7 +271,7 @@ const NewMember = () => {
   }, [memberStore.member]);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    utils.onScrollTop();
   }, []);
 
   const onLoad = useCallback(async () => {

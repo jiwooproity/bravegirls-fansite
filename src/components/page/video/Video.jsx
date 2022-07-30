@@ -163,7 +163,7 @@ const Video = () => {
   const [loading, setLoading] = useState(false);
 
   const location = useLocation();
-  const pathname = location.pathname.replace("/", "");
+  const pathname = location.pathname.replace("/video/", "");
 
   useEffect(() => {
     onLoad();

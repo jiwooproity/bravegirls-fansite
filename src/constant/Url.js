@@ -3,8 +3,8 @@ export const Url = {
   MEMBER: `${process.env.PUBLIC_URL}/member`,
   ALBUM: `${process.env.PUBLIC_URL}/album`,
   PHOTOCARD: `${process.env.PUBLIC_URL}/photocard`,
-  VIDEO: `${process.env.PUBLIC_URL}/video`,
-  QUEENDOM: `${process.env.PUBLIC_URL}/queendom`,
-  BGCLIP: `${process.env.PUBLIC_URL}/bgclip`,
+  MUSIC: `${process.env.PUBLIC_URL}/video/music`,
+  QUEENDOM: `${process.env.PUBLIC_URL}/video/queendom`,
+  BGCLIP: `${process.env.PUBLIC_URL}/video/bgclip`,
   LOGIN: `${process.env.PUBLIC_URL}/login`,
 };

@@ -5,6 +5,21 @@ export const utils = {
     return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "???";
   },
 
+  setList: (list) => {
+    let status = {};
+
+    _.forEach(list, (item) => {
+      item = false;
+
+      status = {
+        ...status,
+        [item]: false,
+      };
+    });
+
+    return status;
+  },
+
   setStatus: (menu) => {
     let status = {};
 
@@ -28,5 +43,9 @@ export const utils = {
     depth(menu);
 
     return status;
+  },
+
+  onScrollTop: () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   },
 };

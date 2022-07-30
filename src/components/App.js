@@ -44,8 +44,8 @@ const App = () => {
               <Route path={`${Url.ROOT}`} element={<Main />} />
               <Route path={`${Url.MEMBER}`} element={<Member />} />
               <Route path={`${Url.ALBUM}`} element={<Album />} />
-              <Route path={`${Url.VIDEO}`} element={<Video />} />
-              <Route path={`${Url.VIDEO}/:videoId`} element={<VideoDetail />} />
+              <Route path={`${Url.MUSIC}`} element={<Video />} />
+              <Route path={`${Url.MUSIC}/:videoId`} element={<VideoDetail />} />
               <Route path={`${Url.QUEENDOM}`} element={<Video />} />
               <Route path={`${Url.QUEENDOM}/:videoId`} element={<VideoDetail />} />
               <Route path={`${Url.BGCLIP}`} element={<Video />} />

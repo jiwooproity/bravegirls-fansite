@@ -9,12 +9,13 @@ import styled, { css } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 
-import { snsMenu } from "constant/Menu";
 import { useEffect } from "react";
 import { useCallback } from "react";
 import useStore from "hooks/useStore";
 import SideNavbar from "./SideNavbar";
 import { utils } from "util/utils";
+import SnsNavbar from "./SnsNavbar";
+import Title from "./Title";
 
 const NavbarContainer = styled.div`
   width: 100%;
@@ -72,64 +73,6 @@ const NavbarMenu = styled.ul`
 
   @media screen and (max-width: 768px) {
     display: none;
-  }
-`;
-
-const SnsNavbarList = styled.li`
-  font-size: 15px;
-  line-height: 15px;
-  font-weight: 600;
-
-  padding: 0px 0px 0px 25px;
-
-  position: relative;
-
-  span {
-    cursor: pointer;
-  }
-
-  #parent {
-    text-decoration: none;
-
-    color: ${(props) => props.theme.navbarTextColor};
-
-    position: relative;
-
-    &::before {
-      content: "";
-      width: ${({ focus }) => (focus ? "100%" : "0px")};
-      height: 4px;
-
-      position: absolute;
-      top: 50%;
-
-      z-index: -1;
-
-      background-color: ${(props) => props.theme.hoverColor};
-
-      transition: width 0.5s ease;
-    }
-
-    &:hover {
-      color: ${(props) => props.theme.navbarTextColor};
-
-      &::before {
-        content: "";
-        width: 100%;
-        height: 6px;
-
-        position: absolute;
-        top: 50%;
-
-        z-index: -1;
-
-        background-color: ${(props) => props.theme.hoverColor};
-      }
-    }
-  }
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
   }
 `;
 
@@ -193,7 +136,41 @@ const NavbarChildrenTitle = styled.span`
   font-weight: 600;
   cursor: pointer;
 
+  position: relative;
+
   color: ${(props) => props.theme.navbarTextColor};
+
+  &::before {
+    content: "";
+    width: ${({ focus }) => (focus ? "100%" : "0px")};
+    height: 4px;
+
+    position: absolute;
+    top: 50%;
+
+    z-index: -1;
+
+    background-color: ${(props) => props.theme.hoverColor};
+
+    transition: width 0.5s ease;
+  }
+
+  &:hover {
+    color: ${(props) => props.theme.navbarTextColor};
+
+    &::before {
+      content: "";
+      width: 100%;
+      height: 6px;
+
+      position: absolute;
+      top: 50%;
+
+      z-index: -1;
+
+      background-color: ${(props) => props.theme.hoverColor};
+    }
+  }
 `;
 
 const NavbarChildrenList = styled.ul`
@@ -280,7 +257,7 @@ const NavbarChildrenItem = styled.li`
   }
 `;
 
-const MediaMenuButtonWrap = styled.div`
+const MediaMenu = styled.div`
   display: none;
 
   @media screen and (max-width: 768px) {
@@ -311,16 +288,6 @@ const FontAwesomeCustom = styled(FontAwesomeIcon)`
     display: block;
     padding: 0px 0px 0px 10px;
   }
-`;
-
-const SnSFontAwesomeCustom = styled(FontAwesomeIcon)`
-  font-size: 20px;
-
-  color: ${(props) => props.theme.navbarTextColor};
-
-  cursor: pointer;
-
-  z-index: 3;
 `;
 
 const ThemeButton = styled(FontAwesomeIcon)`
@@ -367,13 +334,14 @@ const MediaList = styled.li`
 `;
 
 const Navbar = () => {
+  const history = useLocation();
+  const { themeStore } = useStore();
   const [list, setList] = useState({});
   const [media, setMedia] = useState(false);
   const [scrollY, setScrollY] = useState(false);
-  const { themeStore } = useStore();
-  const history = useLocation();
 
   const { pathname } = history;
+  const path = pathname.split("/");
 
   // eslint-disable-next-line
   useEffect(
@@ -389,39 +357,26 @@ const Navbar = () => {
     setList(utils.setStatus(Menu));
   }, []);
 
+  // 테마 적용
   const setTheme = () => {
     themeStore.changeTheme();
   };
 
+  // Children 서브 메뉴 활성화 / 닫기
   const onDisabled = (name) => {
-    let status = {};
-
-    _.forEach(list, (item) => {
-      item = false;
-
-      status = {
-        ...status,
-        [item]: false,
-      };
-    });
-
+    const status = utils.setList(list);
     setList({ ...status, [name]: !list[name] });
   };
 
-  const getElement = (Menu) =>
-    _.map(Menu, (list, index) => (
-      <SnsNavbarList key={index}>
-        <a href={list.root} target={"_blank"} rel="noreferrer">
-          <SnSFontAwesomeCustom icon={list.icon} />
-        </a>
-      </SnsNavbarList>
-    ));
+  // 현재 위치한 경로 표시
+  const nowLocation = (root) => {
+    let nPath = _.filter(path, (t) => t !== "");
+    let nRoot = root.split("/");
+    return _.isEqual(pathname, root) || _.includes(nPath, nRoot[nRoot.length - 1]);
+  };
 
+  // Children 데이터를 가진 메뉴의 Depth 생성 함수
   const renderData = (data) => {
-    const nowLocation = (root) => {
-      return pathname === root;
-    };
-
     return _.map(data, (item, index) => (
       <>
         {item.isLeaf ? (
@@ -438,7 +393,9 @@ const Navbar = () => {
               </Link>
             ) : (
               <>
-                <NavbarChildrenTitle onClick={() => onDisabled(item.name)}>{item.name}</NavbarChildrenTitle>
+                <NavbarChildrenTitle focus={nowLocation(item.root)} onClick={() => onDisabled(item.name)}>
+                  {item.name}
+                </NavbarChildrenTitle>
                 <NavbarChildrenList active={list[item.name]}>{item.children && renderData(item.children)}</NavbarChildrenList>
               </>
             )}
@@ -451,23 +408,30 @@ const Navbar = () => {
   return (
     <NavbarContainer active={scrollY}>
       <NavbarWrap>
+        {/* 최상단 타이틀 영역 */}
         <NavbarLogo>
           <LeftWrap>
-            <Link to={"/"}>BRAVEGIRLS</Link>
+            <Title title={"BRAVEGIRLS"} />
             <NavbarMenu>{renderData(Menu)}</NavbarMenu>
           </LeftWrap>
         </NavbarLogo>
+
+        {/* PC 테마 변경 버튼 및 SNS 메뉴 */}
         <NavbarMenu>
           <MediaList>
             <ThemeButton onClick={setTheme} icon={themeStore.theme ? faMoon : faSun} />
           </MediaList>
-          {getElement(snsMenu)}
+          <SnsNavbar />
         </NavbarMenu>
-        <MediaMenuButtonWrap>
+
+        {/* 모바일 메뉴 [테마, 메뉴오픈] */}
+        <MediaMenu>
           <FontAwesomeCustom setting={themeStore.theme.toString()} active={media.toString()} icon={themeStore.theme ? faMoon : faSun} onClick={setTheme} />
           <FontAwesomeCustom setting={themeStore.theme.toString()} active={media.toString()} icon={faBars} onClick={() => setMedia(!media)} />
-        </MediaMenuButtonWrap>
+        </MediaMenu>
       </NavbarWrap>
+
+      {/* 모바일 전용 사이드 바 */}
       <SideNavbar media={media} setMedia={setMedia} />
     </NavbarContainer>
   );

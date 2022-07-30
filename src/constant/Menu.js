@@ -67,8 +67,8 @@ export const Menu = [
       {
         name: "MUSIC",
         type: "text",
-        root: "/video",
-        path: "/video",
+        root: "/video/music",
+        path: "/video/music",
         parent: "VIDEO",
         icon: faArrowDownShortWide,
         isLeaf: true,
@@ -76,8 +76,8 @@ export const Menu = [
       {
         name: "QUEENDOM",
         type: "text",
-        root: "/queendom",
-        path: "/queendom",
+        root: "/video/queendom",
+        path: "/video/queendom",
         parent: "VIDEO",
         icon: faArrowDownShortWide,
         isLeaf: true,
@@ -85,8 +85,8 @@ export const Menu = [
       {
         name: "BG-CLIP",
         type: "text",
-        root: "/bgclip",
-        path: "/bgclip",
+        root: "/video/bgclip",
+        path: "/video/bgclip",
         parent: "VIDEO",
         icon: faArrowDownShortWide,
         isLeaf: true,

@@ -183,6 +183,7 @@ const VideoDetail = () => {
 
   useEffect(() => {
     onLoad();
+    utils.onScrollTop();
     // eslint-disable-next-line
   }, []);
 
