@@ -213,7 +213,9 @@ const Video = () => {
                 <Fade bottom key={index}>
                   <VideoThumbnaillWrap>
                     <VideoThumbnailImageFrame>
-                      <VideoThumbnaillImage src={video.thumbnail} />
+                      <Link to={`${video.videoId}`}>
+                        <VideoThumbnaillImage src={video.thumbnail} />
+                      </Link>
                     </VideoThumbnailImageFrame>
                     <VideoDesWrap>
                       <VideoTitleWrap>
