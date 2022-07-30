@@ -4,7 +4,8 @@ import Loading from "./common/Loading";
 import Navbar from "./common/Navbar";
 import Member from "./page/member/Member";
 import Video from "./page/video/Video";
+import VideoDetail from "./page/video/VideoDetail";
 import Login from "./page/login/Login";
 
 export { Loading, Navbar };
-export { Main, Login, Member, Album, Video };
+export { Main, Login, Member, Album, Video, VideoDetail };

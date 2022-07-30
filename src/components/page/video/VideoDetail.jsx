@@ -1,18 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 import styled from "styled-components";
 
-import _ from "lodash";
-
-import { useEffect } from "react";
-import { youtubeService } from "service/configService";
-import { Loading } from "components";
 import { Fade } from "react-reveal";
-import { Link, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
+import { faPencil, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 import { utils } from "util/utils";
+import { Loading } from "components";
+import { youtubeService } from "service/configService";
 
 const NavbarBox = styled.div`
   width: 100%;
@@ -27,6 +25,10 @@ const VideoContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 768px) {
+    align-items: flex-start;
+  }
 `;
 
 const VideoWrapper = styled.div`
@@ -36,8 +38,8 @@ const VideoWrapper = styled.div`
 const VideoGridWrap = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 15px;
+  grid-template-columns: 1fr;
+  gap: 5px;
 
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -71,20 +73,29 @@ const VideoThumbnailImageFrame = styled.div`
   box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
 `;
 
-const VideoThumbnaillImage = styled.img`
-  width: 100%;
+const VideoCustomIframe = styled.iframe`
+  height: 0;
+  max-height: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  min-width: 100%;
+  width: 0;
+  display: block;
 
   position: absolute;
-  top: 50%;
-  left: 0px;
+  top: 0;
+  left: 0;
 
-  transform: translateY(-50%);
+  z-index: 2;
 
-  display: block;
+  border: none;
+  border-radius: 10px;
 `;
 
 const VideoDesWrap = styled.div`
   width: 100%;
+
+  padding: 15px 0px;
 
   display: flex;
   flex-direction: column;
@@ -95,24 +106,21 @@ const VideoTitleWrap = styled.div`
 `;
 
 const VideoTitle = styled.h1`
-  font-size: 15px;
-  line-height: 23px;
+  font-size: 22px;
+  line-height: 30px;
   padding: 5px 0px 0px 0px;
+
+  color: ${(props) => props.theme.titleTextColor};
 
   @media screen and (max-width: 768px) {
     font-size: 4vw;
     line-height: 5.5vw;
   }
-
-  a {
-    color: ${(props) => props.theme.titleTextColor};
-    text-decoration: none;
-  }
 `;
 
 const VideoCountNumber = styled.h1`
-  font-size: 13px;
-  line-height: 13px;
+  font-size: 20px;
+  line-height: 20px;
   padding: 10px 0px 0px 0px;
 
   color: ${(props) => props.theme.titleTextColor};
@@ -121,6 +129,14 @@ const VideoCountNumber = styled.h1`
     font-size: 3vw;
     line-height: 3vw;
   }
+`;
+
+const VideoDescription = styled.span`
+  font-size: 12px;
+  line-height: 20px;
+  white-space: pre-line;
+
+  color: ${(props) => props.theme.desTextColor};
 `;
 
 const VideoCountIconWrapper = styled.div`
@@ -145,8 +161,8 @@ const VideoCountIcon = styled(FontAwesomeIcon)`
 `;
 
 const VideoThumbCount = styled.span`
-  font-size: 15px;
-  line-height: 15px;
+  font-size: 18px;
+  line-height: 18px;
 
   margin-right: 10px;
 
@@ -158,48 +174,43 @@ const VideoThumbCount = styled.span`
   }
 `;
 
-const Video = () => {
-  const [videoData, setVideoData] = useState([]);
+const VideoDetail = () => {
   const [loading, setLoading] = useState(false);
+  const [detailData, setDetailData] = useState({});
 
-  const location = useLocation();
-  const pathname = location.pathname.replace("/", "");
+  const params = useParams();
+  const { videoId } = params;
 
   useEffect(() => {
     onLoad();
     // eslint-disable-next-line
-  }, [pathname]);
+  }, []);
 
   const onLoad = async () => {
     setLoading(false);
-    const videoArr = [];
-    const playList = await youtubeService.getPlayList(pathname, { part: "snippet", maxResults: 25 });
+    let videoObj = {};
+    const detailData = await youtubeService.getVideo({ part: "snippet", id: videoId });
+    const countData = await youtubeService.getVideo({ part: "statistics", id: videoId });
 
-    for (const playData of playList.items) {
+    for (const playData of detailData.items) {
       const snippet = playData.snippet;
-      const detailData = await youtubeService.getVideo({ part: "statistics", id: snippet.resourceId.videoId });
 
-      for (const detail of detailData.items) {
-        let thumbnail = "";
-        const { maxres, standard, high } = snippet.thumbnails;
+      for (const detail of countData.items) {
         const statistics = detail.statistics;
 
-        thumbnail = maxres ? maxres : standard ? standard : high;
-
-        videoArr.push({
-          videoId: snippet.resourceId.videoId,
-          thumbnail: thumbnail.url,
+        videoObj = {
+          videoId,
           title: snippet.title,
           description: snippet.description,
           viewCount: `${utils.setComma(statistics.viewCount)}회`,
           likeCount: utils.setComma(statistics.likeCount),
           commentCount: utils.setComma(statistics.commentCount),
-        });
+        };
       }
     }
 
-    setVideoData(videoArr);
     setLoading(true);
+    setDetailData(videoObj);
   };
 
   return (
@@ -209,29 +220,36 @@ const Video = () => {
         <VideoWrapper>
           <VideoGridWrap>
             {loading ? (
-              _.map(videoData, (video, index) => (
-                <Fade bottom key={index}>
-                  <VideoThumbnaillWrap>
-                    <VideoThumbnailImageFrame>
-                      <VideoThumbnaillImage src={video.thumbnail} />
-                    </VideoThumbnailImageFrame>
-                    <VideoDesWrap>
-                      <VideoTitleWrap>
-                        <VideoTitle>
-                          <Link to={`${video.videoId}`}>{video.title}</Link>
-                        </VideoTitle>
-                        <VideoCountIconWrapper>
-                          <VideoCountIcon icon={faThumbsUp} />
-                          <VideoThumbCount>{video.likeCount}</VideoThumbCount>
-                          <VideoCountIcon icon={faPencil} />
-                          <VideoThumbCount>{video.commentCount}</VideoThumbCount>
-                        </VideoCountIconWrapper>
-                        <VideoCountNumber>{video.viewCount}</VideoCountNumber>
-                      </VideoTitleWrap>
-                    </VideoDesWrap>
-                  </VideoThumbnaillWrap>
-                </Fade>
-              ))
+              <Fade bottom>
+                <VideoThumbnaillWrap>
+                  <VideoThumbnailImageFrame>
+                    <VideoCustomIframe
+                      id="gangnamStyleIframe"
+                      type="text/html"
+                      width="100%"
+                      height="100%"
+                      src={`https://www.youtube.com/embed/${videoId}?rel=0&enablejsapi=1`}
+                      frameborder="0"
+                      scrolling="no"
+                      allowfullscreen="1"
+                    />
+                  </VideoThumbnailImageFrame>
+                  <VideoDesWrap>
+                    <VideoTitleWrap>
+                      <VideoTitle>{detailData.title}</VideoTitle>
+                      <VideoCountIconWrapper>
+                        <VideoCountIcon icon={faThumbsUp} />
+                        <VideoThumbCount>{detailData.likeCount}</VideoThumbCount>
+                        <VideoCountIcon icon={faPencil} />
+                        <VideoThumbCount>{detailData.commentCount}</VideoThumbCount>
+                      </VideoCountIconWrapper>
+                      <VideoCountNumber>{detailData.viewCount}</VideoCountNumber>
+                    </VideoTitleWrap>
+
+                    <VideoDescription>{detailData.description}</VideoDescription>
+                  </VideoDesWrap>
+                </VideoThumbnaillWrap>
+              </Fade>
             ) : (
               <Loading />
             )}
@@ -242,4 +260,4 @@ const Video = () => {
   );
 };
 
-export default Video;
+export default VideoDetail;

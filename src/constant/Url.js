@@ -5,5 +5,6 @@ export const Url = {
   PHOTOCARD: `${process.env.PUBLIC_URL}/photocard`,
   VIDEO: `${process.env.PUBLIC_URL}/video`,
   QUEENDOM: `${process.env.PUBLIC_URL}/queendom`,
+  BGCLIP: `${process.env.PUBLIC_URL}/bgclip`,
   LOGIN: `${process.env.PUBLIC_URL}/login`,
 };

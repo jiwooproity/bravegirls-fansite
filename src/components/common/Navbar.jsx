@@ -201,7 +201,7 @@ const NavbarChildrenList = styled.ul`
   position: absolute;
   list-style: none;
 
-  padding: 10px;
+  padding: 10px 15px;
 
   top: 30px;
   left: calc(50%);
@@ -229,17 +229,18 @@ const NavbarChildrenList = styled.ul`
     -ms-transform: rotate(0deg);
   }
 
-  border-radius: 5px;
-  box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.1) -5px -5px 15px 0px, rgba(0, 0, 0, 0.1) 0px 8px 16px -0px;
 `;
 
 const NavbarChildrenItem = styled.li`
-  font-size: 15px;
+  font-size: 12px;
 
   padding: 5px 5px;
 
   #children {
     text-decoration: none;
+    white-space: nowrap;
 
     color: rgb(0, 0, 0);
 
