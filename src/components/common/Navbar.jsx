@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { useCallback } from "react";
 import useStore from "hooks/useStore";
 import SideNavbar from "./SideNavbar";
+import { utils } from "util/utils";
 
 const NavbarContainer = styled.div`
   width: 100%;
@@ -65,18 +66,29 @@ const NavbarMenu = styled.ul`
   align-items: center;
   list-style: none;
 
+  margin: 0px 0px 0px 12.5px;
+
+  position: relative;
+
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
 
-const NavbarList = styled.li`
+const SnsNavbarList = styled.li`
   font-size: 15px;
   line-height: 15px;
   font-weight: 600;
+
   padding: 0px 0px 0px 25px;
 
-  a {
+  position: relative;
+
+  span {
+    cursor: pointer;
+  }
+
+  #parent {
     text-decoration: none;
 
     color: ${(props) => props.theme.navbarTextColor};
@@ -118,6 +130,152 @@ const NavbarList = styled.li`
 
   @media screen and (max-width: 768px) {
     width: 100%;
+  }
+`;
+
+const NavbarList = styled.li`
+  font-size: 15px;
+  line-height: 15px;
+  font-weight: 600;
+
+  padding: 0px 12.5px 0px 12.5px;
+
+  position: relative;
+
+  #parent {
+    text-decoration: none;
+
+    color: ${(props) => props.theme.navbarTextColor};
+
+    position: relative;
+
+    &::before {
+      content: "";
+      width: ${({ focus }) => (focus ? "100%" : "0px")};
+      height: 4px;
+
+      position: absolute;
+      top: 50%;
+
+      z-index: -1;
+
+      background-color: ${(props) => props.theme.hoverColor};
+
+      transition: width 0.5s ease;
+    }
+
+    &:hover {
+      color: ${(props) => props.theme.navbarTextColor};
+
+      &::before {
+        content: "";
+        width: 100%;
+        height: 6px;
+
+        position: absolute;
+        top: 50%;
+
+        z-index: -1;
+
+        background-color: ${(props) => props.theme.hoverColor};
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const NavbarChildrenTitle = styled.span`
+  font-size: 15px;
+  line-height: 15px;
+  font-weight: 600;
+  cursor: pointer;
+
+  color: ${(props) => props.theme.navbarTextColor};
+`;
+
+const NavbarChildrenList = styled.ul`
+  display: ${({ active }) => (active ? "flex" : "none")};
+  position: absolute;
+  list-style: none;
+
+  padding: 10px;
+
+  top: 30px;
+  left: calc(50%);
+
+  transform: translateX(-50%);
+
+  background-color: white;
+
+  &::after {
+    position: absolute;
+    top: -10px;
+    left: calc(50% - 10px);
+    transform: translate(-50%, -50%);
+    content: "";
+    height: 0;
+    z-index: -1;
+    border-bottom: 10px solid;
+    border-left: 10px solid rgba(0, 0, 0, 0);
+    border-right: 10px solid rgba(0, 0, 0, 0);
+    color: white;
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+  }
+
+  border-radius: 5px;
+  box-shadow: rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+`;
+
+const NavbarChildrenItem = styled.li`
+  font-size: 15px;
+
+  padding: 5px 5px;
+
+  #children {
+    text-decoration: none;
+
+    color: rgb(0, 0, 0);
+
+    position: relative;
+
+    &::before {
+      content: "";
+      width: ${({ focus }) => (focus ? "100%" : "0px")};
+      height: 4px;
+
+      position: absolute;
+      top: 50%;
+
+      z-index: -1;
+
+      background-color: rgb(254, 187, 108);
+
+      transition: width 0.5s ease;
+    }
+
+    &:hover {
+      color: rgb(0, 0, 0);
+
+      &::before {
+        content: "";
+        width: 100%;
+        height: 6px;
+
+        position: absolute;
+        top: 50%;
+
+        z-index: -1;
+
+        background-color: rgb(254, 187, 108);
+      }
+    }
   }
 `;
 
@@ -208,6 +366,7 @@ const MediaList = styled.li`
 `;
 
 const Navbar = () => {
+  const [list, setList] = useState({});
   const [media, setMedia] = useState(false);
   const [scrollY, setScrollY] = useState(false);
   const { themeStore } = useStore();
@@ -225,31 +384,67 @@ const Navbar = () => {
     [scrollY]
   );
 
+  useEffect(() => {
+    setList(utils.setStatus(Menu));
+  }, []);
+
   const setTheme = () => {
     themeStore.changeTheme();
   };
 
-  const getElement = (Menu) => {
-    return _.map(Menu, (list, index) => {
-      switch (list.type) {
-        case "text":
-          return (
-            <NavbarList focus={pathname === list.root} key={index}>
-              <Link to={list.root}>{list.name}</Link>
-            </NavbarList>
-          );
-        case "icon":
-          return (
-            <NavbarList key={index}>
-              <a href={list.root} target={"_blank"} rel="noreferrer">
-                <SnSFontAwesomeCustom icon={list.icon} />
-              </a>
-            </NavbarList>
-          );
-        default:
-          break;
-      }
+  const onDisabled = (name) => {
+    let status = {};
+
+    _.forEach(list, (item) => {
+      item = false;
+
+      status = {
+        ...status,
+        [item]: false,
+      };
     });
+
+    setList({ ...status, [name]: !list[name] });
+  };
+
+  const getElement = (Menu) =>
+    _.map(Menu, (list, index) => (
+      <SnsNavbarList key={index}>
+        <a href={list.root} target={"_blank"} rel="noreferrer">
+          <SnSFontAwesomeCustom icon={list.icon} />
+        </a>
+      </SnsNavbarList>
+    ));
+
+  const renderData = (data) => {
+    const nowLocation = (root) => {
+      return pathname === root;
+    };
+
+    return _.map(data, (item, index) => (
+      <>
+        {item.isLeaf ? (
+          <NavbarChildrenItem key={index} focus={nowLocation(item.root)}>
+            <Link id="children" to={item.root} onClick={() => onDisabled(item.parent)}>
+              {item.name}
+            </Link>
+          </NavbarChildrenItem>
+        ) : (
+          <NavbarList key={index} focus={nowLocation(item.root)}>
+            {_.isEmpty(item.children) ? (
+              <Link id="parent" to={item.root} onClick={() => onDisabled(item.name)}>
+                {item.name}
+              </Link>
+            ) : (
+              <>
+                <NavbarChildrenTitle onClick={() => onDisabled(item.name)}>{item.name}</NavbarChildrenTitle>
+                <NavbarChildrenList active={list[item.name]}>{item.children && renderData(item.children)}</NavbarChildrenList>
+              </>
+            )}
+          </NavbarList>
+        )}
+      </>
+    ));
   };
 
   return (
@@ -258,7 +453,7 @@ const Navbar = () => {
         <NavbarLogo>
           <LeftWrap>
             <Link to={"/"}>BRAVEGIRLS</Link>
-            <NavbarMenu>{getElement(Menu)}</NavbarMenu>
+            <NavbarMenu>{renderData(Menu)}</NavbarMenu>
           </LeftWrap>
         </NavbarLogo>
         <NavbarMenu>

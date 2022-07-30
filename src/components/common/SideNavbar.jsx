@@ -8,6 +8,7 @@ import { Menu } from "constant";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import { useEffect } from "react";
+import { utils } from "util/utils";
 
 const FontAwesomeCustom = styled(FontAwesomeIcon)`
   font-size: 20px;
@@ -150,15 +151,7 @@ const MediaChildrenArrow = styled(FontAwesomeIcon)`
   transform: translateY(-50%) ${({ active }) => (active ? "rotate(-180deg)" : "rotate(0deg)")};
   transition: transform 0.5s, right 0.5s ease;
 
-  ${(props) =>
-    ({ setting, active }) =>
-      setting === "false"
-        ? css`
-            color: ${active === "false" ? props.theme.navbarTextColor : props.theme.navbarBgColor};
-          `
-        : css`
-            color: rgba(255, 255, 255, 0.9);
-          `};
+  color: rgba(255, 255, 255, 0.9);
 
   cursor: pointer;
 
@@ -219,36 +212,12 @@ const SideNavbar = (props) => {
     setMedia(!media);
   };
 
-  const makeStatus = () => {
-    let status = {};
-
-    const depth = (data) => {
-      _.forEach(data, (list) => {
-        // Navbar Status 생성
-        if (!list.isLeaf && list.children.length) {
-          status = {
-            ...status,
-            [list.name]: false,
-          };
-        }
-
-        // children이 존재 할 경우, 함수 재실행
-        if (list.children && list.children.length) {
-          depth(list.children);
-        }
-      });
-    };
-    depth(Menu);
-
-    setList(status);
-  };
-
   const onDisabled = (name) => {
     setList({ ...list, [name]: !list[name] });
   };
 
   useEffect(() => {
-    makeStatus();
+    setList(utils.setStatus(Menu));
   }, []);
 
   const renderData = (data) => {
