@@ -13,6 +13,7 @@ import { snsMenu } from "constant/Menu";
 import { useEffect } from "react";
 import { useCallback } from "react";
 import useStore from "hooks/useStore";
+import SideNavbar from "./SideNavbar";
 
 const NavbarContainer = styled.div`
   width: 100%;
@@ -120,25 +121,12 @@ const NavbarList = styled.li`
   }
 `;
 
-const NavbarButton = styled.button`
-  font-size: 14px;
-  line-height: 14px;
-  display: block;
-  border: none;
-  border-radius: 2.5px;
-  padding: 5px 10px;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: white;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.9);
-  }
-
-  cursor: pointer;
-`;
-
 const MediaMenuButtonWrap = styled.div`
-  display: flex;
+  display: none;
+
+  @media screen and (max-width: 768px) {
+    display: flex;
+  }
 `;
 
 const FontAwesomeCustom = styled(FontAwesomeIcon)`
@@ -179,36 +167,12 @@ const SnSFontAwesomeCustom = styled(FontAwesomeIcon)`
 const ThemeButton = styled(FontAwesomeIcon)`
   font-size: 20px;
   color: ${(props) => props.theme.navbarTextColor};
-`;
-
-const MediaNavbar = styled.div`
-  width: 100%;
-  height: 100vh;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  position: fixed;
-  top: 0;
-  left: ${({ active }) => (active === "true" ? "0px" : "-100%")};
-
-  background-color: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(10px);
-
-  z-index: 2;
-
-  transition: left 0.5s ease;
-`;
-
-const MediaMenu = styled.ul`
-  display: flex;
-  flex-direction: column;
-  list-style: none;
+  cursor: pointer;
 `;
 
 const MediaList = styled.li`
-  padding: 2px 0px;
+  display: flex;
+  align-items: center;
 
   a {
     font-size: 20px;
@@ -219,6 +183,27 @@ const MediaList = styled.li`
     }
 
     text-transform: uppercase;
+  }
+
+  transition: background-color 0.5s ease;
+
+  @media screen and (max-width: 768px) {
+    padding: 5px 5px;
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+
+    &:last-child {
+      border-bottom: 2px solid hsla(0, 0%, 100%, 0.1);
+    }
+
+    svg {
+      width: 20px;
+      font-size: 15px;
+      padding: 0px 5px 0px 0px;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
   }
 `;
 
@@ -253,12 +238,6 @@ const Navbar = () => {
               <Link to={list.root}>{list.name}</Link>
             </NavbarList>
           );
-        case "button":
-          return (
-            <NavbarList key={index}>
-              <NavbarButton>{list.name}</NavbarButton>
-            </NavbarList>
-          );
         case "icon":
           return (
             <NavbarList key={index}>
@@ -266,32 +245,6 @@ const Navbar = () => {
                 <SnSFontAwesomeCustom icon={list.icon} />
               </a>
             </NavbarList>
-          );
-
-        default:
-          break;
-      }
-    });
-  };
-
-  const getMediaElement = () => {
-    return _.map(Menu, (list, index) => {
-      switch (list.type) {
-        case "text":
-          return (
-            <MediaList key={index}>
-              <Link to={list.root} onClick={() => setMedia(!media)}>
-                {list.name}
-              </Link>
-            </MediaList>
-          );
-        case "button":
-          return (
-            <MediaList key={index}>
-              <Link to={list.root} onClick={() => setMedia(!media)}>
-                {list.name}
-              </Link>
-            </MediaList>
           );
         default:
           break;
@@ -319,9 +272,7 @@ const Navbar = () => {
           <FontAwesomeCustom setting={themeStore.theme.toString()} active={media.toString()} icon={faBars} onClick={() => setMedia(!media)} />
         </MediaMenuButtonWrap>
       </NavbarWrap>
-      <MediaNavbar active={media.toString()}>
-        <MediaMenu>{getMediaElement()}</MediaMenu>
-      </MediaNavbar>
+      <SideNavbar media={media} setMedia={setMedia} />
     </NavbarContainer>
   );
 };

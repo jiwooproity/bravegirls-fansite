@@ -11,7 +11,7 @@ const AlbumWrapper = styled.div`
 
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 0.7fr;
+    grid-template-rows: 1fr 1fr;
     width: 100%;
 
     padding: 0px;
@@ -48,6 +48,10 @@ const AlbumImage = styled.img`
   position: relative;
 
   z-index: 2;
+
+  @media screen and (max-width: 768px) {
+    border-radius: 5px;
+  }
 `;
 
 const LpImageWrap = styled.div`

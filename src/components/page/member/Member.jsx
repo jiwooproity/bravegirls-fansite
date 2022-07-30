@@ -7,6 +7,8 @@ import { configService } from "service/configService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutubeSquare, faInstagramSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 import { Loading } from "components";
+import useStore from "hooks/useStore";
+import { useObserver } from "mobx-react";
 
 const MemberContainer = styled.div`
   width: 100%;
@@ -251,8 +253,9 @@ const MediaNavbar = styled.div`
 `;
 
 const NewMember = () => {
-  const [selectId, setSelectId] = useState(1);
   const [memberData, setMemberData] = useState({});
+
+  const { memberStore } = useStore();
 
   const memberID = [
     { id: 1, name: "MINYOUNG" },
@@ -264,10 +267,14 @@ const NewMember = () => {
   useEffect(() => {
     onLoad();
     // eslint-disable-next-line
-  }, [selectId]);
+  }, [memberStore.member]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
 
   const onLoad = useCallback(async () => {
-    const res = await configService.getMemberList({ member_idx: selectId });
+    const res = await configService.getMemberList({ member_idx: memberStore.member });
 
     setMemberData({
       backgroundImage: res.member_background,
@@ -283,61 +290,65 @@ const NewMember = () => {
       twitter: res.member_twitter,
       sign: res.member_sign,
     });
-  }, [selectId]);
+  }, [memberStore.member]);
 
   const onSelect = (id) => {
-    setSelectId(id);
+    memberStore.selectMember(id);
   };
 
-  return (
-    <>
-      <MediaNavbar />
-      <MemberContainer>
-        <MemberIntroduceWrap>
-          <MemberSign src={memberData.sign} />
-          {!_.isEmpty(memberData) ? (
-            <>
-              <MemberBackgroundWrap>
-                <MemberBackground src={memberData.backgroundImage} />
-                <MemberImage src={memberData.image} />
-              </MemberBackgroundWrap>
-              <MemberDesWrap>
-                <MemberDesBar src={memberData.backgroundImage} />
-                <MemberDesTitle>{memberData.engName}</MemberDesTitle>
-                <MemberDesSubTitle>
-                  {memberData.enter} / {memberData.korName}
-                </MemberDesSubTitle>
+  return useObserver(() => {
+    const { member } = memberStore;
 
-                <MemberDesIntroduction>{memberData.introduction}</MemberDesIntroduction>
-                <MemberSNSWrapper>
-                  <a href={memberData.youtube} target={"_blank"} rel="noreferrer">
-                    <MemberSNSIcon icon={faYoutubeSquare} />
-                  </a>
-                  <a href={memberData.instagram} target={"_blank"} rel="noreferrer">
-                    <MemberSNSIcon icon={faInstagramSquare} />
-                  </a>
-                  <a href={memberData.twitter} target={"_blank"} rel="noreferrer">
-                    <MemberSNSIcon icon={faTwitterSquare} />
-                  </a>
-                </MemberSNSWrapper>
-              </MemberDesWrap>
-            </>
-          ) : (
-            <Loading />
-          )}
-        </MemberIntroduceWrap>
-        <TabContainer>
-          <TabWrapper>
-            {_.map(memberID, (tab, index) => (
-              <MemberTab active={selectId === tab.id} key={index} onClick={() => onSelect(tab.id)}>
-                {tab.name}
-              </MemberTab>
-            ))}
-          </TabWrapper>
-        </TabContainer>
-      </MemberContainer>
-    </>
-  );
+    return (
+      <>
+        <MediaNavbar />
+        <MemberContainer>
+          <MemberIntroduceWrap>
+            <MemberSign src={memberData.sign} />
+            {!_.isEmpty(memberData) ? (
+              <>
+                <MemberBackgroundWrap>
+                  <MemberBackground src={memberData.backgroundImage} />
+                  <MemberImage src={memberData.image} />
+                </MemberBackgroundWrap>
+                <MemberDesWrap>
+                  <MemberDesBar src={memberData.backgroundImage} />
+                  <MemberDesTitle>{memberData.engName}</MemberDesTitle>
+                  <MemberDesSubTitle>
+                    {memberData.enter} / {memberData.korName}
+                  </MemberDesSubTitle>
+
+                  <MemberDesIntroduction>{memberData.introduction}</MemberDesIntroduction>
+                  <MemberSNSWrapper>
+                    <a href={memberData.youtube} target={"_blank"} rel="noreferrer">
+                      <MemberSNSIcon icon={faYoutubeSquare} />
+                    </a>
+                    <a href={memberData.instagram} target={"_blank"} rel="noreferrer">
+                      <MemberSNSIcon icon={faInstagramSquare} />
+                    </a>
+                    <a href={memberData.twitter} target={"_blank"} rel="noreferrer">
+                      <MemberSNSIcon icon={faTwitterSquare} />
+                    </a>
+                  </MemberSNSWrapper>
+                </MemberDesWrap>
+              </>
+            ) : (
+              <Loading />
+            )}
+          </MemberIntroduceWrap>
+          <TabContainer>
+            <TabWrapper>
+              {_.map(memberID, (tab, index) => (
+                <MemberTab active={member === tab.id} key={index} onClick={() => onSelect(tab.id)}>
+                  {tab.name}
+                </MemberTab>
+              ))}
+            </TabWrapper>
+          </TabContainer>
+        </MemberContainer>
+      </>
+    );
+  });
 };
 
 export default NewMember;

@@ -4,6 +4,8 @@ import _ from "lodash";
 
 import { configService } from "service/configService";
 import { Fade } from "react-reveal";
+import useStore from "hooks/useStore";
+import { useNavigate } from "react-router-dom";
 
 const ThreeSection = styled.div`
   width: 100%;
@@ -198,6 +200,8 @@ const ProfileBarBall = styled.div`
 
 const NewThree = () => {
   const [memberData, setMemberData] = useState([]);
+  const { memberStore } = useStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     onLoad();
@@ -223,6 +227,11 @@ const NewThree = () => {
     setMemberData(resArr);
   };
 
+  const onSelect = (id) => {
+    memberStore.selectMember(Number(id));
+    navigate("/member");
+  };
+
   return (
     <ThreeSection>
       <ProfileTitle>MEMBER</ProfileTitle>
@@ -233,7 +242,7 @@ const NewThree = () => {
                 <ProfileWrap>
                   <ProfileImage src={member.profile} />
                   <ProfileDes>
-                    <ProfileEngName>{member.engName}</ProfileEngName>
+                    <ProfileEngName onClick={() => onSelect(member.id)}>{member.engName}</ProfileEngName>
                     <ProfileName>{member.korName}</ProfileName>
                     <ProfileBar>
                       <ProfileBarBall />
