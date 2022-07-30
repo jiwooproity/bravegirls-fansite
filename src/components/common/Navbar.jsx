@@ -174,7 +174,7 @@ const NavbarChildrenTitle = styled.span`
 `;
 
 const NavbarChildrenList = styled.ul`
-  display: ${({ active }) => (active ? "flex" : "none")};
+  display: ${({ active }) => (active === "true" ? "flex" : "none")};
   position: absolute;
   list-style: none;
 
@@ -378,7 +378,7 @@ const Navbar = () => {
   // Children 데이터를 가진 메뉴의 Depth 생성 함수
   const renderData = (data) => {
     return _.map(data, (item, index) => (
-      <>
+      <React.Fragment key={index}>
         {item.isLeaf ? (
           <NavbarChildrenItem key={index} focus={nowLocation(item.root)}>
             <Link id="children" to={item.root} onClick={() => onDisabled(item.parent)}>
@@ -396,12 +396,12 @@ const Navbar = () => {
                 <NavbarChildrenTitle focus={nowLocation(item.root)} onClick={() => onDisabled(item.name)}>
                   {item.name}
                 </NavbarChildrenTitle>
-                <NavbarChildrenList active={list[item.name]}>{item.children && renderData(item.children)}</NavbarChildrenList>
+                <NavbarChildrenList active={list[item.name] ? "true" : "false"}>{item.children && renderData(item.children)}</NavbarChildrenList>
               </>
             )}
           </NavbarList>
         )}
-      </>
+      </React.Fragment>
     ));
   };
 

@@ -146,9 +146,9 @@ const MediaChildrenArrow = styled(FontAwesomeIcon)`
 
   position: absolute;
   top: 50%;
-  right: ${({ active }) => (active ? "4px" : "0px")};
+  right: ${({ active }) => (active === "true" ? "4px" : "0px")};
 
-  transform: translateY(-50%) ${({ active }) => (active ? "rotate(-180deg)" : "rotate(0deg)")};
+  transform: translateY(-50%) ${({ active }) => (active === "true" ? "rotate(-180deg)" : "rotate(0deg)")};
   transition: transform 0.5s, right 0.5s ease;
 
   color: rgba(255, 255, 255, 0.9);
@@ -166,7 +166,7 @@ const MediaChildrenArrow = styled(FontAwesomeIcon)`
 `;
 
 const MediaChildren = styled.li`
-  display: ${({ active }) => (active ? "flex" : "none")};
+  display: ${({ active }) => (active === "true" ? "flex" : "none")};
   align-items: center;
 
   a {
@@ -222,9 +222,9 @@ const SideNavbar = (props) => {
 
   const renderData = (data) => {
     return _.map(data, (item, index) => (
-      <>
+      <React.Fragment key={index}>
         {item.isLeaf ? (
-          <MediaChildren key={index} active={list[item.parent]}>
+          <MediaChildren key={index} active={list[item.parent] ? "true" : "false"}>
             <FontAwesomeCustom icon={item.icon} />
 
             <Link key={index} to={item.root} onClick={onClose}>
@@ -234,7 +234,9 @@ const SideNavbar = (props) => {
         ) : (
           <MediaList key={index}>
             <FontAwesomeCustom icon={item.icon} />
-            {!!item.children.length && <MediaChildrenArrow icon={faAngleDown} onClick={() => onDisabled(item.name)} active={list[item.name]} />}
+            {!!item.children.length && (
+              <MediaChildrenArrow icon={faAngleDown} onClick={() => onDisabled(item.name)} active={list[item.name] ? "true" : "false"} />
+            )}
 
             {!item.children.length ? (
               <Link to={item.root} onClick={onClose}>
@@ -247,7 +249,7 @@ const SideNavbar = (props) => {
         )}
 
         {item.children && renderData(item.children)}
-      </>
+      </React.Fragment>
     ));
   };
 

@@ -26,6 +26,8 @@ const VideoContainer = styled.div`
   justify-content: center;
   align-items: center;
 
+  position: relative;
+
   @media screen and (max-width: 768px) {
     align-items: flex-start;
   }
@@ -197,11 +199,16 @@ const VideoDetail = () => {
       const snippet = playData.snippet;
 
       for (const detail of countData.items) {
+        let thumbnail = "";
+        const { maxres, standard, high } = snippet.thumbnails;
         const statistics = detail.statistics;
+
+        thumbnail = maxres ? maxres : standard ? standard : high;
 
         videoObj = {
           videoId,
           title: snippet.title,
+          thumbnail,
           description: snippet.description,
           viewCount: `${utils.setComma(statistics.viewCount)}회`,
           likeCount: utils.setComma(statistics.likeCount),

@@ -1,23 +1,16 @@
 import _ from "lodash";
 
 export const utils = {
-  setComma: (number) => {
-    return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "???";
+  onScrollTop: () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   },
 
-  setList: (list) => {
-    let status = {};
+  getString: (data) => {
+    return data.toString();
+  },
 
-    _.forEach(list, (item) => {
-      item = false;
-
-      status = {
-        ...status,
-        [item]: false,
-      };
-    });
-
-    return status;
+  setComma: (number) => {
+    return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "???";
   },
 
   setStatus: (menu) => {
@@ -45,7 +38,18 @@ export const utils = {
     return status;
   },
 
-  onScrollTop: () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  setList: (list) => {
+    let status = {};
+
+    _.forEach(list, (item) => {
+      item = false;
+
+      status = {
+        ...status,
+        [item]: false,
+      };
+    });
+
+    return status;
   },
 };
