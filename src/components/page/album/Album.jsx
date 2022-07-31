@@ -5,10 +5,13 @@ import _ from "lodash";
 import { useEffect } from "react";
 import { configService } from "service/configService";
 
-import { Loading } from "components";
 import AlbumList from "./AlbumList";
 import AlbumInfo from "./AlbumInfo";
+import AlbumTrack from "./AlbumTrack";
+import { Loading } from "components";
+
 import useStore from "hooks/useStore";
+import { utils } from "util/utils";
 
 const TopNavbar = styled.div`
   width: 100%;
@@ -81,6 +84,8 @@ const AlbumContainer = styled.div`
   justify-content: center;
   align-items: center;
 
+  position: relative;
+
   @media screen and (max-width: 768px) {
     padding: 0px 15px 30px 15px;
   }
@@ -89,21 +94,50 @@ const AlbumContainer = styled.div`
 const Album = () => {
   const { themeStore } = useStore();
   const [albumList, setAlbumList] = useState([]);
+  const [trackList, setTrackList] = useState([]);
   const [selectAlbum, setSelectAlbum] = useState({});
   const [selectId, setSelectId] = useState(0);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     onLoad();
+    onLoadTrack();
+    utils.onScrollTop();
     // eslint-disable-next-line
   }, []);
 
-  const onLoad = async () => {
-    const musicArr = [];
-    const response = await configService.getMusicList();
-    setLoading(false);
+  useEffect(() => {
+    onLoadTrack();
+    // eslint-disable-next-line
+  }, [selectId, setSelectId, albumList, setAlbumList, selectAlbum, setSelectAlbum]);
 
-    _.forEach(response, (res, index) => {
+  const onLoadTrack = async () => {
+    const trackArr = [];
+    const trackData = await configService.getTrackList({ track_id: selectAlbum.id });
+
+    _.forEach(trackData, (res, index) => {
+      trackArr.push({
+        id: `0${index + 2}`,
+        title: res.music_title,
+        description: res.music_description,
+        color: res.music_color,
+        lyricist: res.music_lyricist,
+        composition: res.music_composition,
+        arrangement: res.music_arrangement,
+      });
+    });
+
+    trackArr.unshift({ ...selectAlbum, id: `01` });
+
+    setTrackList(trackArr);
+  };
+
+  const onLoad = async () => {
+    setLoading(false);
+    const musicArr = [];
+    const musicData = await configService.getMusicList();
+
+    _.forEach(musicData, (res) => {
       musicArr.push({
         id: Number(res.music_idx),
         title: res.music_title,
@@ -113,7 +147,9 @@ const Album = () => {
         lp: res.music_lp_image,
         color: res.music_color,
         enter: res.music_plan,
+        lyricist: res.music_lyricist,
         composition: res.music_composition,
+        arrangement: res.music_arrangement,
         release: res.music_release,
       });
     });
@@ -123,9 +159,9 @@ const Album = () => {
     setLoading(true);
   };
 
-  const dragMusic = (id, items) => {
-    setSelectId(id);
-    setSelectAlbum(items[id]);
+  const dragMusic = (destinationId, items) => {
+    setSelectId(destinationId);
+    setSelectAlbum(items[destinationId]);
     setAlbumList(items);
   };
 
@@ -156,7 +192,8 @@ const Album = () => {
         {loading ? (
           <>
             <AlbumInfo data={selectAlbum} />
-            <AlbumList data={albumList} setData={setAlbumList} selectValue={selectId} func={{ isLightColor, selectMusic, dragMusic }} />
+            <AlbumList data={albumList} onceData={selectAlbum} setData={setAlbumList} selectValue={selectId} func={{ isLightColor, selectMusic, dragMusic }} />
+            <AlbumTrack data={trackList} color={selectAlbum.color} />
           </>
         ) : (
           <Loading />

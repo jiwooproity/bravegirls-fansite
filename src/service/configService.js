@@ -52,6 +52,7 @@ export const configService = {
   getPhotocardData: (params) => settingMethod("http://bglovely.com/photocard/getPhotocard.php", params, "GET"),
   getVideoList: (params) => settingMethod("http://bglovely.com/photocard/getVideoList.php", params, "GET"),
   getMusicList: (params) => settingMethod("http://bglovely.com/photocard/getMusicList.php", params, "GET"),
+  getTrackList: (params) => settingMethod("http://bglovely.com/photocard/getTrackList.php", params, "GET"),
   getMemberList: (params) => settingMethod("http://bglovely.com/photocard/getMemberList.php", params, "GET"),
   getAllMemberList: (params) => settingMethod("http://bglovely.com/photocard/getAllMemberList.php", params, "GET"),
   getHistoryList: (params) => settingMethod("http://bglovely.com/photocard/getHistoryList.php", params, "GET"),

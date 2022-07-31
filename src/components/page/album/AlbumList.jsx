@@ -52,6 +52,25 @@ const AlbumListWrapper = styled.div`
   }
 `;
 
+const AlbumSelectBar = styled.div`
+  width: 100%;
+  height: 55.08px;
+
+  position: absolute;
+  top: ${({ select }) => `calc(55.08px * ${select})`};
+  left: 0;
+
+  border-radius: 5px;
+
+  background-color: ${({ color }) => color};
+
+  z-index: 0;
+
+  transition: background-color 0.5s ease-out, top 0.5s ease-out;
+
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+`;
+
 const AlbumListShadow = styled.div`
   height: 180px;
   background: ${(props) => `linear-gradient(180deg, hsla(0, 0%, 100%, 0), ${props.theme.backgroundColor})`};
@@ -60,7 +79,7 @@ const AlbumListShadow = styled.div`
   left: 0;
   position: absolute;
   right: 0;
-  z-index: 2;
+  z-index: 3;
 
   pointer-events: none;
 
@@ -91,11 +110,11 @@ const AlbumLists = styled.div`
   width: 100%;
   padding: 10px 15px 10px 10px;
 
+  z-index: 1;
+
   display: grid;
   grid-template-columns: 0fr 0fr 1fr 1fr 1fr 1fr 0fr;
   align-items: center;
-
-  box-shadow: ${({ active }) => (active ? "rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px" : "none")};
 
   background-color: ${({ active, color }) => (active ? color : "")};
 
@@ -206,7 +225,7 @@ const AlbumListIcon = styled(FontAwesomeIcon)`
 `;
 
 const AlbumList = (props) => {
-  const { data, selectValue, func } = props;
+  const { data, onceData, selectValue, func } = props;
 
   const onHandleDrag = (result) => {
     if (!result.destination) return;
@@ -239,20 +258,20 @@ const AlbumList = (props) => {
           {(provided) => (
             <AlbumListShadowWrapper {...provided.droppableProps} ref={provided.innerRef}>
               <AlbumListWrapper>
+                <AlbumSelectBar select={selectValue} color={onceData.color} light={func.isLightColor(onceData.id)} />
                 {_.map(data, (album, index) => (
                   <Draggable key={String(index)} index={index} draggableId={String(index)}>
                     {(provided) => (
                       <AlbumLists
                         key={index}
-                        color={album.color}
-                        light={func.isLightColor(album.id)}
                         active={index === selectValue}
-                        onClick={() => func.selectMusic(index)}
+                        onClick={() => func.selectMusic(index, album.id)}
+                        light={func.isLightColor(album.id)}
                         ref={provided.innerRef}
                         {...provided.dragHandleProps}
                         {...provided.draggableProps}
                       >
-                        <AlbumNumber>{album.id + 1}</AlbumNumber>
+                        <AlbumNumber>{album.id}</AlbumNumber>
                         <AlbumListCover>
                           <AlbumImage src={album.cover} />
                         </AlbumListCover>

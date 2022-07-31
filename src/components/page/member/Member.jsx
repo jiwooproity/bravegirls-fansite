@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import styled, { css } from "styled-components";
-
-import _ from "lodash";
+import styled from "styled-components";
 
 import { configService } from "service/configService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,6 +8,7 @@ import { Loading } from "components";
 import useStore from "hooks/useStore";
 import { useObserver } from "mobx-react";
 import { utils } from "util/utils";
+import MemberTab from "./MemberTab";
 
 const MemberContainer = styled.div`
   width: 100%;
@@ -51,7 +50,7 @@ const MemberBackgroundWrap = styled.div`
   border-radius: 5px;
 
   position: relative;
-  box-shadow: rgb(38 57 77) 0px 20px 30px -10px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -79,11 +78,11 @@ const MemberImage = styled.img`
 
   position: absolute;
   bottom: 0;
-  left: -100px;
+  right: 0px;
 
   @media screen and (max-width: 768px) {
     width: 500px;
-    left: -100px;
+    right: 0px;
   }
 `;
 
@@ -178,74 +177,6 @@ const MemberSign = styled.img`
   }
 `;
 
-const TabContainer = styled.div`
-  width: 990px;
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
-    padding: 0px 15px;
-  }
-
-  z-index: 1;
-`;
-
-const TabWrapper = styled.div`
-  width: 100%;
-
-  margin: 30px 0px 0px 0px;
-
-  display: flex;
-
-  justify-content: space-between;
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
-
-    margin: 30px 0px 30px 0px;
-  }
-`;
-
-const MemberTab = styled.span`
-  width: 100%;
-  font-size: 18px;
-  font-weight: 700;
-  padding: 5px 8px;
-  color: ${(props) => props.theme.titleTextColor};
-
-  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
-
-  &:nth-child(1) {
-    border-right: 1px solid ${(props) => props.theme.titleTextColor};
-  }
-
-  &:nth-child(2) {
-    border-right: 1px solid ${(props) => props.theme.titleTextColor};
-  }
-
-  &:nth-child(3) {
-    border-right: 1px solid ${(props) => props.theme.titleTextColor};
-  }
-
-  &:nth-child(4) {
-  }
-
-  text-align: center;
-
-  ${({ active }) =>
-    active &&
-    css`
-      background-color: ${(props) => props.theme.backgroundOpacityColor};
-      color: ${(props) => props.theme.diffTitleTextColor};
-    `}
-
-  transition: background-color 0.5s ease;
-  cursor: pointer;
-
-  @media screen and (max-width: 768px) {
-    font-size: 13px;
-  }
-`;
-
 const MediaNavbar = styled.div`
   width: 100%;
   height: 85px;
@@ -254,47 +185,67 @@ const MediaNavbar = styled.div`
 `;
 
 const NewMember = () => {
+  const [loading, setLoading] = useState(false);
+  const [timingLinera, setTimingLinera] = useState(false);
+  const [linearData, setLinearData] = useState(null);
   const [memberData, setMemberData] = useState({});
-
   const { memberStore } = useStore();
 
   const memberID = [
-    { id: 1, name: "MINYOUNG" },
-    { id: 2, name: "YUJEONG" },
-    { id: 3, name: "EUNJI" },
-    { id: 4, name: "YUNA" },
+    { id: 0, name: "MINYOUNG" },
+    { id: 1, name: "YUJEONG" },
+    { id: 2, name: "EUNJI" },
+    { id: 3, name: "YUNA" },
   ];
 
   useEffect(() => {
     onLoad();
     // eslint-disable-next-line
-  }, [memberStore.member]);
+  }, []);
 
   useEffect(() => {
     utils.onScrollTop();
   }, []);
 
   const onLoad = useCallback(async () => {
-    const res = await configService.getMemberList({ member_idx: memberStore.member });
+    setLoading(false);
+    let memberArr = [];
+    const response = await configService.getAllMemberList();
 
-    setMemberData({
-      backgroundImage: res.member_background,
-      image: res.member_image,
-      profile: res.member_profile,
-      birthDay: res.member_birthday,
-      engName: res.member_eng_name,
-      korName: res.member_kor_name,
-      enter: res.member_enter,
-      introduction: res.member_introduction.split("<br/>").join("\r\n\n"),
-      youtube: res.member_youtube,
-      instagram: res.member_instagram,
-      twitter: res.member_twitter,
-      sign: res.member_sign,
+    response.forEach((res) => {
+      memberArr.push({
+        backgroundImage: res.member_background,
+        image: res.member_image,
+        profile: res.member_profile,
+        birthDay: res.member_birthday,
+        engName: res.member_eng_name,
+        korName: res.member_kor_name,
+        enter: res.member_enter,
+        introduction: res.member_introduction.split("<br/>").join("\r\n\n"),
+        youtube: res.member_youtube,
+        instagram: res.member_instagram,
+        twitter: res.member_twitter,
+        sign: res.member_sign,
+        linear: res.member_linear,
+      });
     });
-  }, [memberStore.member]);
 
-  const onSelect = (id) => {
+    setMemberData(memberArr);
+    setLinearData(memberArr[memberStore.member].linear);
+    setTimingLinera(true);
+    setLoading(true);
+
+    // eslint-disable-next-line
+  }, []);
+
+  const onSelect = async (id) => {
     memberStore.selectMember(id);
+    setTimingLinera(false);
+
+    setTimeout(() => {
+      setTimingLinera(true);
+      setLinearData(memberData[id].linear);
+    }, 500);
   };
 
   return useObserver(() => {
@@ -305,29 +256,29 @@ const NewMember = () => {
         <MediaNavbar />
         <MemberContainer>
           <MemberIntroduceWrap>
-            <MemberSign src={memberData.sign} />
-            {!_.isEmpty(memberData) ? (
+            {loading ? (
               <>
+                <MemberSign src={memberData[member].sign} />
                 <MemberBackgroundWrap>
-                  <MemberBackground src={memberData.backgroundImage} />
-                  <MemberImage src={memberData.image} />
+                  <MemberBackground src={memberData[member].backgroundImage} />
+                  <MemberImage src={memberData[member].image} />
                 </MemberBackgroundWrap>
                 <MemberDesWrap>
-                  <MemberDesBar src={memberData.backgroundImage} />
-                  <MemberDesTitle>{memberData.engName}</MemberDesTitle>
+                  <MemberDesBar src={memberData[member].backgroundImage} />
+                  <MemberDesTitle>{memberData[member].engName}</MemberDesTitle>
                   <MemberDesSubTitle>
-                    {memberData.enter} / {memberData.korName}
+                    {memberData[member].enter} / {memberData[member].korName}
                   </MemberDesSubTitle>
 
-                  <MemberDesIntroduction>{memberData.introduction}</MemberDesIntroduction>
+                  <MemberDesIntroduction>{memberData[member].introduction}</MemberDesIntroduction>
                   <MemberSNSWrapper>
-                    <a href={memberData.youtube} target={"_blank"} rel="noreferrer">
+                    <a href={memberData[member].youtube} target={"_blank"} rel="noreferrer">
                       <MemberSNSIcon icon={faYoutubeSquare} />
                     </a>
-                    <a href={memberData.instagram} target={"_blank"} rel="noreferrer">
+                    <a href={memberData[member].instagram} target={"_blank"} rel="noreferrer">
                       <MemberSNSIcon icon={faInstagramSquare} />
                     </a>
-                    <a href={memberData.twitter} target={"_blank"} rel="noreferrer">
+                    <a href={memberData[member].twitter} target={"_blank"} rel="noreferrer">
                       <MemberSNSIcon icon={faTwitterSquare} />
                     </a>
                   </MemberSNSWrapper>
@@ -337,15 +288,7 @@ const NewMember = () => {
               <Loading />
             )}
           </MemberIntroduceWrap>
-          <TabContainer>
-            <TabWrapper>
-              {_.map(memberID, (tab, index) => (
-                <MemberTab active={member === tab.id} key={index} onClick={() => onSelect(tab.id)}>
-                  {tab.name}
-                </MemberTab>
-              ))}
-            </TabWrapper>
-          </TabContainer>
+          <MemberTab data={memberData} list={memberID} selectValue={member} timing={timingLinera} linear={linearData} func={{ onSelect }} />
         </MemberContainer>
       </>
     );

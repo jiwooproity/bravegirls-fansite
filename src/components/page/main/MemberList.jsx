@@ -242,7 +242,7 @@ const NewThree = () => {
                 <ProfileWrap>
                   <ProfileImage src={member.profile} />
                   <ProfileDes>
-                    <ProfileEngName onClick={() => onSelect(member.id)}>{member.engName}</ProfileEngName>
+                    <ProfileEngName onClick={() => onSelect(index)}>{member.engName}</ProfileEngName>
                     <ProfileName>{member.korName}</ProfileName>
                     <ProfileBar>
                       <ProfileBarBall />

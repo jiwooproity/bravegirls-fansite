@@ -6,6 +6,8 @@ const AlbumWrapper = styled.div`
 
   padding: 50px 0px;
 
+  position: relative;
+
   display: grid;
   grid-template-columns: 1fr 1fr;
 
@@ -13,8 +15,7 @@ const AlbumWrapper = styled.div`
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
     width: 100%;
-
-    padding: 0px;
+    padding: 0;
   }
 `;
 
