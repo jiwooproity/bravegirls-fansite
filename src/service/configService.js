@@ -3,8 +3,9 @@ import axios from "axios";
 const youtubeApiKey = process.env.REACT_APP_YOUTUBE_KEY;
 
 const playListID = {
-  video: process.env.REACT_APP_PLAYLIST_VIDEO,
+  music: process.env.REACT_APP_PLAYLIST_VIDEO,
   queendom: process.env.REACT_APP_PLAYLIST_QUEENDOM,
+  bgclip: process.env.REACT_APP_PLAYLIST_BGCLIP,
 };
 
 const instance = axios.create({

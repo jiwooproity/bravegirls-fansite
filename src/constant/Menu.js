@@ -1,6 +1,6 @@
-// import { Url } from "./Url";
-
 import { faYoutube, faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faHouseChimney, faClipboardUser, faMusic, faVideo, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDownShortWide } from "@fortawesome/free-solid-svg-icons";
 
 export const snsMenu = [
   {
@@ -35,43 +35,81 @@ export const Menu = [
     type: "text",
     // root: Url.ROOT,
     root: "/",
-    path: "bravegirls",
+    path: "/",
+    children: [],
+    icon: faHouseChimney,
+    isLeaf: false,
   },
   {
     name: "MEMBER",
     type: "text",
     root: "/member",
     path: "/member",
+    children: [],
+    icon: faClipboardUser,
+    isLeaf: false,
   },
   {
     name: "ALBUM",
     type: "text",
     root: "/album",
     path: "/album",
+    children: [],
+    icon: faMusic,
+    isLeaf: false,
   },
   {
     name: "VIDEO",
     type: "text",
     root: "/video",
     path: "/video",
-  },
-  {
-    name: "QUEENDOM",
-    type: "text",
-    root: "/queendom",
-    path: "/queendom",
+    children: [
+      {
+        name: "MUSIC",
+        type: "text",
+        root: "/video/music",
+        path: "/video/music",
+        parent: "VIDEO",
+        icon: faArrowDownShortWide,
+        isLeaf: true,
+      },
+      {
+        name: "QUEENDOM",
+        type: "text",
+        root: "/video/queendom",
+        path: "/video/queendom",
+        parent: "VIDEO",
+        icon: faArrowDownShortWide,
+        isLeaf: true,
+      },
+      {
+        name: "BG-CLIP",
+        type: "text",
+        root: "/video/bgclip",
+        path: "/video/bgclip",
+        parent: "VIDEO",
+        icon: faArrowDownShortWide,
+        isLeaf: true,
+      },
+    ],
+    icon: faVideo,
+    isLeaf: false,
   },
   // {
-  //   name: "PHOTOCARD",
+  //   name: "QUEENDOM",
   //   type: "text",
-  //   // root: Url.PHOTOCARD,
-  //   root: "/photocard",
-  //   path: "/photocard",
+  //   root: "/queendom",
+  //   path: "/queendom",
+  //   children: [],
+  //   icon: faChessQueen,
   // },
   {
     name: "LOGIN",
     type: "text",
     root: "/login",
     path: "/login",
+    children: [],
+    icon: faRightFromBracket,
+    isLeaf: false,
   },
 ];

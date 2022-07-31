@@ -5,6 +5,7 @@ import _ from "lodash";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const AlbumImage = styled.img`
   width: 100%;
@@ -207,6 +208,16 @@ const AlbumListIcon = styled(FontAwesomeIcon)`
 const AlbumList = (props) => {
   const { data, selectValue, func } = props;
 
+  const onHandleDrag = (result) => {
+    if (!result.destination) return;
+
+    const items = [...data];
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    func.dragMusic(result.destination.index, items);
+  };
+
   return (
     <>
       <AlbumColumnWrapper>
@@ -222,30 +233,45 @@ const AlbumList = (props) => {
           </AlbumInfoColum>
         </AlbumColumn>
       </AlbumColumnWrapper>
-      <AlbumListShadowWrapper>
-        <AlbumListWrapper>
-          {_.map(data, (album, index) => (
-            <AlbumLists
-              key={index}
-              color={album.color}
-              light={func.isLightColor(album.id)}
-              active={index === selectValue}
-              onClick={() => func.selectMusic(index)}
-            >
-              <AlbumNumber>{album.id}</AlbumNumber>
-              <AlbumListCover>
-                <AlbumImage src={album.cover} />
-              </AlbumListCover>
-              <AlbumInfo>{album.title}</AlbumInfo>
-              <AlbumInfo>{album.composition}</AlbumInfo>
-              <AlbumInfo>{album.enter}</AlbumInfo>
-              <AlbumInfo>{album.release}</AlbumInfo>
-              <AlbumListIcon icon={faBars} />
-            </AlbumLists>
-          ))}
-        </AlbumListWrapper>
-        <AlbumListShadow />
-      </AlbumListShadowWrapper>
+
+      <DragDropContext onDragEnd={onHandleDrag}>
+        <Droppable droppableId="list">
+          {(provided) => (
+            <AlbumListShadowWrapper {...provided.droppableProps} ref={provided.innerRef}>
+              <AlbumListWrapper>
+                {_.map(data, (album, index) => (
+                  <Draggable key={String(index)} index={index} draggableId={String(index)}>
+                    {(provided) => (
+                      <AlbumLists
+                        key={index}
+                        color={album.color}
+                        light={func.isLightColor(album.id)}
+                        active={index === selectValue}
+                        onClick={() => func.selectMusic(index)}
+                        ref={provided.innerRef}
+                        {...provided.dragHandleProps}
+                        {...provided.draggableProps}
+                      >
+                        <AlbumNumber>{album.id + 1}</AlbumNumber>
+                        <AlbumListCover>
+                          <AlbumImage src={album.cover} />
+                        </AlbumListCover>
+                        <AlbumInfo>{album.title}</AlbumInfo>
+                        <AlbumInfo>{album.composition}</AlbumInfo>
+                        <AlbumInfo>{album.enter}</AlbumInfo>
+                        <AlbumInfo>{album.release}</AlbumInfo>
+                        <AlbumListIcon icon={faBars} />
+                      </AlbumLists>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </AlbumListWrapper>
+              <AlbumListShadow />
+            </AlbumListShadowWrapper>
+          )}
+        </Droppable>
+      </DragDropContext>
     </>
   );
 };

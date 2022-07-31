@@ -1,7 +1,7 @@
 import { observable } from "mobx";
 
 const themeStore = observable({
-  theme: true,
+  theme: false,
 
   setLocalData(data) {
     this.theme = data;
