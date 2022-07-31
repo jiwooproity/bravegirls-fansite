@@ -34,6 +34,8 @@ const AlbumImageWrap = styled.div`
   position: relative;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
 
+  z-index: 2;
+
   @media screen and (max-width: 768px) {
     width: 100%;
 
@@ -92,6 +94,10 @@ const AlbumRightSide = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+
+  position: relative;
+
+  z-index: 1;
 `;
 
 const AlbumDescription = styled.div`

@@ -8,11 +8,66 @@ import { configService } from "service/configService";
 import { Loading } from "components";
 import AlbumList from "./AlbumList";
 import AlbumInfo from "./AlbumInfo";
-import AlbumSidebar from "./AlbumSidebar";
+import useStore from "hooks/useStore";
 
 const TopNavbar = styled.div`
   width: 100%;
   height: 85px;
+
+  position: relative;
+  z-index: 1;
+`;
+
+const DarkThemeMode = styled.div`
+  width: 100%;
+  height: 500px;
+
+  opacity: ${({ active }) => (active === "true" ? "1" : "0")};
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  overflow: hidden;
+
+  @media screen and (max-width: 768px) {
+    height: 500px;
+  }
+
+  transition: opacity 1s ease;
+`;
+
+const DarkThemeImage = styled.img`
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  object-fit: cover;
+
+  transform: scale(30);
+
+  z-index: 0;
+`;
+
+const DarkThemeBackdrop = styled.div`
+  width: 100%;
+  height: 100%;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  background: ${(props) => `linear-gradient(180deg, hsla(0, 0%, 100%, 0), ${props.theme.backgroundColor})`};
+
+  background-color: ${({ active }) => (active === "true" ? "rgba(54, 54, 54, 0.5)" : "")};
+  backdrop-filter: blur(150px);
+
+  z-index: 1;
 `;
 
 const AlbumContainer = styled.div`
@@ -32,6 +87,7 @@ const AlbumContainer = styled.div`
 `;
 
 const Album = () => {
+  const { themeStore } = useStore();
   const [albumList, setAlbumList] = useState([]);
   const [selectAlbum, setSelectAlbum] = useState({});
   const [selectId, setSelectId] = useState(0);
@@ -86,6 +142,10 @@ const Album = () => {
   return (
     <>
       <TopNavbar />
+      <DarkThemeMode active={themeStore.theme ? "true" : "false"}>
+        <DarkThemeBackdrop active={themeStore.theme ? "true" : "false"} />
+        <DarkThemeImage src={selectAlbum.cover} />
+      </DarkThemeMode>
       <AlbumContainer>
         {loading ? (
           <>
@@ -96,7 +156,6 @@ const Album = () => {
           <Loading />
         )}
       </AlbumContainer>
-      <AlbumSidebar data={albumList} />
     </>
   );
 };
