@@ -265,7 +265,7 @@ const AlbumList = (props) => {
                       <AlbumLists
                         key={index}
                         active={index === selectValue}
-                        onClick={() => func.selectMusic(index)}
+                        onClick={() => func.selectMusic(index, album.id)}
                         light={func.isLightColor(album.id)}
                         ref={provided.innerRef}
                         {...provided.dragHandleProps}

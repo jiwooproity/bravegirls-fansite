@@ -32,6 +32,8 @@ export const lightTheme = {
   inputBottomActiveColor: "rgba(54, 54, 54, 0.5)",
 
   signFilter: 0,
+
+  trackListBorder: "rgba(54, 54, 54, 0.2)",
 };
 
 export const darkTheme = {
@@ -68,6 +70,8 @@ export const darkTheme = {
   inputBottomActiveColor: "rgba(255, 255, 255, 0.5)",
 
   signFilter: 100,
+
+  trackListBorder: "rgba(255, 255, 255, 0.2)",
 };
 
 export const theme = {

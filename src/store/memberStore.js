@@ -1,7 +1,7 @@
 import { observable } from "mobx";
 
 const memberStore = observable({
-  member: 1,
+  member: 0,
 
   selectMember(data) {
     this.member = data;
