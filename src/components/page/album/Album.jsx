@@ -103,7 +103,7 @@ const Album = () => {
     const response = await configService.getMusicList();
     setLoading(false);
 
-    _.forEach(response, (res) => {
+    _.forEach(response, (res, index) => {
       musicArr.push({
         id: Number(res.music_idx),
         title: res.music_title,
@@ -121,6 +121,12 @@ const Album = () => {
     setAlbumList(musicArr);
     setSelectAlbum(musicArr[selectId]);
     setLoading(true);
+  };
+
+  const dragMusic = (id, items) => {
+    setSelectId(id);
+    setSelectAlbum(items[id]);
+    setAlbumList(items);
   };
 
   const selectMusic = (id) => {
@@ -150,7 +156,7 @@ const Album = () => {
         {loading ? (
           <>
             <AlbumInfo data={selectAlbum} />
-            <AlbumList data={albumList} selectValue={selectId} func={{ isLightColor, selectMusic }} />
+            <AlbumList data={albumList} setData={setAlbumList} selectValue={selectId} func={{ isLightColor, selectMusic, dragMusic }} />
           </>
         ) : (
           <Loading />
