@@ -113,12 +113,13 @@ const Album = () => {
 
   const onLoadTrack = async () => {
     const trackArr = [];
-    const trackData = await configService.getTrackList({ track_id: selectAlbum.id });
+    const trackData = await configService.getTrackList({ track_id: selectAlbum.id || selectId + 1 });
 
     _.forEach(trackData, (res, index) => {
       trackArr.push({
         id: `0${index + 2}`,
         title: res.music_title,
+        subTitle: res.music_subtitle,
         description: res.music_description,
         color: res.music_color,
         lyricist: res.music_lyricist,
