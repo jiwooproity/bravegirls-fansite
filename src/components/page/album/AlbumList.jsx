@@ -271,7 +271,7 @@ const AlbumList = (props) => {
                         {...provided.dragHandleProps}
                         {...provided.draggableProps}
                       >
-                        <AlbumNumber>{album.id + 1}</AlbumNumber>
+                        <AlbumNumber>{album.id}</AlbumNumber>
                         <AlbumListCover>
                           <AlbumImage src={album.cover} />
                         </AlbumListCover>
