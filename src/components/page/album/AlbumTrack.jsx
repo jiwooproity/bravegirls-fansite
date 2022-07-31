@@ -127,14 +127,14 @@ const TrackNumber = styled.p`
 `;
 
 const TrackTitle = styled.h1`
-  font-size: 20px;
-  line-height: 20px;
+  font-size: 18px;
+  line-height: 18px;
 
   color: ${(props) => props.theme.titleTextColor};
 
   @media screen and (max-width: 768px) {
-    font-size: 15px;
-    line-height: 15px;
+    font-size: 12px;
+    line-height: 12px;
   }
 `;
 

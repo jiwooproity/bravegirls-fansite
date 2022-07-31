@@ -119,7 +119,7 @@ const Album = () => {
       trackArr.push({
         id: `0${index + 2}`,
         title: res.music_title,
-        subTitle: res.music_subtitle,
+        // subTitle: res.music_subtitle,
         description: res.music_description,
         color: res.music_color,
         lyricist: res.music_lyricist,
