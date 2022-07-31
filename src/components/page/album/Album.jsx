@@ -156,7 +156,7 @@ const Album = () => {
         {loading ? (
           <>
             <AlbumInfo data={selectAlbum} />
-            <AlbumList data={albumList} setData={setAlbumList} selectValue={selectId} func={{ isLightColor, selectMusic, dragMusic }} />
+            <AlbumList data={albumList} onceData={selectAlbum} setData={setAlbumList} selectValue={selectId} func={{ isLightColor, selectMusic, dragMusic }} />
           </>
         ) : (
           <Loading />
