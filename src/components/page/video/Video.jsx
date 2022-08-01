@@ -5,7 +5,7 @@ import _ from "lodash";
 
 import { useEffect } from "react";
 import { youtubeService } from "service/configService";
-import { Loading } from "components";
+import { Loading, Top } from "components";
 import { Fade } from "react-reveal";
 import { Link, useLocation } from "react-router-dom";
 
@@ -13,11 +13,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faPencil } from "@fortawesome/free-solid-svg-icons";
 
 import { utils } from "util/utils";
-
-const NavbarBox = styled.div`
-  width: 100%;
-  height: 85px;
-`;
 
 const VideoContainer = styled.div`
   width: 100%;
@@ -204,7 +199,7 @@ const Video = () => {
 
   return (
     <>
-      <NavbarBox />
+      <Top />
       <VideoContainer>
         <VideoWrapper>
           <VideoGridWrap>

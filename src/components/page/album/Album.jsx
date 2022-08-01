@@ -1,25 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import _ from "lodash";
-import { useEffect } from "react";
-import { configService } from "service/configService";
 
-import AlbumList from "./AlbumList";
-import AlbumInfo from "./AlbumInfo";
-import AlbumTrack from "./AlbumTrack";
-import { Loading } from "components";
+import { configService } from "service/configService";
+import { utils } from "util/utils";
+import { AlbumInfo, AlbumList, AlbumTrack, Loading, Top } from "components";
 
 import useStore from "hooks/useStore";
-import { utils } from "util/utils";
-
-const TopNavbar = styled.div`
-  width: 100%;
-  height: 85px;
-
-  position: relative;
-  z-index: 1;
-`;
 
 const DarkThemeMode = styled.div`
   width: 100%;
@@ -184,7 +172,7 @@ const Album = () => {
 
   return (
     <>
-      <TopNavbar />
+      <Top />
       <DarkThemeMode active={themeStore.theme ? "true" : "false"}>
         <DarkThemeBackdrop active={themeStore.theme ? "true" : "false"} />
         <DarkThemeImage src={selectAlbum.cover} />

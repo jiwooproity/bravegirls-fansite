@@ -96,12 +96,12 @@ export const Menu = [
     isLeaf: false,
   },
   // {
-  //   name: "QUEENDOM",
+  //   name: "SIGN",
   //   type: "text",
-  //   root: "/queendom",
-  //   path: "/queendom",
+  //   root: "/sign",
+  //   path: "/sign",
   //   children: [],
-  //   icon: faChessQueen,
+  //   icon: faRightFromBracket,
   // },
   {
     name: "LOGIN",

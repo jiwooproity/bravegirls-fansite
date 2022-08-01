@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 
+import MemberTab from "./MemberTab";
+
 import { configService } from "service/configService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutubeSquare, faInstagramSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
-import { Loading } from "components";
-import useStore from "hooks/useStore";
+import { Loading, Top } from "components";
 import { useObserver } from "mobx-react";
 import { utils } from "util/utils";
-import MemberTab from "./MemberTab";
+
+import useStore from "hooks/useStore";
 
 const MemberContainer = styled.div`
   width: 100%;
@@ -18,9 +20,6 @@ const MemberContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
-  @media screen and (max-width: 768px) {
-  }
 `;
 
 const MemberIntroduceWrap = styled.div`
@@ -177,13 +176,6 @@ const MemberSign = styled.img`
   }
 `;
 
-const MediaNavbar = styled.div`
-  width: 100%;
-  height: 85px;
-
-  display: block;
-`;
-
 const NewMember = () => {
   const [loading, setLoading] = useState(false);
   const [timingLinera, setTimingLinera] = useState(false);
@@ -245,7 +237,7 @@ const NewMember = () => {
     setTimeout(() => {
       setTimingLinera(true);
       setLinearData(memberData[id].linear);
-    }, 500);
+    }, 200);
   };
 
   return useObserver(() => {
@@ -253,7 +245,7 @@ const NewMember = () => {
 
     return (
       <>
-        <MediaNavbar />
+        <Top />
         <MemberContainer>
           <MemberIntroduceWrap>
             {loading ? (

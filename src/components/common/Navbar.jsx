@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import _ from "lodash";
 
 import { Link, useLocation } from "react-router-dom";
@@ -9,8 +9,6 @@ import styled, { css } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 
-import { useEffect } from "react";
-import { useCallback } from "react";
 import useStore from "hooks/useStore";
 import SideNavbar from "./SideNavbar";
 import { utils } from "util/utils";
@@ -343,15 +341,11 @@ const Navbar = () => {
   const { pathname } = history;
   const path = pathname.split("/");
 
-  // eslint-disable-next-line
-  useEffect(
-    useCallback(() => {
-      window.addEventListener("scroll", () => {
-        setScrollY(window.scrollY > 0);
-      });
-    }, []),
-    [scrollY]
-  );
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      setScrollY(window.scrollY > 0);
+    });
+  });
 
   useEffect(() => {
     setList(utils.setStatus(Menu));

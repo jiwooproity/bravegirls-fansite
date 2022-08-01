@@ -41,13 +41,13 @@ const MemberTabsBar = styled.div`
   left: ${({ active }) => `calc(100% / 4 * ${active})`};
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
   background: ${({ linear }) => linear};
-  opacity: ${({ timing }) => (timing === "true" ? "1" : "0")};
+  opacity: ${({ timing }) => (timing === "true" ? "1" : "0.5")};
 
   object-fit: cover;
 
   z-index: -1;
 
-  border-radius: 10px;
+  border-radius: 5px;
 
   transition: opacity 0.3s ease-in-out, left 0.5s ease-in-out;
 

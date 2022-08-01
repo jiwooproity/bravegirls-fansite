@@ -7,8 +7,10 @@ import styled, { ThemeProvider } from "styled-components";
 import { Main, Member, Album, Video, Login, VideoDetail } from ".";
 import { Navbar } from "components";
 import { Url } from "../constant";
-import Footer from "./common/Footer";
 import { theme } from "style/Theme";
+
+import Footer from "./common/Footer";
+
 import useStore from "hooks/useStore";
 
 const MainContainer = styled.div`
