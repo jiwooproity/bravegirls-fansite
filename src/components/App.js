@@ -4,12 +4,10 @@ import { useObserver } from "mobx-react";
 
 import styled, { ThemeProvider } from "styled-components";
 
-import { Main, Member, Album, Video, Login, VideoDetail } from ".";
-import { Navbar } from "components";
+import { Main, Member, Album, Video, Login, VideoDetail, Canvas } from ".";
+import { Navbar, Footer } from "components";
 import { Url } from "../constant";
 import { theme } from "style/Theme";
-
-import Footer from "./common/Footer";
 
 import useStore from "hooks/useStore";
 
@@ -52,6 +50,7 @@ const App = () => {
               <Route path={`${Url.QUEENDOM}/:videoId`} element={<VideoDetail />} />
               <Route path={`${Url.BGCLIP}`} element={<Video />} />
               <Route path={`${Url.BGCLIP}/:videoId`} element={<VideoDetail />} />
+              <Route path={`${Url.CANVAS}`} element={<Canvas />} />
               <Route path={`${Url.LOGIN}`} element={<Login />} />
               <Route path={`*`} element={<Main />} />
             </Routes>

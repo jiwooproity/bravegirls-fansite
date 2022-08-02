@@ -95,14 +95,14 @@ export const Menu = [
     icon: faVideo,
     isLeaf: false,
   },
-  // {
-  //   name: "SIGN",
-  //   type: "text",
-  //   root: "/sign",
-  //   path: "/sign",
-  //   children: [],
-  //   icon: faRightFromBracket,
-  // },
+  {
+    name: "CANVAS",
+    type: "text",
+    root: "/canvas",
+    path: "/canvas",
+    children: [],
+    icon: faRightFromBracket,
+  },
   {
     name: "LOGIN",
     type: "text",

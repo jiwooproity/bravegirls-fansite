@@ -6,6 +6,7 @@ export const Url = {
   MUSIC: `${process.env.PUBLIC_URL}/video/music`,
   QUEENDOM: `${process.env.PUBLIC_URL}/video/queendom`,
   BGCLIP: `${process.env.PUBLIC_URL}/video/bgclip`,
+  CANVAS: `${process.env.PUBLIC_URL}/canvas`,
   SIGN: `${process.env.PUBLIC_URL}/sign`,
   LOGIN: `${process.env.PUBLIC_URL}/login`,
 };

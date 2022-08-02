@@ -21,6 +21,8 @@ import MemberTab from "./page/member/MemberTab";
 import Video from "./page/video/Video";
 import VideoDetail from "./page/video/VideoDetail";
 
+import Canvas from "./page/canvas/Canvas";
+
 import Login from "./page/login/Login";
 
 // 재사용 컴포넌트
@@ -37,6 +39,9 @@ export { Album, AlbumInfo, AlbumList, AlbumTrack };
 
 // 비디오 페이지
 export { Video, VideoDetail };
+
+// 캔버스 그림
+export { Canvas };
 
 // 로그인 페이지
 export { Login };
