@@ -9,7 +9,8 @@ import canvasImage01 from "static/img/canvas_01.jpg";
 import canvasImage02 from "static/img/canvas_02.jpg";
 import canvasImage03 from "static/img/canvas_03.jpg";
 import canvasImage04 from "static/img/canvas_04.jpg";
-import { SketchPicker } from "react-color";
+import canvasImage05 from "static/img/canvas_05.jpg";
+import { HuePicker } from "react-color";
 
 const CanvasContainer = styled.div`
   width: 100%;
@@ -24,11 +25,15 @@ const CanvasContainer = styled.div`
 const CanvasWrapper = styled.div`
   width: 990px;
   height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const MainCanvas = styled.canvas`
-  width: 100%;
-  height: 100%;
+  display: block;
 `;
 
 const PickerWrapper = styled.div`
@@ -58,7 +63,13 @@ const Canvas = () => {
   const [color, setColor] = useState("black");
   const [stroke, setStroke] = useState(1.5);
 
-  const imageArr = [canvasImage01, canvasImage02, canvasImage03, canvasImage04];
+  const imageArr = [
+    canvasImage01,
+    canvasImage02,
+    canvasImage03,
+    canvasImage04,
+    canvasImage05,
+  ];
 
   let img = new Image();
 
@@ -68,20 +79,26 @@ const Canvas = () => {
   }, []);
 
   const onLoad = () => {
-    let math = Math.floor(Math.random() * 4);
+    let calHeight = 0;
+    let math = Math.floor(Math.random() * 5);
     img.src = imageArr[math];
 
     img.onload = () => {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
 
-      ctx.strokeStyle = color;
-      ctx.lineWidth = stroke;
-      ctx.canvas.width = canvasRef.current.offsetWidth;
-      ctx.canvas.height = (img.height / img.width) * canvasRef.current.offsetWidth;
-      contextRef.current = ctx;
+      const setCanvas = (data) => {
+        ctx.canvas.width = data;
+        ctx.canvas.height = (img.height / img.width) * data;
+        contextRef.current = ctx;
+        calHeight = (img.height / img.width) * ctx.canvas.width;
+      };
 
-      const calHeight = (img.height / img.width) * ctx.canvas.width;
+      if (img.width > img.height) {
+        setCanvas(990);
+      } else {
+        setCanvas(500);
+      }
 
       ctx.drawImage(img, 0, 0, ctx.canvas.width, calHeight);
       setCtxTag(contextRef.current);
@@ -91,26 +108,25 @@ const Canvas = () => {
   };
 
   const onRefresh = () => {
+    let calHeight = 0;
     let math = random;
     img.src = imageArr[math];
 
-    img.onload = () => {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d");
-
-      ctx.strokeStyle = color;
-      ctx.lineWidth = stroke;
-      ctx.canvas.width = canvasRef.current.offsetWidth;
-      ctx.canvas.height = (img.height / img.width) * canvasRef.current.offsetWidth;
-      contextRef.current = ctx;
-
-      const calHeight = (img.height / img.width) * ctx.canvas.width;
-
-      ctx.drawImage(img, 0, 0, ctx.canvas.width, calHeight);
-      setCtxTag(contextRef.current);
-
-      setRandom(math);
+    const setCanvas = (data) => {
+      ctxTag.canvas.width = data;
+      ctxTag.canvas.height = (img.height / img.width) * data;
+      contextRef.current = ctxTag;
+      calHeight = (img.height / img.width) * ctxTag.canvas.width;
     };
+
+    if (img.width > img.height) {
+      setCanvas(990);
+    } else {
+      setCanvas(500);
+    }
+
+    ctxTag.drawImage(img, 0, 0, ctxTag.canvas.width, calHeight);
+    setRandom(math);
   };
 
   const startDraw = (e) => {
@@ -127,6 +143,8 @@ const Canvas = () => {
 
     if (ctxTag) {
       ctxTag.lineCap = "round";
+      ctxTag.strokeStyle = color;
+      ctxTag.lineWidth = stroke;
 
       if (!isDrawing) {
         ctxTag.beginPath();
@@ -156,21 +174,31 @@ const Canvas = () => {
           <MainCanvas
             ref={canvasRef}
             id="canvasJS"
-            width={"100%"}
-            height={"100%"}
             onMouseDown={startDraw}
             onMouseUp={finishDraw}
             onMouseLeave={finishDraw}
             onMouseMove={onDrawing}
           />
           <PickerWrapper>
-            <SketchPicker color={color} onChange={onChangeColor} />
-            <StrokeButton onClick={() => onChangeStroke(1.5)}>굵기 1.5</StrokeButton>
-            <StrokeButton onClick={() => onChangeStroke(2)}>굵기 2</StrokeButton>
-            <StrokeButton onClick={() => onChangeStroke(2.5)}>굵기 2.5</StrokeButton>
-            <StrokeButton onClick={() => onChangeStroke(3)}>굵기 3</StrokeButton>
-            <StrokeButton onClick={() => onChangeStroke(5)}>굵기 5</StrokeButton>
-            <StrokeButton onClick={() => onChangeStroke(10)}>굵기 10</StrokeButton>
+            <HuePicker color={color} onChange={onChangeColor} />
+            <StrokeButton onClick={() => onChangeStroke(1.5)}>
+              굵기 1.5
+            </StrokeButton>
+            <StrokeButton onClick={() => onChangeStroke(2)}>
+              굵기 2
+            </StrokeButton>
+            <StrokeButton onClick={() => onChangeStroke(2.5)}>
+              굵기 2.5
+            </StrokeButton>
+            <StrokeButton onClick={() => onChangeStroke(3)}>
+              굵기 3
+            </StrokeButton>
+            <StrokeButton onClick={() => onChangeStroke(5)}>
+              굵기 5
+            </StrokeButton>
+            <StrokeButton onClick={() => onChangeStroke(10)}>
+              굵기 10
+            </StrokeButton>
             <StrokeButton onClick={() => onLoad()}>새로고침</StrokeButton>
             <StrokeButton onClick={() => onRefresh()}>지우기</StrokeButton>
           </PickerWrapper>
