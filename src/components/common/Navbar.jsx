@@ -28,7 +28,7 @@ const NavbarContainer = styled.div`
       backdrop-filter: ${({ active }) => (active ? "blur(5px)" : "")};
     `}
 
-  z-index: 3;
+  z-index: 999;
 `;
 
 const NavbarWrap = styled.div`
