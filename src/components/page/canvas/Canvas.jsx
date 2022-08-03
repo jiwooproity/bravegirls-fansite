@@ -246,9 +246,23 @@ const Canvas = () => {
     setStroke(value);
   };
 
-  const saveImage = () => {
+  const saveImage = async () => {
     const canvas = canvasRef.current;
     let imageURL = canvas.toDataURL("image/png");
+
+    const data = new FormData();
+    data.append("file", imageURL);
+    data.append("upload_preset", "dbw3ells");
+
+    const result = await fetch(
+      `https://api.cloudinary.com/v1_1/jiwooproity/image/upload`,
+      {
+        method: "POST",
+        body: data,
+      }
+    );
+
+    console.log(result.json());
 
     let a = document.createElement("a");
     a.href = imageURL;
