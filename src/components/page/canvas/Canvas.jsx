@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import _ from "lodash";
 
 import canvasImage01 from "static/img/canvas_01.jpg";
@@ -11,7 +11,7 @@ import canvasImage05 from "static/img/canvas_05.jpg";
 import { Top } from "components";
 
 import { HuePicker } from "react-color";
-import { lineWidth } from "constant";
+import { lineWidth, eraseLine } from "constant";
 
 const CanvasContainer = styled.div`
   width: 100%;
@@ -68,17 +68,22 @@ const CanvasPickerBox = styled.div`
   width: 100%;
   height: 660px;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  position: relative;
+`;
 
+const CanvasBox = styled.div`
   position: relative;
 `;
 
 const MainCanvas = styled.canvas`
   display: block;
   opacity: 1;
+
+  position: absolute;
+  top: 0;
+  left: 50%;
+
+  transform: translateX(-50%);
 
   border-radius: 5px;
 
@@ -143,6 +148,13 @@ const StrokeButton = styled.button`
   border: none;
   border-radius: 5px;
 
+  ${({ active }) =>
+    active &&
+    css`
+      background-color: ${({ color }) => color};
+      color: white;
+    `}
+
   &:hover {
     background-color: ${({ color }) => color};
     color: white;
@@ -156,11 +168,15 @@ const StrokeButton = styled.button`
 const Canvas = () => {
   let img = new Image();
   const canvasRef = useRef(null);
+  const bgCanvasRef = useRef(null);
   const contextRef = useRef(null);
   const [ctxTag, setCtxTag] = useState();
+  const [bgCtxTag, setBgCtxTag] = useState();
   const [random, setRandom] = useState(0);
   const [stroke, setStroke] = useState(1.5);
+  const [eraseStroke, setEraseStroke] = useState(10);
   const [color, setColor] = useState("black");
+  const [erase, setErase] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false);
 
   // 테스트 이미지
@@ -191,17 +207,24 @@ const Canvas = () => {
 
     img.onload = () => {
       const canvas = canvasRef.current;
-      const ctx = canvas.getContext("2d", { alpha: false });
+      const background = bgCanvasRef.current;
+      const ctx = canvas.getContext("2d");
+      const bgCtx = background.getContext("2d");
       const isOver = img.width > 990;
       const isHori = img.width > img.height;
       const getCanvas = setCanvas(
         ctx,
         isOver ? (isHori ? 990 : 440) : img.width
       );
+      const getBgCanvas = setCanvas(
+        bgCtx,
+        isOver ? (isHori ? 990 : 440) : img.width
+      );
 
       contextRef.current = getCanvas[1];
-      getCanvas[1].drawImage(img, 0, 0, ctx.canvas.width, getCanvas[0]);
+      getBgCanvas[1].drawImage(img, 0, 0, bgCtx.canvas.width, getBgCanvas[0]);
       setCtxTag(getCanvas[1]);
+      setBgCtxTag(getBgCanvas[1]);
       setRandom(isLoad ? math : random);
     };
   };
@@ -220,8 +243,11 @@ const Canvas = () => {
     if (ctxTag) {
       ctxTag.lineCap = "round";
       ctxTag.lineJoin = "round";
-      ctxTag.strokeStyle = color;
       ctxTag.lineWidth = stroke;
+    }
+
+    if (ctxTag && !erase) {
+      ctxTag.strokeStyle = color;
 
       if (!isDrawing) {
         ctxTag.beginPath();
@@ -230,6 +256,10 @@ const Canvas = () => {
         ctxTag.lineTo(offsetX, offsetY);
         ctxTag.stroke();
       }
+    }
+
+    if (erase && isDrawing) {
+      ctxTag.clearRect(offsetX, offsetY, eraseStroke, eraseStroke);
     }
   };
 
@@ -246,23 +276,24 @@ const Canvas = () => {
     setStroke(value);
   };
 
+  const onChangeErase = (e) => {
+    const { value } = e.target;
+    setEraseStroke(value);
+  };
+
   const saveImage = async () => {
-    const canvas = canvasRef.current;
-    let imageURL = canvas.toDataURL("image/png");
+    bgCtxTag.drawImage(canvasRef.current, 0, 0);
+
+    let imageURL = bgCanvasRef.current.toDataURL("image/png");
 
     const data = new FormData();
     data.append("file", imageURL);
     data.append("upload_preset", "dbw3ells");
 
-    const result = await fetch(
-      `https://api.cloudinary.com/v1_1/jiwooproity/image/upload`,
-      {
-        method: "POST",
-        body: data,
-      }
-    );
-
-    console.log(result.json());
+    await fetch(`https://api.cloudinary.com/v1_1/jiwooproity/image/upload`, {
+      method: "POST",
+      body: data,
+    });
 
     let a = document.createElement("a");
     a.href = imageURL;
@@ -281,14 +312,17 @@ const Canvas = () => {
         </MediaBlockWrapper>
         <CanvasWrapper>
           <CanvasPickerBox>
-            <MainCanvas
-              ref={canvasRef}
-              id="canvasJS"
-              onMouseDown={startDraw}
-              onMouseUp={finishDraw}
-              onMouseLeave={finishDraw}
-              onMouseMove={onDrawing}
-            />
+            <CanvasBox>
+              <MainCanvas ref={bgCanvasRef} id="canvasJS" />
+              <MainCanvas
+                ref={canvasRef}
+                id="canvasJS"
+                onMouseDown={startDraw}
+                onMouseUp={finishDraw}
+                onMouseLeave={finishDraw}
+                onMouseMove={onDrawing}
+              />
+            </CanvasBox>
             <PickerWrapper>
               <PickerBox>
                 <CustomPicker color={color} onChange={onChangeColor} />
@@ -299,10 +333,24 @@ const Canvas = () => {
                     </StrokeOption>
                   ))}
                 </StrokeSelect>
+                <StrokeSelect onChange={onChangeErase}>
+                  {_.map(eraseLine, (line, index) => (
+                    <StrokeOption key={index} value={line.value}>
+                      {`${line.name}`}
+                    </StrokeOption>
+                  ))}
+                </StrokeSelect>
               </PickerBox>
               <PickerBox>
                 <StrokeButton onClick={() => onLoad(true)} color={color}>
                   새로고침
+                </StrokeButton>
+                <StrokeButton
+                  onClick={() => setErase(!erase)}
+                  active={erase}
+                  color={color}
+                >
+                  지우개 (토글)
                 </StrokeButton>
                 <StrokeButton onClick={() => onLoad(false)} color={color}>
                   지우기

@@ -1,5 +1,5 @@
 import { Url } from "./Url";
 import { Menu } from "./Menu";
-import { lineWidth } from "./CanvasPick";
+import { lineWidth, eraseLine } from "./CanvasPick";
 
-export { Url, Menu, lineWidth };
+export { Url, Menu, lineWidth, eraseLine };
