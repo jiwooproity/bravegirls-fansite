@@ -1,6 +1,12 @@
 import _ from "lodash";
 
 export const utils = {
+  isMobile: () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+  },
+
   onScrollTop: () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   },
@@ -10,7 +16,9 @@ export const utils = {
   },
 
   setComma: (number) => {
-    return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "???";
+    return number
+      ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      : "???";
   },
 
   setStatus: (menu) => {
