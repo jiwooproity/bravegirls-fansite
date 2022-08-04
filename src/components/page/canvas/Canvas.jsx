@@ -1,12 +1,9 @@
 import React, { useState, useRef } from "react";
 import styled, { css } from "styled-components";
-import _ from "lodash";
 
 import { Top } from "components";
 import CanvasTool from "./CanvasTool";
 
-import { SketchPicker } from "react-color";
-import { lineWidth, eraseLine } from "constant";
 import { utils } from "util/utils";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -41,7 +38,7 @@ const CanvasWrapper = styled.div`
     /* display: none; */
     min-height: calc(100vh - 85px);
     padding: 0px;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-start;
   }
 `;
@@ -120,56 +117,8 @@ const MainCanvas = styled.canvas`
     border-radius: 0px;
   }
 
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
-    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   transition: opacity 0.5s ease;
-`;
-
-const PickerWrapper = styled.div`
-  opacity: ${({ active }) => (active ? "0" : "1")};
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 0;
-  right: -235px;
-  border-radius: 5px;
-  background-color: rgba(255, 255, 255, 1);
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 30px 90px;
-
-  transition: opacity 0.5s ease;
-
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const PickerBox = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StrokeSelect = styled.select`
-  border: 1px solid rgba(54, 54, 54, 0.1);
-`;
-
-const CustomPicker = styled(SketchPicker)``;
-
-const StrokeOption = styled.option``;
-
-const SelectText = styled.span`
-  font-size: 15px;
-  line-height: 15px;
-
-  color: rgba(54, 54, 54);
-  border: 1px solid rgba(54, 54, 54, 0.1);
-  text-align: center;
-`;
-
-const ButtonWrapper = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  background-color: white;
 `;
 
 const EraserModeIconWrapper = styled.div`
@@ -201,6 +150,10 @@ const EraserModeIcon = styled(FontAwesomeIcon)`
   color: white;
 `;
 
+const defaultColor = {
+  rgb: { r: "0", g: "0", b: "0", a: "1" },
+};
+
 const Canvas = () => {
   let img = new Image();
   const canvasRef = useRef(null);
@@ -209,13 +162,14 @@ const Canvas = () => {
   const [bgCtxTag, setBgCtxTag] = useState();
   const [stroke, setStroke] = useState(1.5);
   const [eraseStroke, setEraseStroke] = useState(10);
-  const [color, setColor] = useState({
-    rgb: { r: "0", g: "0", b: "0", a: "1" },
-  });
-  const [erase, setErase] = useState(false);
-  const [brush, setBrush] = useState(false);
+  const [color, setColor] = useState(defaultColor);
   const [isDrawing, setIsDrawing] = useState(false);
   const [uploadImage, setUploadImage] = useState(true);
+  const [picker, setPicker] = useState(false);
+  const [erase, setErase] = useState(false);
+  const [brush, setBrush] = useState(true);
+  const [openBrush, setOpenBrush] = useState(false);
+  const [openErase, setOpenErase] = useState(false);
 
   // 지우개 토글 상태일 경우 지우개 표시
   useEffect(() => {
@@ -329,19 +283,14 @@ const Canvas = () => {
     };
 
     const remove = () => {
-      ctxTag.clearRect(
-        X - eraseStroke / 2,
-        Y - eraseStroke / 2,
-        eraseStroke,
-        eraseStroke
-      );
+      ctxTag.clearRect(X - eraseStroke / 2, Y - eraseStroke / 2, eraseStroke, eraseStroke);
     };
 
     const haveTag = () => {
       ctxTag.lineCap = "round";
       ctxTag.lineJoin = "round";
       ctxTag.lineWidth = stroke;
-      !erase && draw();
+      !erase && brush && draw();
       erase && isDrawing && remove();
     };
 
@@ -362,11 +311,13 @@ const Canvas = () => {
     const { value } = e.target;
     ctxTag.lineWidth = value;
     setStroke(value);
+    setOpenBrush(false);
   };
 
   const onChangeErase = (e) => {
     const { value } = e.target;
     setEraseStroke(value);
+    setOpenErase(false);
   };
 
   const onDelete = () => {
@@ -377,8 +328,13 @@ const Canvas = () => {
     }
   };
 
-  const onErase = () => {
+  const onPicker = () => {
+    setPicker(!picker);
+  };
+
+  const onChangeTool = () => {
     setErase(!erase);
+    setBrush(!brush);
   };
 
   const onRefresh = () => {
@@ -415,24 +371,13 @@ const Canvas = () => {
     <>
       <Top />
       <CanvasContainer>
-        {/* <MediaBlockWrapper>
-          <MediaBlockText>PC버전으로 접속 해주세요.</MediaBlockText>
-        </MediaBlockWrapper> */}
         <CanvasWrapper>
           <CanvasPickerBox active={uploadImage}>
             <CanvasUpload htmlFor={"image_upload"} active={uploadImage}>
               <CanvasUploadText>사진을 업로드 해주세요.</CanvasUploadText>
-              <CanvasUploadInput
-                type={"file"}
-                id={"image_upload"}
-                onChange={onLoad}
-              />
+              <CanvasUploadInput type={"file"} id={"image_upload"} onChange={onLoad} />
             </CanvasUpload>
-            <MainCanvas
-              ref={bgCanvasRef}
-              id="bgCanvasjs"
-              active={uploadImage}
-            />
+            <MainCanvas ref={bgCanvasRef} id="bgCanvasjs" active={uploadImage} />
             <MainCanvas
               ref={canvasRef}
               id="canvasJS"
@@ -447,39 +392,29 @@ const Canvas = () => {
             />
             <CanvasTool
               active={uploadImage}
-              func={{ saveImage, onRefresh, onErase, onDelete }}
+              color={color}
+              stroke={stroke}
+              eraseStroke={eraseStroke}
+              erase={erase}
+              brush={brush}
+              picker={picker}
+              setOpenBrush={setOpenBrush}
+              openBrush={openBrush}
+              setOpenErase={setOpenErase}
+              openErase={openErase}
+              onChangeColor={onChangeColor}
+              onChangeTool={onChangeTool}
+              onChangeStroke={onChangeStroke}
+              onChangeErase={onChangeErase}
+              onRefresh={onRefresh}
+              onDelete={onDelete}
+              saveImage={saveImage}
+              onPicker={onPicker}
             />
-            <PickerWrapper active={uploadImage}>
-              <PickerBox>
-                <CustomPicker color={color.rgb} onChange={onChangeColor} />
-                <ButtonWrapper>
-                  <SelectText>브러쉬</SelectText>
-                  <StrokeSelect onChange={onChangeStroke}>
-                    {_.map(lineWidth, (line, index) => (
-                      <StrokeOption key={index} value={line.value}>
-                        {`${line.name}px`}
-                      </StrokeOption>
-                    ))}
-                  </StrokeSelect>
-                  <SelectText>지우개</SelectText>
-                  <StrokeSelect onChange={onChangeErase}>
-                    {_.map(eraseLine, (line, index) => (
-                      <StrokeOption key={index} value={line.value}>
-                        {`${line.name}px`}
-                      </StrokeOption>
-                    ))}
-                  </StrokeSelect>
-                </ButtonWrapper>
-              </PickerBox>
-            </PickerWrapper>
           </CanvasPickerBox>
         </CanvasWrapper>
       </CanvasContainer>
-      <EraserModeIconWrapper
-        className="eraser"
-        active={erase}
-        stroke={eraseStroke}
-      >
+      <EraserModeIconWrapper className="eraser" active={erase} stroke={eraseStroke}>
         <EraserModeIcon icon={faEraser} />
       </EraserModeIconWrapper>
     </>
