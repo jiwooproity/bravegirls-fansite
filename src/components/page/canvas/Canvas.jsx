@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import _ from "lodash";
 
 import { Top } from "components";
+import CanvasTool from "./CanvasTool";
 
 import { SketchPicker } from "react-color";
 import { lineWidth, eraseLine } from "constant";
@@ -155,30 +156,6 @@ const CustomPicker = styled(SketchPicker)``;
 
 const StrokeOption = styled.option``;
 
-const StrokeButton = styled.button`
-  font-size: 14px;
-  line-height: 14px;
-  padding: 5px 8px;
-  background-color: transparent;
-  border: none;
-
-  &:hover {
-    background-color: rgba(54, 54, 54);
-    color: white;
-  }
-
-  ${({ active }) =>
-    active &&
-    css`
-      background-color: rgba(54, 54, 54);
-      color: white;
-    `}
-
-  cursor: pointer;
-
-  transition: color 0.5s ease, background-color 0.5s ease;
-`;
-
 const SelectText = styled.span`
   font-size: 15px;
   line-height: 15px;
@@ -207,8 +184,8 @@ const EraserModeIconWrapper = styled.div`
   left: 0;
 
   transform: translate(-50%, -50%);
-  border: 1px solid rgba(245, 245, 245, 0.5);
-  border-radius: 50%;
+  border: 1px solid rgba(245, 245, 245, 0.1);
+  background-color: rgba(245, 245, 245, 0.1);
 
   opacity: ${({ active }) => (active ? "1" : "0")};
 
@@ -236,6 +213,7 @@ const Canvas = () => {
     rgb: { r: "0", g: "0", b: "0", a: "1" },
   });
   const [erase, setErase] = useState(false);
+  const [brush, setBrush] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false);
   const [uploadImage, setUploadImage] = useState(true);
 
@@ -399,6 +377,14 @@ const Canvas = () => {
     }
   };
 
+  const onErase = () => {
+    setErase(!erase);
+  };
+
+  const onRefresh = () => {
+    setUploadImage(true);
+  };
+
   const saveImage = async () => {
     if (uploadImage) return;
 
@@ -459,6 +445,10 @@ const Canvas = () => {
               onTouchMove={onDrawing}
               active={uploadImage}
             />
+            <CanvasTool
+              active={uploadImage}
+              func={{ saveImage, onRefresh, onErase, onDelete }}
+            />
             <PickerWrapper active={uploadImage}>
               <PickerBox>
                 <CustomPicker color={color.rgb} onChange={onChangeColor} />
@@ -479,28 +469,6 @@ const Canvas = () => {
                       </StrokeOption>
                     ))}
                   </StrokeSelect>
-                </ButtonWrapper>
-              </PickerBox>
-              <PickerBox>
-                <ButtonWrapper>
-                  <StrokeButton onClick={() => saveImage()} color={color}>
-                    다운로드
-                  </StrokeButton>
-                  <StrokeButton onClick={() => onLoad(true)} color={color}>
-                    새로고침
-                  </StrokeButton>
-                </ButtonWrapper>
-                <ButtonWrapper>
-                  <StrokeButton
-                    onClick={() => setErase(!erase)}
-                    active={erase}
-                    color={color}
-                  >
-                    지우개 (토글)
-                  </StrokeButton>
-                  <StrokeButton onClick={() => onDelete()} color={color}>
-                    지우기
-                  </StrokeButton>
                 </ButtonWrapper>
               </PickerBox>
             </PickerWrapper>
