@@ -1,12 +1,7 @@
 import GlobalStyle from "./GlobalStyle";
 import { theme } from "./Theme";
 
-import {
-  DarkThemeMode,
-  DarkThemeImage,
-  DarkThemeBackdrop,
-  AlbumContainer,
-} from "./AlbumPage/album";
+import { DarkThemeMode, DarkThemeImage, DarkThemeBackdrop, AlbumContainer } from "./AlbumPage/album";
 
 import {
   AlbumWrapper,
@@ -53,24 +48,43 @@ import {
   TrackTitleWrap,
 } from "./AlbumPage/albumTrack";
 
+import {
+  CanvasContainer,
+  CanvasPickerBox,
+  CanvasUpload,
+  CanvasUploadInput,
+  CanvasUploadText,
+  CanvasWrapper,
+  EraserModeIcon,
+  EraserModeIconWrapper,
+  MainCanvas,
+} from "./CanvasPage/canvas";
+
+import { CustomSketch, PaletteStatus, SelectBox, SelectOption, ToolBox, ToolIcon, ToolSizeText, ToolWrap } from "./CanvasPage/canvasTool";
+
 export { GlobalStyle, theme };
 
 // 앨범 컴포넌트 CSS 스타일
 // Album.jsx
 export { DarkThemeMode, DarkThemeImage, DarkThemeBackdrop, AlbumContainer };
-
 // AlbumInfo.jsx
 export { AlbumWrapper, AlbumLeftSide, AlbumImageWrap, AlbumImage };
 export { LpImageWrap, LpImage, AlbumRightSide, AlbumDescription };
 export { AlbumTitleText, DescriptionText, AlbumEntertainment };
-
 // AlbumList.jsx
 export { AlbumThumbnail, AlbumListShadowWrapper, AlbumListWrapper };
 export { AlbumSelectBar, AlbumListShadow, AlbumColumnWrapper, AlbumColumn };
 export { AlbumLists, AlbumListCover, AlbumNumber, AlbumInfoColum };
 export { AlbumInfoDummy, AlbumInfo, AlbumListIcon };
-
 // TrackList.jsx
 export { TrackArtist, TrackContainer, TrackItemsWrap, TrackList };
 export { TrackListBox, TrackListTitle, TrackListWrapper, TrackNumber };
 export { TrackSubTitle, TrackTitle, TrackTitleWrap };
+
+// 캔버스 컴포넌트 CSS 스타일
+export { CanvasContainer, CanvasPickerBox, CanvasUpload, CanvasUploadInput };
+export { CanvasUploadText, CanvasWrapper, EraserModeIcon, EraserModeIconWrapper };
+export { MainCanvas };
+
+export { CustomSketch, PaletteStatus, SelectBox, SelectOption };
+export { ToolBox, ToolIcon, ToolSizeText, ToolWrap };
