@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
-import styled from "styled-components";
+import { useObserver } from "mobx-react";
 
-import { memberService } from "service";
+import styled from "styled-components";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutubeSquare } from "@fortawesome/free-brands-svg-icons";
@@ -9,11 +9,12 @@ import { faInstagramSquare } from "@fortawesome/free-brands-svg-icons";
 import { faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 
 import { Loading, Top } from "components";
-import { useObserver } from "mobx-react";
-import { utils } from "util/utils";
-import MemberTab from "./MemberTab";
+import { MemberTab } from "components";
 
-import useStore from "hooks/useStore";
+import { memberService } from "service";
+import { utils } from "util";
+
+import { useStore } from "hooks";
 
 const MemberContainer = styled.div`
   width: 100%;
