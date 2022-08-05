@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Fade } from "react-reveal";
+
 import styled from "styled-components";
 import _ from "lodash";
 
-import { configService } from "service/configService";
-import { Fade } from "react-reveal";
-import useStore from "hooks/useStore";
-import { useNavigate } from "react-router-dom";
+import { useStore } from "hooks";
+import { memberService } from "service";
 
 const ThreeSection = styled.div`
   width: 100%;
@@ -209,7 +210,7 @@ const NewThree = () => {
 
   const onLoad = async () => {
     const resArr = [];
-    const response = await configService.getAllMemberList();
+    const response = await memberService.allMemberList();
 
     _.forEach(response, (res) => {
       let birthday = res.member_birthday;
@@ -242,7 +243,9 @@ const NewThree = () => {
                 <ProfileWrap>
                   <ProfileImage src={member.profile} />
                   <ProfileDes>
-                    <ProfileEngName onClick={() => onSelect(index)}>{member.engName}</ProfileEngName>
+                    <ProfileEngName onClick={() => onSelect(index)}>
+                      {member.engName}
+                    </ProfileEngName>
                     <ProfileName>{member.korName}</ProfileName>
                     <ProfileBar>
                       <ProfileBarBall />
