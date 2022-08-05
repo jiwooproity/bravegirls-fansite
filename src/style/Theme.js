@@ -33,6 +33,8 @@ export const lightTheme = {
 
   signFilter: 0,
 
+  fileInputColor: "rgba(160, 221, 249)",
+
   trackListBorder: "rgba(54, 54, 54, 0.2)",
 };
 
@@ -70,6 +72,8 @@ export const darkTheme = {
   inputBottomActiveColor: "rgba(255, 255, 255, 0.5)",
 
   signFilter: 100,
+
+  fileInputColor: "rgba(160, 221, 249)",
 
   trackListBorder: "rgba(255, 255, 255, 0.2)",
 };

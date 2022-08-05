@@ -88,7 +88,7 @@ const LpImage = styled.img`
   width: 100%;
   display: block;
 
-  animation: ${rotateLP} 2s linear infinite;
+  animation: ${rotateLP} 3.5s linear infinite;
 `;
 
 const AlbumRightSide = styled.div`

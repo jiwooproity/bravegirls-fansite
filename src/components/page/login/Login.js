@@ -6,7 +6,7 @@ const LoginContainer = styled.div`
   width: 100%;
   height: 100vh;
 
-  padding: 30px;
+  padding: 30px 15px;
 
   display: flex;
   flex-direction: column;

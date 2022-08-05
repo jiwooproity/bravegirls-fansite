@@ -49,17 +49,61 @@ const settingMethod = async (url, params, method) => {
 };
 
 export const configService = {
-  getPhotocardData: (params) => settingMethod("http://bglovely.com/photocard/getPhotocard.php", params, "GET"),
-  getVideoList: (params) => settingMethod("http://bglovely.com/photocard/getVideoList.php", params, "GET"),
-  getMusicList: (params) => settingMethod("http://bglovely.com/photocard/getMusicList.php", params, "GET"),
-  getTrackList: (params) => settingMethod("http://bglovely.com/photocard/getTrackList.php", params, "GET"),
-  getMemberList: (params) => settingMethod("http://bglovely.com/photocard/getMemberList.php", params, "GET"),
-  getAllMemberList: (params) => settingMethod("http://bglovely.com/photocard/getAllMemberList.php", params, "GET"),
-  getHistoryList: (params) => settingMethod("http://bglovely.com/photocard/getHistoryList.php", params, "GET"),
+  getPhotocardData: (params) =>
+    settingMethod(
+      `${process.env.REACT_APP_DATABASE_URL}/getetPhotocard.php`,
+      params,
+      "GET"
+    ),
+  getVideoList: (params) =>
+    settingMethod(
+      `${process.env.REACT_APP_DATABASE_URL}/getVideoList.php`,
+      params,
+      "GET"
+    ),
+  getMusicList: (params) =>
+    settingMethod(
+      `${process.env.REACT_APP_DATABASE_URL}/getMusicList.php`,
+      params,
+      "GET"
+    ),
+  getTrackList: (params) =>
+    settingMethod(
+      `${process.env.REACT_APP_DATABASE_URL}/getTrackList.php`,
+      params,
+      "GET"
+    ),
+  getMemberList: (params) =>
+    settingMethod(
+      `${process.env.REACT_APP_DATABASE_URL}/getMemberList.php`,
+      params,
+      "GET"
+    ),
+  getAllMemberList: (params) =>
+    settingMethod(
+      `${process.env.REACT_APP_DATABASE_URL}/getAllMemberList.php`,
+      params,
+      "GET"
+    ),
+  getHistoryList: (params) =>
+    settingMethod(
+      `${process.env.REACT_APP_DATABASE_URL}/photocard/getHistoryList.php`,
+      params,
+      "GET"
+    ),
 };
 
 export const youtubeService = {
   getPlayList: (location, params) =>
-    settingMethod(`https://www.googleapis.com/youtube/v3/playlistItems?playlistId=${playListID[location]}&key=${youtubeApiKey}`, params, "GET"),
-  getVideo: (params) => settingMethod(`https://www.googleapis.com/youtube/v3/videos?key=${youtubeApiKey}`, params, "GET"),
+    settingMethod(
+      `https://www.googleapis.com/youtube/v3/playlistItems?playlistId=${playListID[location]}&key=${youtubeApiKey}`,
+      params,
+      "GET"
+    ),
+  getVideo: (params) =>
+    settingMethod(
+      `https://www.googleapis.com/youtube/v3/videos?key=${youtubeApiKey}`,
+      params,
+      "GET"
+    ),
 };
