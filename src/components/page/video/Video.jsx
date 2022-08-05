@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-
-import _ from "lodash";
-
-import { useEffect } from "react";
-import { youtubeService } from "service/configService";
-import { Loading, Top } from "components";
-import { Fade } from "react-reveal";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { Fade } from "react-reveal";
+
+import styled from "styled-components";
+import _ from "lodash";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faPencil } from "@fortawesome/free-solid-svg-icons";
 
-import { utils } from "util/utils";
+import { Loading, Top } from "components";
+
+import { utils } from "util";
+import { API } from "constant";
+import { youtubeService } from "service";
 
 const VideoContainer = styled.div`
   width: 100%;
@@ -168,14 +168,28 @@ const Video = () => {
   const onLoad = async () => {
     setLoading(false);
     const videoArr = [];
-    const playList = await youtubeService.getPlayList(pathname, { part: "snippet", maxResults: 25 });
+    const keyPath = pathname.toUpperCase();
+    const listParams = {
+      playlistId: API.YOUTUBE_KEY[keyPath],
+      part: "snippet",
+      maxResults: 30,
+    };
+
+    const playList = await youtubeService.playList({ params: listParams });
 
     for (const playData of playList.items) {
       const snippet = playData.snippet;
-      const detailData = await youtubeService.getVideo({ part: "statistics", id: snippet.resourceId.videoId });
+      const videoParams = {
+        part: "statistics",
+        id: snippet.resourceId.videoId,
+      };
+
+      const detailData = await youtubeService.videoDetail({
+        params: videoParams,
+      });
 
       for (const detail of detailData.items) {
-        let thumbnail = "";
+        let thumbnail;
         const { maxres, standard, high } = snippet.thumbnails;
         const statistics = detail.statistics;
 
@@ -221,7 +235,9 @@ const Video = () => {
                           <VideoCountIcon icon={faThumbsUp} />
                           <VideoThumbCount>{video.likeCount}</VideoThumbCount>
                           <VideoCountIcon icon={faPencil} />
-                          <VideoThumbCount>{video.commentCount}</VideoThumbCount>
+                          <VideoThumbCount>
+                            {video.commentCount}
+                          </VideoThumbCount>
                         </VideoCountIconWrapper>
                         <VideoCountNumber>{video.viewCount}</VideoCountNumber>
                       </VideoTitleWrap>

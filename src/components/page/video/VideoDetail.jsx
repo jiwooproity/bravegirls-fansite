@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { utils } from "util/utils";
 import { Loading } from "components";
-import { youtubeService } from "service/configService";
+import { youtubeService } from "service";
 
 const NavbarBox = styled.div`
   width: 100%;
@@ -192,8 +192,22 @@ const VideoDetail = () => {
   const onLoad = async () => {
     setLoading(false);
     let videoObj = {};
-    const detailData = await youtubeService.getVideo({ part: "snippet", id: videoId });
-    const countData = await youtubeService.getVideo({ part: "statistics", id: videoId });
+
+    const detailParams = {
+      part: "snippet",
+      id: videoId,
+    };
+    const countParams = {
+      part: "statistics",
+      id: videoId,
+    };
+
+    const detailData = await youtubeService.videoDetail({
+      params: detailParams,
+    });
+    const countData = await youtubeService.videoDetail({
+      params: countParams,
+    });
 
     for (const playData of detailData.items) {
       const snippet = playData.snippet;
@@ -247,14 +261,22 @@ const VideoDetail = () => {
                       <VideoTitle>{detailData.title}</VideoTitle>
                       <VideoCountIconWrapper>
                         <VideoCountIcon icon={faThumbsUp} />
-                        <VideoThumbCount>{detailData.likeCount}</VideoThumbCount>
+                        <VideoThumbCount>
+                          {detailData.likeCount}
+                        </VideoThumbCount>
                         <VideoCountIcon icon={faPencil} />
-                        <VideoThumbCount>{detailData.commentCount}</VideoThumbCount>
+                        <VideoThumbCount>
+                          {detailData.commentCount}
+                        </VideoThumbCount>
                       </VideoCountIconWrapper>
-                      <VideoCountNumber>{detailData.viewCount}</VideoCountNumber>
+                      <VideoCountNumber>
+                        {detailData.viewCount}
+                      </VideoCountNumber>
                     </VideoTitleWrap>
 
-                    <VideoDescription>{detailData.description}</VideoDescription>
+                    <VideoDescription>
+                      {detailData.description}
+                    </VideoDescription>
                   </VideoDesWrap>
                 </VideoThumbnaillWrap>
               </Fade>

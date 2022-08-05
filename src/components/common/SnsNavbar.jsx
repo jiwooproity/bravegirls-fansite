@@ -1,10 +1,11 @@
 import React from "react";
+
 import styled from "styled-components";
 import _ from "lodash";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { snsMenu } from "constant/Menu";
+import { snsMenu } from "constant";
 
 const SnsNavbarList = styled.li`
   font-size: 15px;

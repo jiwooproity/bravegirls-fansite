@@ -4,12 +4,13 @@ import { useObserver } from "mobx-react";
 
 import styled, { ThemeProvider } from "styled-components";
 
-import { Main, Member, Album, Video, Login, VideoDetail, Canvas } from ".";
+import { Main, Login } from "components";
+import { Member, Album, Video, VideoDetail, Canvas } from "components";
 import { Navbar, Footer } from "components";
-import { Url } from "../constant";
-import { theme } from "style/Theme";
 
-import useStore from "hooks/useStore";
+import { Url } from "constant";
+import { useStore } from "hooks";
+import { theme } from "style";
 
 const MainContainer = styled.div`
   width: 100%;
@@ -47,9 +48,15 @@ const App = () => {
               <Route path={`${Url.MUSIC}`} element={<Video />} />
               <Route path={`${Url.MUSIC}/:videoId`} element={<VideoDetail />} />
               <Route path={`${Url.QUEENDOM}`} element={<Video />} />
-              <Route path={`${Url.QUEENDOM}/:videoId`} element={<VideoDetail />} />
+              <Route
+                path={`${Url.QUEENDOM}/:videoId`}
+                element={<VideoDetail />}
+              />
               <Route path={`${Url.BGCLIP}`} element={<Video />} />
-              <Route path={`${Url.BGCLIP}/:videoId`} element={<VideoDetail />} />
+              <Route
+                path={`${Url.BGCLIP}/:videoId`}
+                element={<VideoDetail />}
+              />
               <Route path={`${Url.CANVAS}`} element={<Canvas />} />
               <Route path={`${Url.LOGIN}`} element={<Login />} />
               <Route path={`*`} element={<Main />} />
