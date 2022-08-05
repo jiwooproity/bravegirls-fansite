@@ -16,6 +16,7 @@ export const API = {
     MEMBER_LIST: `${REQUEST_URL}/getMemberList.php`,
     ALL_MEMBER_LIST: `${REQUEST_URL}/getAllMemberList.php`,
     HISTORY_LIST: `${REQUEST_URL}/getHistoryList.php`,
+    CANVAS_LIST: `${REQUEST_URL}/getCanvasList.php`,
   },
 
   YOUTUBE_KEY: {

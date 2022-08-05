@@ -100,7 +100,26 @@ export const Menu = [
     type: "text",
     root: "/canvas",
     path: "/canvas",
-    children: [],
+    children: [
+      {
+        name: "DRAW",
+        type: "text",
+        root: "/canvas/draw",
+        path: "/canvas/draw",
+        parent: "CANVAS",
+        icon: faArrowDownShortWide,
+        isLeaf: true,
+      },
+      {
+        name: "BOARD",
+        type: "text",
+        root: "/canvas/board",
+        path: "/canvas/board",
+        parent: "CANVAS",
+        icon: faArrowDownShortWide,
+        isLeaf: true,
+      },
+    ],
     icon: faRightFromBracket,
   },
   {

@@ -62,6 +62,8 @@ import {
 
 import { CustomSketch, PaletteStatus, SelectBox, SelectOption, ToolBox, ToolIcon, ToolSizeText, ToolWrap } from "./CanvasPage/canvasTool";
 
+import { BoardContainer, BoardWrapper, ArtWrapper, ArtImage } from "./CanvasPage/canvasBoard";
+
 export { GlobalStyle, theme };
 
 // 앨범 컴포넌트 CSS 스타일
@@ -85,6 +87,8 @@ export { TrackSubTitle, TrackTitle, TrackTitleWrap };
 export { CanvasContainer, CanvasPickerBox, CanvasUpload, CanvasUploadInput };
 export { CanvasUploadText, CanvasWrapper, EraserModeIcon, EraserModeIconWrapper };
 export { MainCanvas };
+
+export { BoardContainer, BoardWrapper, ArtWrapper, ArtImage };
 
 export { CustomSketch, PaletteStatus, SelectBox, SelectOption };
 export { ToolBox, ToolIcon, ToolSizeText, ToolWrap };
