@@ -117,7 +117,8 @@ const MainCanvas = styled.canvas`
     border-radius: 0px;
   }
 
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
+    rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
   transition: opacity 0.5s ease;
 `;
 
@@ -218,6 +219,7 @@ const Canvas = () => {
       const bgCtx = background.getContext("2d");
       // const isOver = img.width > 990;
       const isHori = img.width > img.height;
+
       const getCanvas = setCanvas(ctx, isHori ? 990 : 440);
       const getBgCanvas = setCanvas(bgCtx, isHori ? 990 : 440);
 
@@ -283,7 +285,12 @@ const Canvas = () => {
     };
 
     const remove = () => {
-      ctxTag.clearRect(X - eraseStroke / 2, Y - eraseStroke / 2, eraseStroke, eraseStroke);
+      ctxTag.clearRect(
+        X - eraseStroke / 2,
+        Y - eraseStroke / 2,
+        eraseStroke,
+        eraseStroke
+      );
     };
 
     const haveTag = () => {
@@ -375,9 +382,17 @@ const Canvas = () => {
           <CanvasPickerBox active={uploadImage}>
             <CanvasUpload htmlFor={"image_upload"} active={uploadImage}>
               <CanvasUploadText>사진을 업로드 해주세요.</CanvasUploadText>
-              <CanvasUploadInput type={"file"} id={"image_upload"} onChange={onLoad} />
+              <CanvasUploadInput
+                type={"file"}
+                id={"image_upload"}
+                onChange={onLoad}
+              />
             </CanvasUpload>
-            <MainCanvas ref={bgCanvasRef} id="bgCanvasjs" active={uploadImage} />
+            <MainCanvas
+              ref={bgCanvasRef}
+              id="bgCanvasjs"
+              active={uploadImage}
+            />
             <MainCanvas
               ref={canvasRef}
               id="canvasJS"
@@ -414,7 +429,11 @@ const Canvas = () => {
           </CanvasPickerBox>
         </CanvasWrapper>
       </CanvasContainer>
-      <EraserModeIconWrapper className="eraser" active={erase} stroke={eraseStroke}>
+      <EraserModeIconWrapper
+        className="eraser"
+        active={erase}
+        stroke={eraseStroke}
+      >
         <EraserModeIcon icon={faEraser} />
       </EraserModeIconWrapper>
     </>
