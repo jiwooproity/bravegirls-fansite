@@ -4,7 +4,7 @@ import { useObserver } from "mobx-react";
 
 import styled, { ThemeProvider } from "styled-components";
 
-import { Main, Login, CanvasBoard } from "components";
+import { Main, Login, CanvasBoard, CanvasDetail } from "components";
 import { Member, Album, Video, VideoDetail, Canvas } from "components";
 import { Navbar, Footer } from "components";
 
@@ -53,6 +53,7 @@ const App = () => {
               <Route path={`${Url.BGCLIP}/:videoId`} element={<VideoDetail />} />
               <Route path={`${Url.CANVAS}`} element={<Canvas />} />
               <Route path={`${Url.BOARD}`} element={<CanvasBoard />} />
+              <Route path={`${Url.BOARD}/:boardId`} element={<CanvasDetail />} />
               <Route path={`${Url.LOGIN}`} element={<Login />} />
               <Route path={`*`} element={<Main />} />
             </Routes>

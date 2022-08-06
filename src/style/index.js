@@ -51,7 +51,7 @@ import {
 import {
   CanvasContainer,
   CanvasPickerBox,
-  CanvasUpload,
+  CanvasUploadWrap,
   CanvasUploadInput,
   CanvasUploadText,
   CanvasWrapper,
@@ -62,7 +62,7 @@ import {
 
 import { CustomSketch, PaletteStatus, SelectBox, SelectOption, ToolBox, ToolIcon, ToolSizeText, ToolWrap } from "./CanvasPage/canvasTool";
 
-import { BoardContainer, BoardWrapper, ArtWrapper, ArtImage } from "./CanvasPage/canvasBoard";
+import { BoardContainer, BoardWrapper, ArtWrapper, ArtImage, ArtContainer, ArtTitle, ArtImageWrapper } from "./CanvasPage/canvasBoard";
 
 export { GlobalStyle, theme };
 
@@ -84,11 +84,12 @@ export { TrackListBox, TrackListTitle, TrackListWrapper, TrackNumber };
 export { TrackSubTitle, TrackTitle, TrackTitleWrap };
 
 // 캔버스 컴포넌트 CSS 스타일
-export { CanvasContainer, CanvasPickerBox, CanvasUpload, CanvasUploadInput };
+export { CanvasContainer, CanvasPickerBox, CanvasUploadWrap, CanvasUploadInput };
 export { CanvasUploadText, CanvasWrapper, EraserModeIcon, EraserModeIconWrapper };
 export { MainCanvas };
 
 export { BoardContainer, BoardWrapper, ArtWrapper, ArtImage };
+export { ArtContainer, ArtImageWrapper, ArtTitle };
 
 export { CustomSketch, PaletteStatus, SelectBox, SelectOption };
 export { ToolBox, ToolIcon, ToolSizeText, ToolWrap };

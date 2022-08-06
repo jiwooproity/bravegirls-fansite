@@ -48,7 +48,7 @@ const CanvasPickerBox = styled.div`
   align-items: center;
 `;
 
-const CanvasUpload = styled.label`
+const CanvasUploadWrap = styled.label`
   width: 100%;
   display: ${({ active }) => (active ? "flex" : "none")};
   justify-content: center;
@@ -144,7 +144,7 @@ const EraserModeIcon = styled(FontAwesomeIcon)`
 export {
   CanvasContainer,
   CanvasPickerBox,
-  CanvasUpload,
+  CanvasUploadWrap,
   CanvasUploadInput,
   CanvasUploadText,
   CanvasWrapper,

@@ -17,13 +17,27 @@ const httpGet = (url, params) => {
   return params ? withParam(url, params) : onlyUrl(url);
 };
 
-const request = async ({ method, url, params }) => {
+const httpPost = (url, params, data) => {
+  const withParam = (url, params) => {
+    return axios.post(url, null, { params: { ...params } });
+  };
+
+  const withData = (url, data) => {
+    return header.post(url, data);
+  };
+
+  return params ? withParam(url, params) : withData(url, data);
+};
+
+const request = async ({ method, url, params, data }) => {
   switch (method) {
     case "GET":
-      const { data } = await httpGet(url, params);
-      return data;
+      const { data: getData } = await httpGet(url, params);
+      return getData;
     case "POST":
-      break;
+      const { data: postData } = await httpPost(url, params, data);
+      console.log(postData);
+      return postData;
     case "PUT":
       break;
     case "DELETE":

@@ -5,16 +5,11 @@ import _ from "lodash";
 import { AlbumInfo, AlbumList, AlbumTrack } from "components";
 import { Loading, Top } from "components";
 
-import { utils } from "util";
+import { utils } from "util/utils";
 import { useStore } from "hooks";
 import { musicService } from "service";
 
-import {
-  DarkThemeMode,
-  DarkThemeImage,
-  DarkThemeBackdrop,
-  AlbumContainer,
-} from "style";
+import { DarkThemeMode, DarkThemeImage, DarkThemeBackdrop, AlbumContainer } from "style";
 
 const Album = () => {
   const { themeStore } = useStore();
@@ -34,14 +29,7 @@ const Album = () => {
   useEffect(() => {
     onLoadTrack();
     // eslint-disable-next-line
-  }, [
-    selectId,
-    setSelectId,
-    albumList,
-    setAlbumList,
-    selectAlbum,
-    setSelectAlbum,
-  ]);
+  }, [selectId, setSelectId, albumList, setAlbumList, selectAlbum, setSelectAlbum]);
 
   const onLoadTrack = async () => {
     const trackArr = [];
@@ -76,9 +64,7 @@ const Album = () => {
         id: Number(res.music_idx),
         title: res.music_title,
         description: res.music_description,
-        descriptionSecond: res.music_description_second
-          ? res.music_description_second
-          : "",
+        descriptionSecond: res.music_description_second ? res.music_description_second : "",
         cover: res.music_album_image,
         lp: res.music_lp_image,
         color: res.music_color,
@@ -128,13 +114,7 @@ const Album = () => {
         {loading ? (
           <>
             <AlbumInfo data={selectAlbum} />
-            <AlbumList
-              data={albumList}
-              onceData={selectAlbum}
-              setData={setAlbumList}
-              selectValue={selectId}
-              func={{ isLightColor, selectMusic, dragMusic }}
-            />
+            <AlbumList data={albumList} onceData={selectAlbum} setData={setAlbumList} selectValue={selectId} func={{ isLightColor, selectMusic, dragMusic }} />
             <AlbumTrack data={trackList} color={selectAlbum.color} />
           </>
         ) : (

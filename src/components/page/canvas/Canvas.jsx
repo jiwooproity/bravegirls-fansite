@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import _ from "lodash";
 
 import { faEraser } from "@fortawesome/free-solid-svg-icons";
 
-import { Top } from "components";
+import { Loading, Top } from "components";
 import CanvasTool from "./CanvasTool";
 
 import { utils } from "util";
@@ -10,7 +12,7 @@ import { utils } from "util";
 import {
   CanvasContainer,
   CanvasPickerBox,
-  CanvasUpload,
+  CanvasUploadWrap,
   CanvasUploadInput,
   CanvasUploadText,
   CanvasWrapper,
@@ -19,14 +21,20 @@ import {
   MainCanvas,
 } from "style";
 
+import { canvasService } from "service/canvasService";
+import CanvasUpload from "./CanvasUpload";
+
 const defaultColor = {
   rgb: { r: "0", g: "0", b: "0", a: "1" },
 };
 
 const Canvas = () => {
   let img = new Image();
+  const navigate = useNavigate();
   const canvasRef = useRef(null);
   const bgCanvasRef = useRef(null);
+  const [uploading, setUploading] = useState(false);
+  const [size, setSize] = useState({ width: 0, height: 0 });
   const [ctxTag, setCtxTag] = useState();
   const [bgCtxTag, setBgCtxTag] = useState();
   const [stroke, setStroke] = useState(1.5);
@@ -39,6 +47,11 @@ const Canvas = () => {
   const [brush, setBrush] = useState(true);
   const [openBrush, setOpenBrush] = useState(false);
   const [openErase, setOpenErase] = useState(false);
+  const [insertData, setInsertData] = useState({
+    upload: false,
+    title: "",
+    description: "",
+  });
 
   // 지우개 토글 상태일 경우 지우개 표시
   useEffect(() => {
@@ -96,6 +109,7 @@ const Canvas = () => {
       setBgCtxTag(getBgCanvas[1]);
 
       setUploadImage(false);
+      setSize({ width: img.width, height: img.height });
     };
   };
 
@@ -204,19 +218,53 @@ const Canvas = () => {
     setUploadImage(true);
   };
 
+  const onChangeInput = (e) => {
+    const { name, value } = e.target;
+    setInsertData({
+      ...insertData,
+      [name]: value,
+    });
+  };
+
+  const uploadCanvas = async () => {
+    if (uploadImage) return;
+    if (!insertData.upload) {
+      setInsertData({ ...insertData, upload: true });
+    } else {
+      if (_.isEmpty(insertData.title) || _.isEmpty(insertData.description)) {
+        alert("작품에 대한 제목과 설명을 입력해주세요!");
+        return;
+      }
+
+      setUploading(true);
+      bgCtxTag.drawImage(canvasRef.current, 0, 0);
+      let imageURL = bgCanvasRef.current.toDataURL("image/png");
+
+      const data = new FormData();
+      data.append("file", imageURL);
+      data.append("upload_preset", "dbw3ells");
+
+      const upload = await canvasService.canvasUpload({ data });
+      const url = upload.url;
+
+      const params = {
+        title: insertData.title,
+        description: insertData.description,
+        canvas: url,
+        vertical: size.width < size.height ? "1" : "0",
+      };
+
+      await canvasService.canvasInsert({ params }).then(() => {
+        setUploading(false);
+        navigate("/canvas/board");
+      });
+    }
+  };
+
   const saveImage = async () => {
     if (uploadImage) return;
     bgCtxTag.drawImage(canvasRef.current, 0, 0);
     let imageURL = bgCanvasRef.current.toDataURL("image/png");
-
-    // const data = new FormData();
-    // data.append("file", imageURL);
-    // data.append("upload_preset", "dbw3ells");
-
-    // await fetch(`https://api.cloudinary.com/v1_1/jiwooproity/image/upload`, {
-    //   method: "POST",
-    //   body: data,
-    // });
 
     const now = new Date(); // 현재 날짜 및 시간
     const hour = now.getHours();
@@ -232,13 +280,14 @@ const Canvas = () => {
   return (
     <>
       <Top />
+      {uploading && <Loading />}
       <CanvasContainer>
         <CanvasWrapper>
           <CanvasPickerBox active={uploadImage}>
-            <CanvasUpload htmlFor={"image_upload"} active={uploadImage}>
+            <CanvasUploadWrap htmlFor={"image_upload"} active={uploadImage}>
               <CanvasUploadText>사진을 업로드 해주세요.</CanvasUploadText>
               <CanvasUploadInput type={"file"} id={"image_upload"} onChange={onLoad} />
-            </CanvasUpload>
+            </CanvasUploadWrap>
             <MainCanvas ref={bgCanvasRef} id="bgCanvasjs" active={uploadImage} />
             <MainCanvas
               ref={canvasRef}
@@ -253,6 +302,7 @@ const Canvas = () => {
               active={uploadImage}
             />
             <CanvasTool
+              hidden={insertData.upload}
               active={uploadImage}
               color={color}
               stroke={stroke}
@@ -271,9 +321,11 @@ const Canvas = () => {
               onRefresh={onRefresh}
               onDelete={onDelete}
               saveImage={saveImage}
+              uploadCanvas={uploadCanvas}
               onPicker={onPicker}
             />
           </CanvasPickerBox>
+          <CanvasUpload hidden={insertData.upload} onChangeInput={onChangeInput} uploadCanvas={uploadCanvas} />
         </CanvasWrapper>
       </CanvasContainer>
       <EraserModeIconWrapper className="eraser" active={erase} stroke={eraseStroke}>

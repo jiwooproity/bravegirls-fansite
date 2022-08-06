@@ -1,37 +1,53 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const BoardContainer = styled.div`
   width: 100%;
   height: calc(100vh - 85px);
 
+  padding: 0px 15px;
+
   display: flex;
   justify-content: center;
-  align-items: center;
 `;
 
 const BoardWrapper = styled.div`
   width: 990px;
+`;
 
+const ArtContainer = styled.div`
+  width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: auto auto;
 `;
 
 const ArtWrapper = styled.div`
   width: 100%;
-  padding-bottom: 65%;
-  position: relative;
+
+  ${({ active, start, end }) =>
+    active
+      ? css`
+          grid-row-start: ${start};
+          grid-row-end: ${end};
+        `
+      : null}
+`;
+
+const ArtImageWrapper = styled.div`
+  width: 100%;
+
+  border-radius: 5px;
   overflow: hidden;
 `;
 
 const ArtImage = styled.img`
   width: 100%;
   display: block;
-  position: absolute;
-  top: 50%;
-  left: 0px;
-
-  transform: translateY(-50%);
 `;
 
-export { BoardContainer, BoardWrapper, ArtWrapper, ArtImage };
+const ArtTitle = styled.h1`
+  font-size: 20px;
+  line-height: 20px;
+`;
+
+export { BoardContainer, BoardWrapper, ArtContainer, ArtWrapper, ArtImageWrapper, ArtImage, ArtTitle };

@@ -17,6 +17,9 @@ export const API = {
     ALL_MEMBER_LIST: `${REQUEST_URL}/getAllMemberList.php`,
     HISTORY_LIST: `${REQUEST_URL}/getHistoryList.php`,
     CANVAS_LIST: `${REQUEST_URL}/getCanvasList.php`,
+    CANVAS_DETAIL: `${REQUEST_URL}/getCanvas.php`,
+    INSERT_CANVAS: `${REQUEST_URL}/insertCanvas.php`,
+    IMAGE_UPLOAD: `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_USER_NAME}/image/upload`,
   },
 
   YOUTUBE_KEY: {

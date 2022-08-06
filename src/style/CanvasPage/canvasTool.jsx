@@ -3,8 +3,9 @@ import { SketchPicker } from "react-color";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const ToolBox = styled.div`
-  height: ${({ active }) => (active ? "0%" : "100%")};
+  min-height: ${({ active }) => (active ? "0%" : "100%")};
   overflow: ${({ active }) => (active ? "hidden" : "")};
+  opacity: ${({ active }) => (active ? "0" : "1")};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +17,7 @@ const ToolBox = styled.div`
   box-shadow: ${({ active }) => (active ? "none" : "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px")};
   z-index: 5;
   transform: translateY(-50%);
-  transition: height 0.5s ease;
+  transition: height 0.5s ease, min-height 0.5s ease, opacity 0.5s ease;
 
   @media screen and (max-width: 768px) {
     display: none;
