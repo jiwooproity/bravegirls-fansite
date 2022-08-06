@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import styled, { css } from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 import _ from "lodash";
+import styled from "styled-components";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 import { Top } from "components";
-
 import { canvasService } from "service/canvasService";
 import { Fade } from "react-reveal";
-import { Link } from "react-router-dom";
 
 const BoardContainer = styled.div`
   width: 100%;
@@ -20,90 +22,170 @@ const BoardContainer = styled.div`
 `;
 
 const BoardWrapper = styled.div`
-  width: 990px;
+  width: 100%;
 `;
 
 const ArtContainer = styled.div`
   width: 100%;
-  display: grid;
-  gap: 5px;
-  grid-template-columns: auto auto auto;
-  grid-template-rows: auto auto;
+  overflow: hidden;
+  -webkit-column-count: 7;
+  -webkit-column-gap: 20px;
+  -webkit-column-fill: auto;
+  -moz-column-count: 7;
+  -moz-column-gap: 20px;
+  -moz-column-fill: auto;
+  column-count: 7;
+  column-gap: 20px;
+  column-fill: auto;
+
+  @media screen and (max-width: 1500px) {
+    -webkit-column-count: 6;
+    -webkit-column-gap: 20px;
+    -webkit-column-fill: auto;
+    -moz-column-count: 6;
+    -moz-column-gap: 20px;
+    -moz-column-fill: auto;
+    column-count: 6;
+    column-gap: 20px;
+    column-fill: auto;
+  }
+
+  @media screen and (max-width: 1300px) {
+    -webkit-column-count: 5;
+    -webkit-column-gap: 20px;
+    -webkit-column-fill: auto;
+    -moz-column-count: 5;
+    -moz-column-gap: 20px;
+    -moz-column-fill: auto;
+    column-count: 5;
+    column-gap: 20px;
+    column-fill: auto;
+  }
+
+  @media screen and (max-width: 1280px) {
+    -webkit-column-count: 4;
+    -webkit-column-gap: 20px;
+    -webkit-column-fill: auto;
+    -moz-column-count: 4;
+    -moz-column-gap: 20px;
+    -moz-column-fill: auto;
+    column-count: 4;
+    column-gap: 20px;
+    column-fill: auto;
+  }
 
   @media screen and (max-width: 768px) {
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
+    -webkit-column-count: 2;
+    -webkit-column-gap: 20px;
+    -webkit-column-fill: auto;
+    -moz-column-count: 2;
+    -moz-column-gap: 20px;
+    -moz-column-fill: auto;
+    column-count: 2;
+    column-gap: 20px;
+    column-fill: auto;
   }
 `;
 
-const ArtWrapper = styled.div`
+const ArtImageContainer = styled.div`
   width: 100%;
-
-  ${({ active, start, end }) =>
-    active &&
-    css`
-      grid-row-start: ${start};
-      grid-row-end: ${end};
-    `};
+  margin-bottom: 20px;
+  border-radius: 5px;
+  overflow: hidden;
 `;
 
 const ArtImageWrapper = styled.div`
   width: 100%;
-  border-radius: 2px;
   position: relative;
-  padding-bottom: ${({ active }) => (active ? "131.5%" : "65%")};
-  overflow: hidden;
 
-  @media screen and (max-width: 768px) {
-    padding-bottom: ${({ active }) => (active ? "133%" : "65%")};
+  &:hover {
+    svg {
+      opacity: 1;
+    }
+
+    img {
+      transform: scale(1.1);
+    }
   }
+
+  cursor: pointer;
 `;
 
 const ArtImage = styled.img`
   width: 100%;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
   display: block;
+
+  transition: transform 0.5s ease;
 `;
 
 const ArtImageBackdrop = styled.div`
   width: 100%;
   height: 100%;
 
+  padding: 5px;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 0;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
 
-  cursor: pointer;
+  opacity: 0;
+  border-radius: 5px;
+  overflow: hidden;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 1;
 
     h1 {
       opacity: 1;
     }
   }
+
+  transition: opacity 0.5s ease;
 `;
 
-const ArtTitle = styled.h1`
-  font-size: 20px;
-  line-height: 20px;
+const ArtDownloadBox = styled.div`
+  display: flex;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+`;
 
+const ArtDownloadButton = styled(FontAwesomeIcon)`
+  padding: 7px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.8);
   opacity: 0;
 
   transition: opacity 0.5s ease;
+`;
 
-  color: white;
+const ArtStatusBox = styled.div`
+  width: 100%;
+`;
+
+const ArtDescription = styled.span`
+  width: 30px;
+  font-size: 15px;
+  line-height: 15px;
+  transition: opacity 0.5s ease;
+
+  color: rgba(255, 255, 255, 0.9);
+
+  transition: opacity 0.5s ease, color 0.5s ease;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 `;
 
 const CanvasBoard = () => {
+  const navigate = useNavigate();
   const [canvasList, setCanvasList] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -117,21 +199,44 @@ const CanvasBoard = () => {
     const response = await canvasService.canvasList();
     let img = new Image();
 
-    _.forEach(response, (res, index) => {
+    _.forEach(response, (res) => {
       img.src = res.canvas_art;
 
       canvasArr.push({
         id: res.canvas_idx,
+        name: res.canvas_nickname,
         art: res.canvas_art,
         title: res.canvas_title,
-        vertical: res.canvas_vertical,
-        start: Math.round(index / 3),
-        end: Math.round(index / 3) + 2,
+        description: res.canvas_description,
       });
     });
 
     setCanvasList(canvasArr);
     setLoading(true);
+  };
+
+  const onDetail = ({ id }) => {
+    navigate(`/canvas/board/${id}`);
+  };
+
+  // 이미지 다운로드
+  const onDownload = ({ canvas }) => {
+    const image_split = canvas.art.split(".");
+    const image_url = image_split[image_split.length - 1];
+
+    fetch(canvas.art, {
+      method: "GET",
+      header: {},
+    }).then((res) => {
+      res.arrayBuffer().then((buffer) => {
+        const url = window.URL.createObjectURL(new Blob([buffer]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `${canvas.title}.${image_url}`);
+        document.body.appendChild(link);
+        link.click();
+      });
+    });
   };
 
   return (
@@ -142,18 +247,21 @@ const CanvasBoard = () => {
           <BoardWrapper>
             <ArtContainer>
               {_.map(canvasList, (canvas, index) => (
-                <ArtWrapper active={canvas.vertical} start={canvas.start} end={canvas.end} key={index}>
-                  <Fade bottom>
-                    <Link to={`/canvas/board/${canvas.id}`}>
-                      <ArtImageWrapper active={canvas.vertical}>
-                        <ArtImage src={canvas.art} />
-                        <ArtImageBackdrop>
-                          <ArtTitle>{canvas.title}</ArtTitle>
-                        </ArtImageBackdrop>
-                      </ArtImageWrapper>
-                    </Link>
-                  </Fade>
-                </ArtWrapper>
+                <Fade bottom>
+                  <ArtImageContainer>
+                    <ArtImageWrapper key={index}>
+                      <ArtImage src={canvas.art} />
+                      <ArtImageBackdrop onClick={() => onDetail({ id: canvas.id })}>
+                        <ArtStatusBox>
+                          <ArtDescription>{`${canvas.name} / ${canvas.title}`}</ArtDescription>
+                        </ArtStatusBox>
+                      </ArtImageBackdrop>
+                      <ArtDownloadBox onClick={() => onDownload({ canvas })}>
+                        <ArtDownloadButton icon={faDownload} />
+                      </ArtDownloadBox>
+                    </ArtImageWrapper>
+                  </ArtImageContainer>
+                </Fade>
               ))}
             </ArtContainer>
           </BoardWrapper>

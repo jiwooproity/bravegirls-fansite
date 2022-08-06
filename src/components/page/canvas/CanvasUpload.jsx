@@ -1,11 +1,13 @@
+import { Top } from "components";
 import React from "react";
 import styled from "styled-components";
 
 const UploadContainer = styled.div`
   width: 100%;
-  height: 100%;
+  min-height: calc(100vh - 85px);
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: fixed;
@@ -23,13 +25,19 @@ const UploadContainer = styled.div`
   transition: opacity 0.5s ease, background-color 0.5s ease;
 `;
 
+const UploadInnerWrapper = styled.div``;
+
 const UploadWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
+`;
 
-  padding: 15px;
+const UploadPreviewWrapper = styled.div``;
+
+const UploadInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 0px 15px 15px 15px;
 `;
 
 const UploadInput = styled.input`
@@ -77,15 +85,25 @@ const UploadButton = styled.button`
 `;
 
 const CanvasUpload = (props) => {
+  const { children } = props;
   const { onChangeInput, uploadCanvas, hidden } = props;
 
   return (
     <UploadContainer active={hidden}>
-      <UploadWrapper>
-        <UploadInput type={"text"} name={"title"} placeholder={"업로드할 작품의 제목을 입력해주세요!"} onChange={onChangeInput} />
-        <UploadInput type={"text"} name={"description"} placeholder={"어떤 작품인지 설명해 주세요!"} onChange={onChangeInput} />
+      <Top />
+      <UploadInnerWrapper>
+        <UploadWrapper>
+          <UploadPreviewWrapper>{children}</UploadPreviewWrapper>
+          <UploadPreviewWrapper>
+            <UploadInputWrapper>
+              <UploadInput type={"text"} name={"name"} placeholder={"닉네임을 입력해주세요!"} onChange={onChangeInput} />
+              <UploadInput type={"text"} name={"title"} placeholder={"업로드할 작품의 제목을 입력해주세요!"} onChange={onChangeInput} />
+              <UploadInput type={"text"} name={"description"} placeholder={"어떤 작품인지 설명해 주세요!"} onChange={onChangeInput} />
+            </UploadInputWrapper>
+          </UploadPreviewWrapper>
+        </UploadWrapper>
         <UploadButton onClick={uploadCanvas}>UPLOAD</UploadButton>
-      </UploadWrapper>
+      </UploadInnerWrapper>
     </UploadContainer>
   );
 };

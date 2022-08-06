@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import _ from "lodash";
 
 import { faEraser } from "@fortawesome/free-solid-svg-icons";
@@ -24,6 +25,13 @@ import {
 import { canvasService } from "service/canvasService";
 import CanvasUpload from "./CanvasUpload";
 
+const PreviewCanvas = styled.canvas`
+  border-radius: 5px;
+  overflow: hidden;
+
+  box-shadow: rgb(50 50 93 / 25%) 0px 13px 27px -5px, rgb(0 0 0 / 30%) 0px 8px 16px -8px;
+`;
+
 const defaultColor = {
   rgb: { r: "0", g: "0", b: "0", a: "1" },
 };
@@ -33,10 +41,13 @@ const Canvas = () => {
   const navigate = useNavigate();
   const canvasRef = useRef(null);
   const bgCanvasRef = useRef(null);
+  const previewRef = useRef(null);
+  const [modify, setModify] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [size, setSize] = useState({ width: 0, height: 0 });
   const [ctxTag, setCtxTag] = useState();
   const [bgCtxTag, setBgCtxTag] = useState();
+  const [previewCtxTag, setPreviewCtxTag] = useState();
   const [stroke, setStroke] = useState(1.5);
   const [eraseStroke, setEraseStroke] = useState(10);
   const [color, setColor] = useState(defaultColor);
@@ -49,6 +60,7 @@ const Canvas = () => {
   const [openErase, setOpenErase] = useState(false);
   const [insertData, setInsertData] = useState({
     upload: false,
+    name: "",
     title: "",
     description: "",
   });
@@ -96,17 +108,21 @@ const Canvas = () => {
     img.onload = () => {
       const canvas = canvasRef.current;
       const background = bgCanvasRef.current;
+      const preview = previewRef.current;
       const ctx = canvas.getContext("2d");
       const bgCtx = background.getContext("2d");
+      const preCtx = preview.getContext("2d");
       // const isOver = img.width > 990;
       const isHori = img.width > img.height;
 
       const getCanvas = setCanvas(ctx, isHori ? 990 : 440);
       const getBgCanvas = setCanvas(bgCtx, isHori ? 990 : 440);
+      const getPreCanvas = setCanvas(preCtx, 400);
 
       getBgCanvas[1].drawImage(img, 0, 0, bgCtx.canvas.width, getBgCanvas[0]);
       setCtxTag(getCanvas[1]);
       setBgCtxTag(getBgCanvas[1]);
+      setPreviewCtxTag(getPreCanvas[1]);
 
       setUploadImage(false);
       setSize({ width: img.width, height: img.height });
@@ -148,6 +164,10 @@ const Canvas = () => {
     }
 
     const draw = () => {
+      if (isDrawing && !modify) {
+        setModify(true);
+      }
+
       if (utils.isMobile()) {
         if (!isDrawing) {
           return;
@@ -168,6 +188,7 @@ const Canvas = () => {
 
     const remove = () => {
       ctxTag.clearRect(X - eraseStroke / 2, Y - eraseStroke / 2, eraseStroke, eraseStroke);
+      setModify(false);
     };
 
     const haveTag = () => {
@@ -227,9 +248,18 @@ const Canvas = () => {
   };
 
   const uploadCanvas = async () => {
+    bgCtxTag.drawImage(canvasRef.current, 0, 0);
+
     if (uploadImage) return;
+
+    if (!modify) {
+      alert("그림을 그려주세요 !");
+      return;
+    }
+
     if (!insertData.upload) {
       setInsertData({ ...insertData, upload: true });
+      previewCtxTag.drawImage(bgCanvasRef.current, 0, 0, 400, (previewCtxTag.canvas.height / previewCtxTag.canvas.width) * 400);
     } else {
       if (_.isEmpty(insertData.title) || _.isEmpty(insertData.description)) {
         alert("작품에 대한 제목과 설명을 입력해주세요!");
@@ -237,7 +267,6 @@ const Canvas = () => {
       }
 
       setUploading(true);
-      bgCtxTag.drawImage(canvasRef.current, 0, 0);
       let imageURL = bgCanvasRef.current.toDataURL("image/png");
 
       const data = new FormData();
@@ -249,6 +278,7 @@ const Canvas = () => {
 
       const params = {
         title: insertData.title,
+        name: insertData.name,
         description: insertData.description,
         canvas: url,
         vertical: size.width < size.height ? "1" : "0",
@@ -325,7 +355,9 @@ const Canvas = () => {
               onPicker={onPicker}
             />
           </CanvasPickerBox>
-          <CanvasUpload hidden={insertData.upload} onChangeInput={onChangeInput} uploadCanvas={uploadCanvas} />
+          <CanvasUpload hidden={insertData.upload} onChangeInput={onChangeInput} uploadCanvas={uploadCanvas}>
+            <PreviewCanvas ref={previewRef} id="previewCanvas" />
+          </CanvasUpload>
         </CanvasWrapper>
       </CanvasContainer>
       <EraserModeIconWrapper className="eraser" active={erase} stroke={eraseStroke}>
