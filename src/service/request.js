@@ -19,7 +19,7 @@ const httpGet = (url, params) => {
 
 const httpPost = (url, params, data) => {
   const withParam = (url, params) => {
-    return axios.post(url, null, { params: { ...params } });
+    return axios.post(url, { ...params });
   };
 
   const withData = (url, data) => {

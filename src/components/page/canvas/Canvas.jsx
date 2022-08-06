@@ -308,7 +308,7 @@ const Canvas = () => {
             vertical: width < height ? "1" : "0",
           };
 
-          await canvasService.canvasInsert({ params }).then(() => {
+          await canvasService.canvasInsert({ data: params }).then(() => {
             setUploading(false);
             navigate("/canvas/board");
           });

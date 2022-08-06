@@ -22,10 +22,10 @@ export const canvasService = {
       data,
     }),
 
-  canvasInsert: ({ params }) =>
+  canvasInsert: ({ data }) =>
     request({
       method: API.HTTP_METHOD.POST,
       url: API.URL.INSERT_CANVAS,
-      params,
+      data,
     }),
 };
