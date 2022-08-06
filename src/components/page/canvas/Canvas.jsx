@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
 import _ from "lodash";
 
 import { faEraser } from "@fortawesome/free-solid-svg-icons";
@@ -20,17 +19,11 @@ import {
   EraserModeIcon,
   EraserModeIconWrapper,
   MainCanvas,
+  PreviewCanvas,
 } from "style";
 
 import { canvasService } from "service/canvasService";
 import CanvasUpload from "./CanvasUpload";
-
-const PreviewCanvas = styled.canvas`
-  border-radius: 5px;
-  overflow: hidden;
-
-  box-shadow: rgb(50 50 93 / 25%) 0px 13px 27px -5px, rgb(0 0 0 / 30%) 0px 8px 16px -8px;
-`;
 
 const defaultColor = {
   rgb: { r: "0", g: "0", b: "0", a: "1" },
@@ -39,25 +32,45 @@ const defaultColor = {
 const Canvas = () => {
   let img = new Image();
   const navigate = useNavigate();
-  const canvasRef = useRef(null);
-  const bgCanvasRef = useRef(null);
-  const previewRef = useRef(null);
+
+  // 사용자가 그리기 시작했는 지 확인
   const [modify, setModify] = useState(false);
+  // 업로드 상태 시작 / 마무리
   const [uploading, setUploading] = useState(false);
+  // 캔버스 크기를 확인하기 위한 State
   const [size, setSize] = useState({ width: 0, height: 0 });
+
+  // 캔버스 Context 데이터
+  const canvasRef = useRef(null);
   const [ctxTag, setCtxTag] = useState();
+
+  const bgCanvasRef = useRef(null);
   const [bgCtxTag, setBgCtxTag] = useState();
+
+  const previewRef = useRef(null);
   const [previewCtxTag, setPreviewCtxTag] = useState();
+
+  // 브러쉬 굵기, 지우개 크기, 컬러 저장
   const [stroke, setStroke] = useState(1.5);
   const [eraseStroke, setEraseStroke] = useState(10);
   const [color, setColor] = useState(defaultColor);
+
+  // 그리는 상태인지 아닌지 (클릭)
   const [isDrawing, setIsDrawing] = useState(false);
+
+  // 다음 단계
   const [uploadImage, setUploadImage] = useState(true);
+
+  // ON, OFF
   const [picker, setPicker] = useState(false);
   const [erase, setErase] = useState(false);
   const [brush, setBrush] = useState(true);
+
+  // 펜 & 지우개 굵기, 크기 선택 모드
   const [openBrush, setOpenBrush] = useState(false);
   const [openErase, setOpenErase] = useState(false);
+
+  // 이미지 업로드 Params
   const [insertData, setInsertData] = useState({
     upload: false,
     name: "",
@@ -114,9 +127,10 @@ const Canvas = () => {
       const preCtx = preview.getContext("2d");
       // const isOver = img.width > 990;
       const isHori = img.width > img.height;
+      const isRect = img.width - img.height < 50;
 
-      const getCanvas = setCanvas(ctx, isHori ? 990 : 440);
-      const getBgCanvas = setCanvas(bgCtx, isHori ? 990 : 440);
+      const getCanvas = setCanvas(ctx, isHori ? (isRect ? 660 : 990) : 440);
+      const getBgCanvas = setCanvas(bgCtx, isHori ? (isRect ? 660 : 990) : 440);
       const getPreCanvas = setCanvas(preCtx, 400);
 
       getBgCanvas[1].drawImage(img, 0, 0, bgCtx.canvas.width, getBgCanvas[0]);
@@ -240,7 +254,12 @@ const Canvas = () => {
   };
 
   const onChangeInput = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+
+    if (_.isEqual(name, "description")) {
+      value = utils.onComment({ value });
+    }
+
     setInsertData({
       ...insertData,
       [name]: value,
@@ -248,46 +267,55 @@ const Canvas = () => {
   };
 
   const uploadCanvas = async () => {
-    bgCtxTag.drawImage(canvasRef.current, 0, 0);
-
-    if (uploadImage) return;
+    const sendAlert = ({ msg }) => {
+      alert(msg);
+    };
 
     if (!modify) {
-      alert("그림을 그려주세요 !");
-      return;
-    }
-
-    if (!insertData.upload) {
-      setInsertData({ ...insertData, upload: true });
-      previewCtxTag.drawImage(bgCanvasRef.current, 0, 0, 400, (previewCtxTag.canvas.height / previewCtxTag.canvas.width) * 400);
+      sendAlert({ msg: "그림을 그려주세요 !" });
     } else {
-      if (_.isEmpty(insertData.title) || _.isEmpty(insertData.description)) {
-        alert("작품에 대한 제목과 설명을 입력해주세요!");
-        return;
-      }
+      const { width, height } = size;
+      const { upload, title, name, description } = insertData;
+      bgCtxTag.drawImage(canvasRef.current, 0, 0);
 
-      setUploading(true);
-      let imageURL = bgCanvasRef.current.toDataURL("image/png");
-
-      const data = new FormData();
-      data.append("file", imageURL);
-      data.append("upload_preset", "dbw3ells");
-
-      const upload = await canvasService.canvasUpload({ data });
-      const url = upload.url;
-
-      const params = {
-        title: insertData.title,
-        name: insertData.name,
-        description: insertData.description,
-        canvas: url,
-        vertical: size.width < size.height ? "1" : "0",
+      const onNext = () => {
+        const { width: w, height: h } = previewCtxTag.canvas;
+        previewCtxTag.drawImage(bgCanvasRef.current, 0, 0, 400, (h / w) * 400);
+        setInsertData({ ...insertData, upload: true });
       };
 
-      await canvasService.canvasInsert({ params }).then(() => {
-        setUploading(false);
-        navigate("/canvas/board");
-      });
+      const onUpload = async () => {
+        const isTitle = _.isEmpty(title);
+        const isDescription = _.isEmpty(description);
+
+        if (isTitle || isDescription) {
+          sendAlert({ msg: "작품에 대한 제목과 설명을 입력해주세요!" });
+        } else {
+          setUploading(true);
+          const data = new FormData();
+          let imageURL = bgCanvasRef.current.toDataURL("image/png");
+
+          data.append("file", imageURL);
+          data.append("upload_preset", "dbw3ells");
+
+          const upload = await canvasService.canvasUpload({ data });
+          const url = upload.url;
+          const params = {
+            title: title,
+            name: name,
+            description: description,
+            canvas: url,
+            vertical: width < height ? "1" : "0",
+          };
+
+          await canvasService.canvasInsert({ params }).then(() => {
+            setUploading(false);
+            navigate("/canvas/board");
+          });
+        }
+      };
+
+      upload ? onUpload() : onNext();
     }
   };
 

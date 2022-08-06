@@ -19,6 +19,8 @@ export const API = {
     CANVAS_LIST: `${REQUEST_URL}/getCanvasList.php`,
     CANVAS_DETAIL: `${REQUEST_URL}/getCanvas.php`,
     INSERT_CANVAS: `${REQUEST_URL}/insertCanvas.php`,
+    COMMENT_LIST: `${REQUEST_URL}/getComment.php`,
+    INSERT_COMMENT: `${REQUEST_URL}/insertComment.php`,
     IMAGE_UPLOAD: `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_USER_NAME}/image/upload`,
   },
 

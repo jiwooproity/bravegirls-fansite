@@ -141,6 +141,13 @@ const EraserModeIcon = styled(FontAwesomeIcon)`
   color: white;
 `;
 
+const PreviewCanvas = styled.canvas`
+  border-radius: 5px;
+  overflow: hidden;
+
+  box-shadow: rgb(50 50 93 / 25%) 0px 13px 27px -5px, rgb(0 0 0 / 30%) 0px 8px 16px -8px;
+`;
+
 export {
   CanvasContainer,
   CanvasPickerBox,
@@ -151,4 +158,5 @@ export {
   EraserModeIcon,
   EraserModeIconWrapper,
   MainCanvas,
+  PreviewCanvas,
 };
