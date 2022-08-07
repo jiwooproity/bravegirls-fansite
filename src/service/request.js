@@ -3,6 +3,9 @@ import axios from "axios";
 const header = axios.create({
   headers: {
     "Content-Type": "application/json",
+    // "Access-Control-Allow-Origin": "*",
+    // "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+    // "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
   },
 });
 
@@ -36,7 +39,6 @@ const request = async ({ method, url, params, data }) => {
       return getData;
     case "POST":
       const { data: postData } = await httpPost(url, params, data);
-      console.log(postData);
       return postData;
     case "PUT":
       break;

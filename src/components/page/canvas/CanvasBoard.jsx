@@ -4,7 +4,7 @@ import _ from "lodash";
 
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
-import { Top } from "components";
+import { Loading, Top } from "components";
 import { canvasService } from "service";
 
 import {
@@ -100,7 +100,9 @@ const CanvasBoard = () => {
               ))}
             </ArtContainer>
           </BoardWrapper>
-        ) : null}
+        ) : (
+          <Loading />
+        )}
       </BoardContainer>
     </>
   );

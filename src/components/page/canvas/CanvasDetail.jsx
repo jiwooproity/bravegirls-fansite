@@ -20,6 +20,7 @@ import {
   CommentInsertButton,
   CommentList,
   CommentListWrapper,
+  CanvasTitle,
   CommentNumber,
   CommentText,
   CommentTextField,
@@ -29,6 +30,9 @@ import {
   DetailImage,
   DetailImageContainer,
   DetailImageWrapper,
+  CommentProfile,
+  CommentNoneWrapper,
+  CommentNoneText,
 } from "style";
 
 const CanvasDetail = () => {
@@ -71,6 +75,7 @@ const CanvasDetail = () => {
         art: response.canvas_art,
         width: image.width,
         height: image.height,
+        vertical: response.canvas_vertical === "1",
       };
 
       _.forEach(commentResponse, (comm) => {
@@ -108,7 +113,7 @@ const CanvasDetail = () => {
         info: comment,
       };
 
-      await commentService.commentInsert({ params }).then(() => {
+      await commentService.commentInsert({ data: params }).then(() => {
         onLoad();
         setComment("");
       });
@@ -125,7 +130,7 @@ const CanvasDetail = () => {
 
   const onChangeComment = (e) => {
     const { value } = e.target;
-    setComment(value.replace(/(?:\r\n|\r|\n)/g, "<br/>"));
+    setComment(utils.onComment({ value }));
   };
 
   const onRestUserData = (e) => {
@@ -139,11 +144,12 @@ const CanvasDetail = () => {
       <CanvasDetailContainer>
         {loading ? (
           <DetailImageContainer>
-            <CanvasDetailWrapper>
+            <CanvasDetailWrapper vertical={detail.vertical}>
               <DetailImageWrapper width={detail.width}>
                 <DetailImage src={detail.art} />
               </DetailImageWrapper>
-              <CanvasDetailInfo>
+              <CanvasDetailInfo vertical={detail.vertical}>
+                <CanvasTitle>{detail.title}</CanvasTitle>
                 <CanvasDetailText>{detail.description}</CanvasDetailText>
               </CanvasDetailInfo>
             </CanvasDetailWrapper>
@@ -152,11 +158,18 @@ const CanvasDetail = () => {
             </CommentInfo>
             <CommentWrapper>
               <CommentBox>
-                <CommentInput type={"text"} name="userName" placeholder="아이디" value={userInfo.userName} onClick={onRestUserData} onChange={onChangeUser} />
+                <CommentInput
+                  type={"text"}
+                  name={"userName"}
+                  placeholder={"아이디"}
+                  value={userInfo.userName}
+                  onClick={onRestUserData}
+                  onChange={onChangeUser}
+                />
                 <CommentInput
                   type={"password"}
-                  name="password"
-                  placeholder="비밀번호"
+                  name={"password"}
+                  placeholder={"비밀번호"}
                   value={userInfo.password}
                   onClick={onRestUserData}
                   onChange={onChangeUser}
@@ -169,16 +182,25 @@ const CanvasDetail = () => {
                 <CommentInsertButton onClick={insertComment}>등록</CommentInsertButton>
               </CommentBox>
             </CommentWrapper>
-            {_.map(commentList, (comm, index) => (
-              <CommentListWrapper key={index}>
-                <CommentUserWrapper>
-                  <CommentUserName>{comm.userName}</CommentUserName>
-                </CommentUserWrapper>
-                <CommentList>
-                  <CommentText>{comm.info}</CommentText>
-                </CommentList>
+            {!_.isEmpty(commentList) ? (
+              _.map(commentList, (comm, index) => (
+                <CommentListWrapper key={index}>
+                  <CommentUserWrapper>
+                    <CommentProfile src={"https://res.cloudinary.com/jiwooproity/image/upload/v1659851648/profile/logo_vpzyuv.jpg"} />
+                    <CommentUserName>{comm.userName}</CommentUserName>
+                  </CommentUserWrapper>
+                  <CommentList>
+                    <CommentText>{comm.info}</CommentText>
+                  </CommentList>
+                </CommentListWrapper>
+              ))
+            ) : (
+              <CommentListWrapper>
+                <CommentNoneWrapper>
+                  <CommentNoneText>아직 댓글이 없습니다.</CommentNoneText>
+                </CommentNoneWrapper>
               </CommentListWrapper>
-            ))}
+            )}
           </DetailImageContainer>
         ) : (
           <Loading />

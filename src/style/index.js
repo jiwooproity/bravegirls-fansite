@@ -97,6 +97,10 @@ import {
   DetailImage,
   DetailImageContainer,
   DetailImageWrapper,
+  CanvasTitle,
+  CommentProfile,
+  CommentNoneWrapper,
+  CommentNoneText,
 } from "./CanvasPage/canvasDetail";
 
 import {
@@ -145,8 +149,9 @@ export { ArtImageWrapper, ArtStatusBox, BoardContainer, BoardWrapper };
 export { CanvasDetailContainer, CanvasDetailInfo, CanvasDetailText, CanvasDetailWrapper };
 export { CommentBox, CommentInfo, CommentInput, CommentInsertButton };
 export { CommentList, CommentListWrapper, CommentNumber, CommentText };
-export { CommentTextField, CommentUserName, CommentUserWrapper };
+export { CommentTextField, CommentUserName, CommentUserWrapper, CanvasTitle };
 export { CommentWrapper, DetailImage, DetailImageContainer, DetailImageWrapper };
+export { CommentProfile, CommentNoneText, CommentNoneWrapper };
 // CanvasUpload.jsx
 export { UploadButton, UploadContainer, UploadInnerWrapper };
 export { UploadInput, UploadInputWrapper, UploadPreviewWrapper };

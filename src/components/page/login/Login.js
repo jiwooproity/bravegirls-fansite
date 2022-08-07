@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Fade } from "react-reveal";
+
 import styled from "styled-components";
+import _ from "lodash";
+
+import { userService } from "service";
 
 const LoginContainer = styled.div`
   width: 100%;
@@ -64,18 +69,25 @@ const LoginBoxInputWrap = styled.div`
   }
 `;
 
+const LoginErrorText = styled.span`
+  font-size: 12px;
+  line-height: 12px;
+  color: rgba(219, 68, 85, 1);
+`;
+
 const LoginBoxInput = styled.input`
   width: 100%;
   height: 30px;
   font-size: 12px;
 
   margin: 20px 0px 0px 0px;
+  padding: 2px 0px;
 
   border: none;
   border-radius: 0px;
   outline: none;
   background-color: transparent;
-  border-bottom: 1px solid ${(props) => props.theme.inputBottomColor};
+  border-bottom: 1px solid ${({ status, theme }) => (status ? "rgba(219, 68, 85, 0.5)" : theme.inputBottomColor)};
 
   color: ${(props) => props.theme.titleTextColor};
 
@@ -88,7 +100,7 @@ const LoginBoxInput = styled.input`
     border-bottom: 1px solid ${(props) => props.theme.inputBottomActiveColor};
   }
 
-  transition: border-bottom 0.5s ease;
+  transition: border 0.5s ease;
 `;
 
 const LoginBoxButton = styled.button`
@@ -134,6 +146,13 @@ const LoginBoxRegister = styled.a`
 `;
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const [status, setStatus] = useState({
+    message: "",
+    show: false,
+  });
+
   const [inputData, setInputData] = useState({
     address: "",
     password: "",
@@ -146,6 +165,42 @@ const Login = () => {
       ...inputData,
       [name]: value,
     });
+
+    setStatus({
+      message: "",
+      show: false,
+    });
+  };
+
+  const onLogin = async () => {
+    const isAddress = _.isEmpty(inputData.address);
+    const isPassword = _.isEmpty(inputData.password);
+
+    if (isAddress || isPassword) {
+      alert("로그인 정보를 모두 입력해 주세요.");
+    } else {
+      const params = {
+        userId: inputData.address,
+        password: inputData.password,
+      };
+
+      const { status, detail, userInfo } = await userService.userList({ data: params });
+
+      switch (status) {
+        case 404:
+          setStatus({ message: detail, show: true });
+          break;
+        case 200:
+          sessionStorage.setItem("login.nickname", userInfo.nickname);
+          sessionStorage.setItem("login.profile", userInfo.profile);
+          sessionStorage.setItem("login.level", userInfo.level);
+          sessionStorage.setItem("login.token", userInfo.token);
+          navigate("/success");
+          break;
+        default:
+          break;
+      }
+    }
   };
 
   return (
@@ -156,9 +211,10 @@ const Login = () => {
             <LoginBoxTitle>Hello! Fearless</LoginBoxTitle>
           </Fade>
           <LoginBoxInputWrap>
-            <LoginBoxInput type={"text"} name="address" placeholder="@ 이메일을 입력해주세요." value={inputData.address} onChange={onChangeInput} />
-            <LoginBoxInput type={"password"} name="password" placeholder="* 비밀번호를 입력해주세요." value={inputData.password} onChange={onChangeInput} />
-            <LoginBoxButton>로그인</LoginBoxButton>
+            {status.show && <LoginErrorText>{status.message}</LoginErrorText>}
+            <LoginBoxInput type={"text"} name="address" status={status.show} placeholder="아이디" value={inputData.address} onChange={onChangeInput} />
+            <LoginBoxInput type={"password"} name="password" placeholder="비밀번호" value={inputData.password} onChange={onChangeInput} />
+            <LoginBoxButton onClick={onLogin}>로그인</LoginBoxButton>
             <LoginBoxRegisterDes>
               아직 아이디가 없으신가요?<LoginBoxRegister>회원가입</LoginBoxRegister>
             </LoginBoxRegisterDes>

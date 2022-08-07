@@ -300,12 +300,15 @@ const Canvas = () => {
 
           const upload = await canvasService.canvasUpload({ data });
           const url = upload.url;
+          const isHori = width > height;
+          const isRect = width - height < 50;
+
           const params = {
             title: title,
             name: name,
             description: description,
             canvas: url,
-            vertical: width < height ? "1" : "0",
+            vertical: isHori ? (isRect ? "1" : "0") : "1",
           };
 
           await canvasService.canvasInsert({ data: params }).then(() => {

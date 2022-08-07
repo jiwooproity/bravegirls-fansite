@@ -30,7 +30,7 @@ export const utils = {
         if (!list.isLeaf && list.children.length) {
           status = {
             ...status,
-            [list.name]: false,
+            [list.value]: false,
           };
         }
 

@@ -9,10 +9,10 @@ export const commentService = {
       params,
     }),
 
-  commentInsert: ({ params }) =>
+  commentInsert: ({ data }) =>
     request({
       method: API.HTTP_METHOD.POST,
       url: API.URL.INSERT_COMMENT,
-      params,
+      data,
     }),
 };
