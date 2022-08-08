@@ -22,7 +22,7 @@ const CanvasDetailWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0px 0px 50px 0px;
+  padding: 50px 0px 50px 0px;
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -60,7 +60,8 @@ const DetailImageWrapper = styled.div`
   &:hover {
     div:nth-child(2) {
       height: 150px;
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
     }
   }
 
@@ -80,7 +81,7 @@ const CanvasInfoBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  transition: height 0.5s ease, background-color 0.5s ease;
+  transition: height 0.5s ease, background-color 0.5s ease, backdrop-filter 0.5s;
 `;
 
 const CanvasInnerInfo = styled.div`
@@ -131,29 +132,36 @@ const CommentBox = styled.div`
   &:nth-child(3) {
     display: flex;
     justify-content: flex-end;
-    padding: 5px 0px 0px 0px;
+    padding: 2px 0px 0px 0px;
   }
 `;
 
 const CommentInsertButton = styled.button`
-  font-size: 15px;
+  font-size: 12px;
+  font-weight: 600;
   height: 100%;
-  padding: 5px 15px;
+  padding: 5px 20px;
   border: none;
-  border-radius: 5px;
-  background-color: ${(props) => props.theme.backgroundOpacityColor};
+  border-radius: 3px;
+
   color: ${(props) => props.theme.diffTitleTextColor};
+  background-color: ${(props) => props.theme.backgroundOpacityColor};
+
+  &:hover {
+    background-color: ${(props) => props.theme.black};
+  }
+
+  transition: color 0.5s ease, background-color 0.5s ease;
 
   &:focus {
     outline: none;
   }
 
-  transition: color 0.5 ease, background-color 0.5s ease;
-  cursor: pointer;
-
   @media screen and (max-width: 768px) {
     width: 100%;
   }
+
+  cursor: pointer;
 `;
 
 const CommentInfo = styled.div`
@@ -230,7 +238,6 @@ const CommentNoneWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-top: 1px solid ${(props) => props.theme.inputBottomColor};
 `;
 
 const CommentNoneText = styled.span`
@@ -243,7 +250,6 @@ const CommentNoneText = styled.span`
 const CommentList = styled.div`
   width: 100%;
   padding: 15px 0px;
-  border-bottom: 1px solid ${(props) => props.theme.inputBottomColor};
 `;
 
 const CommentUserWrapper = styled.div`

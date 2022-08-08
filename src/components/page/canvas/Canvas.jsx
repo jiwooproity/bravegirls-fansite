@@ -78,6 +78,17 @@ const Canvas = () => {
     description: "",
   });
 
+  // 아이디가 존재할 경우 닉네임 자동 입력
+  useEffect(() => {
+    if (sessionStorage.getItem("login.nickname")) {
+      setInsertData({
+        ...insertData,
+        name: sessionStorage.getItem("login.nickname"),
+      });
+    }
+    // eslint-disable-next-line
+  }, []);
+
   // 지우개 토글 상태일 경우 지우개 표시
   useEffect(() => {
     const eraseIcon = document.querySelector(".eraser");
@@ -386,7 +397,7 @@ const Canvas = () => {
               onPicker={onPicker}
             />
           </CanvasPickerBox>
-          <CanvasUpload hidden={insertData.upload} onChangeInput={onChangeInput} uploadCanvas={uploadCanvas}>
+          <CanvasUpload hidden={insertData.upload} data={insertData} onChangeInput={onChangeInput} uploadCanvas={uploadCanvas}>
             <PreviewCanvas ref={previewRef} id="previewCanvas" />
           </CanvasUpload>
         </CanvasWrapper>

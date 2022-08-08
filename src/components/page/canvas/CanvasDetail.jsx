@@ -39,6 +39,7 @@ import {
   CanvasTitle,
   CommentDeletButton,
 } from "style";
+
 import { useStore } from "hooks";
 import { useObserver } from "mobx-react";
 
@@ -114,24 +115,20 @@ const CanvasDetail = () => {
     const isPassword = _.isEmpty(userInfo.password);
     const isInfo = _.isEmpty(comment);
 
-    const isUser = () => {
-      if (isInfo) {
-        alert("내용을 입력해주세요.");
-        return;
-      }
+    if (isInfo) {
+      alert("내용을 입력해주세요.");
+      return;
+    }
 
-      if (isUsername) {
-        alert("닉네임을 입력해주세요.");
-        return;
-      }
+    if (!loginStore.login && isUsername) {
+      alert("닉네임을 입력해주세요.");
+      return;
+    }
 
-      if (isPassword) {
-        alert("비밀번호를 입력해주세요.");
-        return;
-      }
-    };
-
-    !loginStore.login && isUser();
+    if (!loginStore.login && isPassword) {
+      alert("비밀번호를 입력해주세요.");
+      return;
+    }
 
     if (window.confirm("댓글을 남기시겠습니까?")) {
       const params = {
@@ -169,23 +166,26 @@ const CanvasDetail = () => {
   };
 
   const onDelete = async (comm) => {
-    const params = {
-      commentId: comm.id,
-    };
+    const { confirm, prompt } = window;
 
-    if (window.confirm("댓글을 삭제하시겠습니까?")) {
-      const { status, message } = await commentService.commentDelete({ data: params });
+    const params = { commentId: comm.id };
 
-      if (status === 200) {
-        onLoad();
-      } else {
-        alert(message);
-      }
+    if (confirm("댓글을 삭제하시겠습니까?")) {
+      const deleteReq = async () => {
+        const { status, message } = await commentService.commentDelete({ data: params });
+        status === 200 ? onLoad() : alert(message);
+      };
+
+      const isUnknown = () => {
+        prompt("비밀번호를 입력해주세요") === comm.password ? deleteReq() : alert("비밀번호가 일치하지 않습니다.");
+      };
+
+      comm.unknown ? deleteReq() : isUnknown();
     }
   };
 
   const isOwnComment = (comm) => {
-    return comm.unknown && comm.userName === sessionStorage.getItem("login.nickname");
+    return (comm.unknown && comm.userName === sessionStorage.getItem("login.nickname")) || !comm.unknown;
   };
 
   return useObserver(() => {

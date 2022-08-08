@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Fade } from "react-reveal";
 
@@ -7,6 +7,7 @@ import _ from "lodash";
 
 import { userService } from "service";
 import { useStore } from "hooks";
+import { utils } from "util";
 
 const LoginContainer = styled.div`
   width: 100%;
@@ -159,6 +160,10 @@ const Login = () => {
     address: "",
     password: "",
   });
+
+  useEffect(() => {
+    utils.onScrollTop();
+  }, []);
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
