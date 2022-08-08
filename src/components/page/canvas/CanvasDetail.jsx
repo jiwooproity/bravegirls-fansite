@@ -96,6 +96,7 @@ const CanvasDetail = () => {
         commentArr.push({
           id: comm.comment_idx,
           parent: comm.comment_parent,
+          password: comm.comment_password,
           userName: comm.comment_username,
           profile: comm.comment_profile,
           unknown: comm.comment_unknown,
