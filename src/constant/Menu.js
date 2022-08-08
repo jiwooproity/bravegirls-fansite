@@ -1,6 +1,17 @@
 import { faYoutube, faFacebook, faInstagram, faTwitter } from "@fortawesome/free-brands-svg-icons";
-import { faHouseChimney, faClipboardUser, faMusic, faVideo, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { faArrowDownShortWide } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHouseChimney,
+  faClipboardUser,
+  faMusic,
+  faVideo,
+  faPalette,
+  faPaintBrush,
+  faList,
+  faChessQueen,
+  // faRightFromBracket,
+  faClapperboard,
+  faCamera,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const snsMenu = [
   {
@@ -31,7 +42,8 @@ export const snsMenu = [
 
 export const Menu = [
   {
-    name: "HOME",
+    name: "홈",
+    value: "HOME",
     type: "text",
     // root: Url.ROOT,
     root: "/",
@@ -41,7 +53,8 @@ export const Menu = [
     isLeaf: false,
   },
   {
-    name: "MEMBER",
+    name: "멤버",
+    value: "MEMBER",
     type: "text",
     root: "/member",
     path: "/member",
@@ -50,7 +63,8 @@ export const Menu = [
     isLeaf: false,
   },
   {
-    name: "ALBUM",
+    name: "앨범",
+    value: "ALBUM",
     type: "text",
     root: "/album",
     path: "/album",
@@ -59,36 +73,37 @@ export const Menu = [
     isLeaf: false,
   },
   {
-    name: "VIDEO",
+    name: "비디오",
+    value: "VIDEO",
     type: "text",
     root: "/video",
     path: "/video",
     children: [
       {
-        name: "MUSIC",
+        name: "뮤직비디오",
         type: "text",
         root: "/video/music",
         path: "/video/music",
         parent: "VIDEO",
-        icon: faArrowDownShortWide,
+        icon: faCamera,
         isLeaf: true,
       },
       {
-        name: "QUEENDOM",
+        name: "퀸덤2",
         type: "text",
         root: "/video/queendom",
         path: "/video/queendom",
         parent: "VIDEO",
-        icon: faArrowDownShortWide,
+        icon: faChessQueen,
         isLeaf: true,
       },
       {
-        name: "BG-CLIP",
+        name: "쁘클립",
         type: "text",
         root: "/video/bgclip",
         path: "/video/bgclip",
         parent: "VIDEO",
-        icon: faArrowDownShortWide,
+        icon: faClapperboard,
         isLeaf: true,
       },
     ],
@@ -96,20 +111,43 @@ export const Menu = [
     isLeaf: false,
   },
   {
-    name: "CANVAS",
+    name: "캔버스",
+    value: "CANVAS",
     type: "text",
     root: "/canvas",
     path: "/canvas",
-    children: [],
-    icon: faRightFromBracket,
+    children: [
+      {
+        name: "그리기",
+        value: "DRAW",
+        type: "text",
+        root: "/canvas/draw",
+        path: "/canvas/draw",
+        parent: "CANVAS",
+        icon: faPaintBrush,
+        isLeaf: true,
+      },
+      {
+        name: "게시판",
+        value: "BOARD",
+        type: "text",
+        root: "/canvas/board",
+        path: "/canvas/board",
+        parent: "CANVAS",
+        icon: faList,
+        isLeaf: true,
+      },
+    ],
+    icon: faPalette,
   },
-  {
-    name: "LOGIN",
-    type: "text",
-    root: "/login",
-    path: "/login",
-    children: [],
-    icon: faRightFromBracket,
-    isLeaf: false,
-  },
+  // {
+  //   name: "로그인",
+  //   value: "LOGIN",
+  //   type: "text",
+  //   root: "/login",
+  //   path: "/login",
+  //   children: [],
+  //   icon: faRightFromBracket,
+  //   isLeaf: false,
+  // },
 ];

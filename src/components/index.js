@@ -22,8 +22,12 @@ import Video from "./page/video/Video";
 import VideoDetail from "./page/video/VideoDetail";
 
 import Canvas from "./page/canvas/Canvas";
+import CanvasBoard from "./page/canvas/CanvasBoard";
+import CanvasDetail from "./page/canvas/CanvasDetail";
 
 import Login from "./page/login/Login";
+import LoginForm from "./common/LoginForm";
+import Success from "./page/login/Success";
 
 // 재사용 컴포넌트
 export { Loading, Footer, Navbar, SnsNavbar, Top };
@@ -41,7 +45,7 @@ export { Album, AlbumInfo, AlbumList, AlbumTrack };
 export { Video, VideoDetail };
 
 // 캔버스 그림
-export { Canvas };
+export { Canvas, CanvasBoard, CanvasDetail };
 
 // 로그인 페이지
-export { Login };
+export { Login, LoginForm, Success };

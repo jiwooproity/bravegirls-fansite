@@ -14,6 +14,7 @@ import SideNavbar from "./SideNavbar";
 import { utils } from "util/utils";
 import SnsNavbar from "./SnsNavbar";
 import Title from "./Title";
+import LoginForm from "./LoginForm";
 
 const NavbarContainer = styled.div`
   width: 100%;
@@ -204,12 +205,12 @@ const NavbarChildrenList = styled.ul`
     -ms-transform: rotate(0deg);
   }
 
-  border-radius: 10px;
   box-shadow: rgba(50, 50, 93, 0.1) -5px -5px 15px 0px, rgba(0, 0, 0, 0.1) 0px 8px 16px -0px;
 `;
 
 const NavbarChildrenItem = styled.li`
-  font-size: 12px;
+  font-size: 13px;
+  line-height: 13px;
 
   padding: 5px 5px;
 
@@ -382,15 +383,15 @@ const Navbar = () => {
         ) : (
           <NavbarList key={index} focus={nowLocation(item.root)}>
             {_.isEmpty(item.children) ? (
-              <Link id="parent" to={item.root} onClick={() => onDisabled(item.name)}>
+              <Link id="parent" to={item.root} onClick={() => onDisabled(item.parent)}>
                 {item.name}
               </Link>
             ) : (
               <>
-                <NavbarChildrenTitle focus={nowLocation(item.root)} onClick={() => onDisabled(item.name)}>
+                <NavbarChildrenTitle focus={nowLocation(item.root)} onClick={() => onDisabled(item.value)}>
                   {item.name}
                 </NavbarChildrenTitle>
-                <NavbarChildrenList active={list[item.name] ? "true" : "false"}>{item.children && renderData(item.children)}</NavbarChildrenList>
+                <NavbarChildrenList active={list[item.value] ? "true" : "false"}>{item.children && renderData(item.children)}</NavbarChildrenList>
               </>
             )}
           </NavbarList>
@@ -416,6 +417,7 @@ const Navbar = () => {
             <ThemeButton onClick={setTheme} icon={themeStore.theme ? faMoon : faSun} />
           </MediaList>
           <SnsNavbar />
+          <LoginForm />
         </NavbarMenu>
 
         {/* 모바일 메뉴 [테마, 메뉴오픈] */}

@@ -2,9 +2,11 @@ import _ from "lodash";
 
 export const utils = {
   isMobile: () => {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    );
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  },
+
+  onComment: ({ value }) => {
+    return value.replace(/(?:\r\n|\r|\n)/g, "<br/>");
   },
 
   onScrollTop: () => {
@@ -16,9 +18,14 @@ export const utils = {
   },
 
   setComma: (number) => {
-    return number
-      ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-      : "???";
+    return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "???";
+  },
+
+  onLogout: () => {
+    sessionStorage.removeItem("login.nickname");
+    sessionStorage.removeItem("login.profile");
+    sessionStorage.removeItem("login.level");
+    sessionStorage.removeItem("login.token");
   },
 
   setStatus: (menu) => {
@@ -30,7 +37,7 @@ export const utils = {
         if (!list.isLeaf && list.children.length) {
           status = {
             ...status,
-            [list.name]: false,
+            [list.value]: false,
           };
         }
 

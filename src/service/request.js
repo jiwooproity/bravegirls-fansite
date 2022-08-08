@@ -3,6 +3,9 @@ import axios from "axios";
 const header = axios.create({
   headers: {
     "Content-Type": "application/json",
+    // "Access-Control-Allow-Origin": "*",
+    // "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+    // "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
   },
 });
 
@@ -17,17 +20,35 @@ const httpGet = (url, params) => {
   return params ? withParam(url, params) : onlyUrl(url);
 };
 
-const request = async ({ method, url, params }) => {
+const httpPost = (url, params, data) => {
+  const withParam = (url, params) => {
+    return axios.post(url, { ...params });
+  };
+
+  const withData = (url, data) => {
+    return header.post(url, data);
+  };
+
+  return params ? withParam(url, params) : withData(url, data);
+};
+
+const httpDelete = (url, data) => {
+  return axios.delete(url, { data });
+};
+
+const request = async ({ method, url, params, data }) => {
   switch (method) {
     case "GET":
-      const { data } = await httpGet(url, params);
-      return data;
+      const { data: getData } = await httpGet(url, params);
+      return getData;
     case "POST":
-      break;
+      const { data: postData } = await httpPost(url, params, data);
+      return postData;
     case "PUT":
       break;
     case "DELETE":
-      break;
+      const { data: deleteData } = await httpDelete(url, data);
+      return deleteData;
     default:
       break;
   }

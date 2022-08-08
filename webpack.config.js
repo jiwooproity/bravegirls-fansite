@@ -9,7 +9,7 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    port: 21,
+    port: 80,
     static: {
       directory: path.join(__dirname, "public"),
     },

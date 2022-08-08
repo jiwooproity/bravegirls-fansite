@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled, { css } from "styled-components";
 
 import _ from "lodash";
@@ -60,7 +60,7 @@ const MediaBackdropFilter = styled.div`
   @media screen and (max-width: 768px) {
     backdrop-filter: blur(10px);
     opacity: 1;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.2);
 
     ${({ active }) =>
       active === "false" &&
@@ -204,6 +204,7 @@ const MediaChildren = styled.li`
 
 const SideNavbar = (props) => {
   const [list, setList] = useState({});
+  const navbarRef = useRef();
 
   const { media, setMedia } = props;
   const active = media.toString();
@@ -235,7 +236,7 @@ const SideNavbar = (props) => {
           <MediaList key={index}>
             <FontAwesomeCustom icon={item.icon} />
             {!!item.children.length && (
-              <MediaChildrenArrow icon={faAngleDown} onClick={() => onDisabled(item.name)} active={list[item.name] ? "true" : "false"} />
+              <MediaChildrenArrow icon={faAngleDown} onClick={() => onDisabled(item.value)} active={list[item.value] ? "true" : "false"} />
             )}
 
             {!item.children.length ? (
@@ -256,7 +257,7 @@ const SideNavbar = (props) => {
   return (
     <>
       <MediaBackdropFilter active={active} />
-      <MediaNavbar active={active}>
+      <MediaNavbar ref={navbarRef} active={active}>
         <MediaMenu>{renderData(Menu)}</MediaMenu>
       </MediaNavbar>
     </>
