@@ -32,6 +32,10 @@ const httpPost = (url, params, data) => {
   return params ? withParam(url, params) : withData(url, data);
 };
 
+const httpDelete = (url, data) => {
+  return axios.delete(url, { data });
+};
+
 const request = async ({ method, url, params, data }) => {
   switch (method) {
     case "GET":
@@ -43,7 +47,8 @@ const request = async ({ method, url, params, data }) => {
     case "PUT":
       break;
     case "DELETE":
-      break;
+      const { data: deleteData } = await httpDelete(url, data);
+      return deleteData;
     default:
       break;
   }

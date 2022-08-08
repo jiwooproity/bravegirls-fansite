@@ -22,6 +22,7 @@ export const API = {
     INSERT_CANVAS: `/photocard/insertCanvas.php`,
     COMMENT_LIST: `/photocard/getComment.php`,
     INSERT_COMMENT: `/photocard/insertComment.php`,
+    DELETE_COMMENT: `/photocard/deleteComment.php`,
     USER_LIST: `/photocard/getUserList.php`,
     IMAGE_UPLOAD: `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_USER_NAME}/image/upload`,
   },

@@ -15,4 +15,11 @@ export const commentService = {
       url: API.URL.INSERT_COMMENT,
       data,
     }),
+
+  commentDelete: ({ data }) =>
+    request({
+      method: API.HTTP_METHOD.DELETE,
+      url: API.URL.DELETE_COMMENT,
+      data,
+    }),
 };

@@ -6,6 +6,7 @@ import styled from "styled-components";
 import _ from "lodash";
 
 import { userService } from "service";
+import { useStore } from "hooks";
 
 const LoginContainer = styled.div`
   width: 100%;
@@ -147,6 +148,7 @@ const LoginBoxRegister = styled.a`
 
 const Login = () => {
   const navigate = useNavigate();
+  const { loginStore } = useStore();
 
   const [status, setStatus] = useState({
     message: "",
@@ -196,6 +198,7 @@ const Login = () => {
           sessionStorage.setItem("login.level", userInfo.level);
           sessionStorage.setItem("login.token", userInfo.token);
           navigate("/success");
+          loginStore.setLogin();
           break;
         default:
           break;

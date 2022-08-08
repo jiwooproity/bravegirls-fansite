@@ -8,7 +8,7 @@ import {
   faPaintBrush,
   faList,
   faChessQueen,
-  faRightFromBracket,
+  // faRightFromBracket,
   faClapperboard,
   faCamera,
 } from "@fortawesome/free-solid-svg-icons";
@@ -140,14 +140,14 @@ export const Menu = [
     ],
     icon: faPalette,
   },
-  {
-    name: "로그인",
-    value: "LOGIN",
-    type: "text",
-    root: "/login",
-    path: "/login",
-    children: [],
-    icon: faRightFromBracket,
-    isLeaf: false,
-  },
+  // {
+  //   name: "로그인",
+  //   value: "LOGIN",
+  //   type: "text",
+  //   root: "/login",
+  //   path: "/login",
+  //   children: [],
+  //   icon: faRightFromBracket,
+  //   isLeaf: false,
+  // },
 ];

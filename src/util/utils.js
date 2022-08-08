@@ -21,6 +21,13 @@ export const utils = {
     return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "???";
   },
 
+  onLogout: () => {
+    sessionStorage.removeItem("login.nickname");
+    sessionStorage.removeItem("login.profile");
+    sessionStorage.removeItem("login.level");
+    sessionStorage.removeItem("login.token");
+  },
+
   setStatus: (menu) => {
     let status = {};
 

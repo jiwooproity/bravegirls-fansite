@@ -14,6 +14,7 @@ import SideNavbar from "./SideNavbar";
 import { utils } from "util/utils";
 import SnsNavbar from "./SnsNavbar";
 import Title from "./Title";
+import LoginForm from "./LoginForm";
 
 const NavbarContainer = styled.div`
   width: 100%;
@@ -416,6 +417,7 @@ const Navbar = () => {
             <ThemeButton onClick={setTheme} icon={themeStore.theme ? faMoon : faSun} />
           </MediaList>
           <SnsNavbar />
+          <LoginForm />
         </NavbarMenu>
 
         {/* 모바일 메뉴 [테마, 메뉴오픈] */}

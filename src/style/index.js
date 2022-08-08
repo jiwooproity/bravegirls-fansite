@@ -101,6 +101,11 @@ import {
   CommentProfile,
   CommentNoneWrapper,
   CommentNoneText,
+  CanvasInfoBox,
+  CanvasInfoTitle,
+  CanvasInfoDescription,
+  CanvasInnerInfo,
+  CommentDeletButton,
 } from "./CanvasPage/canvasDetail";
 
 import {
@@ -151,7 +156,8 @@ export { CommentBox, CommentInfo, CommentInput, CommentInsertButton };
 export { CommentList, CommentListWrapper, CommentNumber, CommentText };
 export { CommentTextField, CommentUserName, CommentUserWrapper, CanvasTitle };
 export { CommentWrapper, DetailImage, DetailImageContainer, DetailImageWrapper };
-export { CommentProfile, CommentNoneText, CommentNoneWrapper };
+export { CommentProfile, CommentNoneText, CommentNoneWrapper, CanvasInnerInfo };
+export { CanvasInfoBox, CanvasInfoTitle, CanvasInfoDescription, CommentDeletButton };
 // CanvasUpload.jsx
 export { UploadButton, UploadContainer, UploadInnerWrapper };
 export { UploadInput, UploadInputWrapper, UploadPreviewWrapper };

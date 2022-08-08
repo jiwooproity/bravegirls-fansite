@@ -26,6 +26,7 @@ import CanvasBoard from "./page/canvas/CanvasBoard";
 import CanvasDetail from "./page/canvas/CanvasDetail";
 
 import Login from "./page/login/Login";
+import LoginForm from "./common/LoginForm";
 import Success from "./page/login/Success";
 
 // 재사용 컴포넌트
@@ -47,4 +48,4 @@ export { Video, VideoDetail };
 export { Canvas, CanvasBoard, CanvasDetail };
 
 // 로그인 페이지
-export { Login, Success };
+export { Login, LoginForm, Success };

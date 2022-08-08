@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 
 import _ from "lodash";
 
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+
 import { Loading, Top } from "components";
 
 import { utils } from "util/utils";
@@ -11,8 +13,6 @@ import { commentService } from "service";
 
 import {
   CanvasDetailContainer,
-  CanvasDetailInfo,
-  CanvasDetailText,
   CanvasDetailWrapper,
   CommentBox,
   CommentInfo,
@@ -20,7 +20,6 @@ import {
   CommentInsertButton,
   CommentList,
   CommentListWrapper,
-  CanvasTitle,
   CommentNumber,
   CommentText,
   CommentTextField,
@@ -33,10 +32,19 @@ import {
   CommentProfile,
   CommentNoneWrapper,
   CommentNoneText,
+  CanvasInfoBox,
+  CanvasInfoTitle,
+  CanvasInfoDescription,
+  CanvasInnerInfo,
+  CanvasTitle,
+  CommentDeletButton,
 } from "style";
+import { useStore } from "hooks";
+import { useObserver } from "mobx-react";
 
 const CanvasDetail = () => {
   const params = useParams();
+  const { loginStore } = useStore();
   const [detail, setDetail] = useState({});
   const [loading, setLoading] = useState(false);
   const [commentList, setCommentList] = useState([]);
@@ -50,7 +58,11 @@ const CanvasDetail = () => {
 
   useEffect(() => {
     onLoad();
-    localStorage.getItem("userInfo") && setUserInfo();
+    loginStore.login &&
+      setUserInfo({
+        ...userInfo,
+        userName: sessionStorage.getItem("login.nickname"),
+      });
     // eslint-disable-next-line
   }, []);
 
@@ -70,6 +82,7 @@ const CanvasDetail = () => {
 
     image.onload = () => {
       detailObj = {
+        nickname: response.canvas_nickname,
         title: response.canvas_title,
         description: response.canvas_description.split("<br/>").join("\r\n"),
         art: response.canvas_art,
@@ -83,6 +96,8 @@ const CanvasDetail = () => {
           id: comm.comment_idx,
           parent: comm.comment_parent,
           userName: comm.comment_username,
+          profile: comm.comment_profile,
+          unknown: comm.comment_unknown,
           info: comm.comment_info.split("<br/>").join("\r\n"),
           date: comm.comment_date,
         });
@@ -95,21 +110,36 @@ const CanvasDetail = () => {
   };
 
   const insertComment = async () => {
-    const isParent = _.isEmpty(boardId);
     const isUsername = _.isEmpty(userInfo.userName);
-    // const isPassword = _.isEmpty(userInfo.password);
+    const isPassword = _.isEmpty(userInfo.password);
     const isInfo = _.isEmpty(comment);
 
-    if (isParent || isUsername || isInfo) {
-      alert("댓글 내용을 입력해주세요!");
-      return;
-    }
+    const isUser = () => {
+      if (isInfo) {
+        alert("내용을 입력해주세요.");
+        return;
+      }
+
+      if (isUsername) {
+        alert("닉네임을 입력해주세요.");
+        return;
+      }
+
+      if (isPassword) {
+        alert("비밀번호를 입력해주세요.");
+        return;
+      }
+    };
+
+    !loginStore.login && isUser();
 
     if (window.confirm("댓글을 남기시겠습니까?")) {
       const params = {
         parent: boardId,
         username: userInfo.userName,
         password: userInfo.password,
+        profile: sessionStorage.getItem("login.profile"),
+        unknown: loginStore.login ? 1 : 0,
         info: comment,
       };
 
@@ -138,76 +168,107 @@ const CanvasDetail = () => {
     setUserInfo({ ...userInfo, [name]: "" });
   };
 
-  return (
-    <>
-      <Top />
-      <CanvasDetailContainer>
-        {loading ? (
-          <DetailImageContainer>
-            <CanvasDetailWrapper vertical={detail.vertical}>
-              <DetailImageWrapper width={detail.width}>
-                <DetailImage src={detail.art} />
-              </DetailImageWrapper>
-              <CanvasDetailInfo vertical={detail.vertical}>
-                <CanvasTitle>{detail.title}</CanvasTitle>
-                <CanvasDetailText>{detail.description}</CanvasDetailText>
-              </CanvasDetailInfo>
-            </CanvasDetailWrapper>
-            <CommentInfo>
-              <CommentNumber>댓글 {commentList.length}개</CommentNumber>
-            </CommentInfo>
-            <CommentWrapper>
-              <CommentBox>
-                <CommentInput
-                  type={"text"}
-                  name={"userName"}
-                  placeholder={"아이디"}
-                  value={userInfo.userName}
-                  onClick={onRestUserData}
-                  onChange={onChangeUser}
-                />
-                <CommentInput
-                  type={"password"}
-                  name={"password"}
-                  placeholder={"비밀번호"}
-                  value={userInfo.password}
-                  onClick={onRestUserData}
-                  onChange={onChangeUser}
-                />
-              </CommentBox>
-              <CommentBox>
-                <CommentTextField type={"area"} name="comment" placeholder="악의 적인 댓글은 삭제될 수 있습니다." onChange={onChangeComment} />
-              </CommentBox>
-              <CommentBox>
-                <CommentInsertButton onClick={insertComment}>등록</CommentInsertButton>
-              </CommentBox>
-            </CommentWrapper>
-            {!_.isEmpty(commentList) ? (
-              _.map(commentList, (comm, index) => (
-                <CommentListWrapper key={index}>
-                  <CommentUserWrapper>
-                    <CommentProfile src={"https://res.cloudinary.com/jiwooproity/image/upload/v1659851648/profile/logo_vpzyuv.jpg"} />
-                    <CommentUserName>{comm.userName}</CommentUserName>
-                  </CommentUserWrapper>
-                  <CommentList>
-                    <CommentText>{comm.info}</CommentText>
-                  </CommentList>
+  const onDelete = async (comm) => {
+    const params = {
+      commentId: comm.id,
+    };
+
+    if (window.confirm("댓글을 삭제하시겠습니까?")) {
+      const { status, message } = await commentService.commentDelete({ data: params });
+
+      if (status === 200) {
+        onLoad();
+      } else {
+        alert(message);
+      }
+    }
+  };
+
+  const isOwnComment = (comm) => {
+    return comm.unknown && comm.userName === sessionStorage.getItem("login.nickname");
+  };
+
+  return useObserver(() => {
+    const { login } = loginStore;
+
+    return (
+      <>
+        <Top />
+        <CanvasDetailContainer>
+          {loading ? (
+            <DetailImageContainer>
+              <CanvasDetailWrapper>
+                <DetailImageWrapper width={detail.width}>
+                  <DetailImage src={detail.art} />
+                  <CanvasInfoBox>
+                    <CanvasInfoTitle>{`#${detail.nickname}`}</CanvasInfoTitle>
+                    <CanvasInfoDescription>{detail.description}</CanvasInfoDescription>
+                  </CanvasInfoBox>
+                </DetailImageWrapper>
+                <CanvasInnerInfo>
+                  <CanvasTitle>{`${detail.title}`}</CanvasTitle>
+                </CanvasInnerInfo>
+              </CanvasDetailWrapper>
+              <CommentInfo>
+                <CommentNumber>댓글 {commentList.length}개</CommentNumber>
+              </CommentInfo>
+              <CommentWrapper>
+                <CommentBox>
+                  <CommentInput
+                    type={"text"}
+                    name={"userName"}
+                    placeholder={"아이디"}
+                    value={userInfo.userName}
+                    onClick={onRestUserData}
+                    onChange={onChangeUser}
+                    disabled={login}
+                  />
+                  {!login && (
+                    <CommentInput
+                      type={"password"}
+                      name={"password"}
+                      placeholder={"비밀번호"}
+                      value={userInfo.password}
+                      onClick={onRestUserData}
+                      onChange={onChangeUser}
+                    />
+                  )}
+                </CommentBox>
+                <CommentBox>
+                  <CommentTextField type={"area"} name="comment" placeholder="악의 적인 댓글은 삭제될 수 있습니다." onChange={onChangeComment} />
+                </CommentBox>
+                <CommentBox>
+                  <CommentInsertButton onClick={insertComment}>등록</CommentInsertButton>
+                </CommentBox>
+              </CommentWrapper>
+              {!_.isEmpty(commentList) ? (
+                _.map(commentList, (comm, index) => (
+                  <CommentListWrapper key={index}>
+                    {isOwnComment(comm) && <CommentDeletButton icon={faXmark} onClick={() => onDelete(comm)} />}
+                    <CommentUserWrapper>
+                      <CommentProfile src={comm.profile} />
+                      <CommentUserName>{comm.userName}</CommentUserName>
+                    </CommentUserWrapper>
+                    <CommentList>
+                      <CommentText>{comm.info}</CommentText>
+                    </CommentList>
+                  </CommentListWrapper>
+                ))
+              ) : (
+                <CommentListWrapper>
+                  <CommentNoneWrapper>
+                    <CommentNoneText>아직 댓글이 없습니다.</CommentNoneText>
+                  </CommentNoneWrapper>
                 </CommentListWrapper>
-              ))
-            ) : (
-              <CommentListWrapper>
-                <CommentNoneWrapper>
-                  <CommentNoneText>아직 댓글이 없습니다.</CommentNoneText>
-                </CommentNoneWrapper>
-              </CommentListWrapper>
-            )}
-          </DetailImageContainer>
-        ) : (
-          <Loading />
-        )}
-      </CanvasDetailContainer>
-    </>
-  );
+              )}
+            </DetailImageContainer>
+          ) : (
+            <Loading />
+          )}
+        </CanvasDetailContainer>
+      </>
+    );
+  });
 };
 
 export default CanvasDetail;
