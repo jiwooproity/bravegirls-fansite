@@ -6,22 +6,10 @@ import { faEraser } from "@fortawesome/free-solid-svg-icons";
 
 import { Loading, Top } from "components";
 import { CanvasTool, CanvasUpload } from "components";
+import { canvasService } from "services";
 import { utils } from "util";
 
-import {
-  CanvasContainer,
-  CanvasPickerBox,
-  CanvasUploadWrap,
-  CanvasUploadInput,
-  CanvasUploadText,
-  CanvasWrapper,
-  EraserModeIcon,
-  EraserModeIconWrapper,
-  MainCanvas,
-  PreviewCanvas,
-} from "style";
-
-import { canvasService } from "services";
+import { Canvas as CSS } from "style";
 
 const defaultColor = {
   rgb: { r: "0", g: "0", b: "0", a: "1" },
@@ -210,12 +198,7 @@ const Canvas = () => {
     };
 
     const remove = () => {
-      ctxTag.clearRect(
-        X - eraseStroke / 2,
-        Y - eraseStroke / 2,
-        eraseStroke,
-        eraseStroke
-      );
+      ctxTag.clearRect(X - eraseStroke / 2, Y - eraseStroke / 2, eraseStroke, eraseStroke);
       setModify(false);
     };
 
@@ -354,25 +337,19 @@ const Canvas = () => {
 
   return (
     <>
-      <Top />
+      {!uploadImage && <Top />}
       {uploading && <Loading />}
-      <CanvasContainer>
-        <CanvasWrapper>
-          <CanvasPickerBox active={uploadImage}>
-            <CanvasUploadWrap htmlFor={"image_upload"} active={uploadImage}>
-              <CanvasUploadText>사진을 업로드 해주세요.</CanvasUploadText>
-              <CanvasUploadInput
-                type={"file"}
-                id={"image_upload"}
-                onChange={onLoad}
-              />
-            </CanvasUploadWrap>
-            <MainCanvas
-              ref={bgCanvasRef}
-              id="bgCanvasjs"
-              active={uploadImage}
-            />
-            <MainCanvas
+      <CSS.Container>
+        <CSS.Wrapper active={uploadImage}>
+          <CSS.PickerBox active={uploadImage}>
+            {/* 업로드 버튼 및 파일 등록 */}
+            <CSS.UploadWrapper htmlFor={"image_upload"} active={uploadImage}>
+              <CSS.UploadTitle>사진을 업로드 해주세요.</CSS.UploadTitle>
+              <CSS.UploadInput type={"file"} id={"image_upload"} onChange={onLoad} />
+            </CSS.UploadWrapper>
+            {/* 그림 그리기 영역 */}
+            <CSS.Canvas ref={bgCanvasRef} id="bgCanvasjs" active={uploadImage} />
+            <CSS.Canvas
               ref={canvasRef}
               id="canvasJS"
               onMouseDown={startDraw}
@@ -407,24 +384,15 @@ const Canvas = () => {
               uploadCanvas={uploadCanvas}
               onPicker={onPicker}
             />
-          </CanvasPickerBox>
-          <CanvasUpload
-            hidden={insertData.upload}
-            data={insertData}
-            onChangeInput={onChangeInput}
-            uploadCanvas={uploadCanvas}
-          >
-            <PreviewCanvas ref={previewRef} id="previewCanvas" />
+          </CSS.PickerBox>
+          <CanvasUpload hidden={insertData.upload} data={insertData} onChangeInput={onChangeInput} uploadCanvas={uploadCanvas}>
+            <CSS.Preview ref={previewRef} id="previewCanvas" />
           </CanvasUpload>
-        </CanvasWrapper>
-      </CanvasContainer>
-      <EraserModeIconWrapper
-        className="eraser"
-        active={erase}
-        stroke={eraseStroke}
-      >
-        <EraserModeIcon icon={faEraser} />
-      </EraserModeIconWrapper>
+        </CSS.Wrapper>
+      </CSS.Container>
+      <CSS.EraserIconWrapper className="eraser" active={erase} stroke={eraseStroke}>
+        <CSS.EraseIcon icon={faEraser} />
+      </CSS.EraserIconWrapper>
     </>
   );
 };

@@ -1,29 +1,20 @@
 import styled from "styled-components";
 
-const TrackContainer = styled.div`
+const AlbumTrack = {};
+
+AlbumTrack.Container = styled.div`
   width: 100%;
   margin: 0px 0px 0px 0px;
   padding: 30px 0px 10px 0px;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   position: relative;
 `;
 
-// const TrackBackground = styled.div`
-//   width: 100%;
-//   height: calc(100% - 80px);
-
-//   position: absolute;
-//   bottom: 0;
-//   left: 0;
-
-//   background-color: ${({ color }) => color};
-// `;
-
-const TrackListWrapper = styled.div`
+AlbumTrack.Box = styled.div`
   width: 100%;
   padding: 0px 15px 0px 15px;
 
@@ -31,12 +22,12 @@ const TrackListWrapper = styled.div`
   flex-direction: column;
 `;
 
-const TrackList = styled.div`
+AlbumTrack.List = styled.div`
   width: 100%;
+  padding: 15px 0px;
+
   display: grid;
   grid-template-columns: 2fr 1fr 3fr;
-
-  padding: 15px 0px;
 
   border-top: 1px solid ${(props) => props.theme.trackListBorder};
 
@@ -47,7 +38,7 @@ const TrackList = styled.div`
   transition: border-top 0.5s ease;
 `;
 
-const TrackItemsWrap = styled.div`
+AlbumTrack.Items = styled.div`
   width: 100%;
 
   display: flex;
@@ -66,40 +57,36 @@ const TrackItemsWrap = styled.div`
   transition: border-left 0.5s ease;
 `;
 
-const TrackTitleWrap = styled.div`
+AlbumTrack.TitleWrapper = styled.div`
   width: 100%;
+
   display: flex;
 `;
 
-const TrackListBox = styled.div`
+AlbumTrack.Wrapper = styled.div`
   width: 990px;
   min-height: 500px;
-
-  /* border-radius: 15px 15px 0px 0px; */
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  background-color: ${(props) => props.theme.backgroundColor};
+  background-color: ${({ theme }) => theme.backgroundColor};
 
   z-index: 1;
-  /* 
-  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
-    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px; */
 
   @media screen and (max-width: 768px) {
     width: 100%;
   }
 `;
 
-const TrackListTitle = styled.h1`
+AlbumTrack.MainTitle = styled.h1`
+  padding: 20px 0px 30px 0px;
+
   font-size: 40px;
   line-height: 40px;
 
   color: ${(props) => props.theme.titleTextColor};
-
-  padding: 20px 0px 30px 0px;
 
   @media screen and (max-width: 768px) {
     font-size: 25px;
@@ -107,34 +94,30 @@ const TrackListTitle = styled.h1`
   }
 `;
 
-const TrackNumber = styled.p`
+AlbumTrack.Title = styled.h1`
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 18px;
+
+  color: ${(props) => props.theme.titleTextColor};
+`;
+
+AlbumTrack.Number = styled.p`
+  padding: 0px 10px 0px 0px;
+
   font-size: 18px;
   font-weight: 700;
   line-height: 18px;
 
   color: ${(props) => props.theme.titleTextColor};
 
-  padding: 0px 10px 0px 0px;
-
   @media screen and (max-width: 768px) {
     font-size: 12px;
     line-height: 12px;
   }
 `;
 
-const TrackTitle = styled.h1`
-  font-size: 18px;
-  line-height: 18px;
-
-  color: ${(props) => props.theme.titleTextColor};
-
-  @media screen and (max-width: 768px) {
-    font-size: 12px;
-    line-height: 12px;
-  }
-`;
-
-const TrackSubTitle = styled.span`
+AlbumTrack.SubTitle = styled.span`
   font-size: 20px;
   line-height: 20px;
 
@@ -146,11 +129,11 @@ const TrackSubTitle = styled.span`
   }
 `;
 
-const TrackArtist = styled.p`
+AlbumTrack.Artists = styled.p`
+  padding: 0px 0px 5px 0px;
+
   font-size: 12px;
   line-height: 12px;
-
-  padding: 0px 0px 5px 0px;
 
   color: ${(props) => props.theme.desTextColor};
 
@@ -160,16 +143,4 @@ const TrackArtist = styled.p`
   }
 `;
 
-export {
-  TrackArtist,
-  TrackContainer,
-  TrackItemsWrap,
-  TrackList,
-  TrackListBox,
-  TrackListTitle,
-  TrackListWrapper,
-  TrackNumber,
-  TrackSubTitle,
-  TrackTitle,
-  TrackTitleWrap,
-};
+export { AlbumTrack };

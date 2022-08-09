@@ -1,7 +1,9 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const CanvasContainer = styled.div`
+const Canvas = {};
+
+Canvas.Container = styled.div`
   width: 100%;
   padding: 0px 15px;
 
@@ -15,9 +17,9 @@ const CanvasContainer = styled.div`
   }
 `;
 
-const CanvasWrapper = styled.div`
+Canvas.Wrapper = styled.div`
   width: 990px;
-  min-height: calc(100vh - 85px);
+  min-height: ${({ active }) => (active ? "100vh" : "calc(100vh - 85px)")};
   padding: 0px 0px 30px 0px;
 
   display: flex;
@@ -25,40 +27,36 @@ const CanvasWrapper = styled.div`
   align-items: center;
 
   @media screen and (max-width: 768px) {
-    /* width: 100%; */
-    /* display: none; */
-    min-height: calc(100vh - 85px);
-    padding: 0px;
-    justify-content: center;
+    padding: 0px 0px 0px 0px;
+
     align-items: flex-start;
   }
 `;
 
-const CanvasPickerBox = styled.div`
-  ${({ active }) =>
-    active &&
-    css`
-      width: 100%;
-      height: 100%;
-    `}
+Canvas.PickerBox = styled.div`
+  width: ${({ active }) => (active ? "100%" : "")};
+  height: ${({ active }) => (active ? "100%" : "")};
 
-  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
-const CanvasUploadWrap = styled.label`
+Canvas.UploadWrapper = styled.label`
   width: 100%;
+  padding: 15px 0px;
+  margin: 0px 15px;
+
   display: ${({ active }) => (active ? "flex" : "none")};
   justify-content: center;
   align-items: center;
+
+  border-radius: 5px;
+  border: 1px dotted ${(props) => props.theme.backgroundOpacityColor};
+
   cursor: pointer;
   transition: border 0.5s ease;
-  border-radius: 5px;
-  padding: 15px 0px;
-  margin: 0px 15px;
-  border: 1px dotted ${(props) => props.theme.backgroundOpacityColor};
 
   &:hover {
     h1 {
@@ -67,7 +65,7 @@ const CanvasUploadWrap = styled.label`
   }
 `;
 
-const CanvasUploadText = styled.h1`
+Canvas.UploadTitle = styled.h1`
   font-size: 15px;
   line-height: 15px;
   color: ${(props) => props.theme.backgroundOpacityColor};
@@ -75,14 +73,18 @@ const CanvasUploadText = styled.h1`
   transition: transform 0.5s ease;
 `;
 
-const CanvasUploadInput = styled.input`
+Canvas.UploadInput = styled.input`
   display: none;
 `;
 
-const MainCanvas = styled.canvas`
+Canvas.Canvas = styled.canvas`
   opacity: 1;
   z-index: 1;
   touch-action: none;
+
+  border-radius: 5px;
+
+  display: ${({ active }) => (active ? "none" : "block")};
 
   &:nth-child(2) {
     position: absolute;
@@ -97,13 +99,7 @@ const MainCanvas = styled.canvas`
     }
   }
 
-  display: ${({ active }) => (active ? "none" : "block")};
-
-  border-radius: 5px;
-
   @media screen and (max-width: 768px) {
-    /* opacity: 0; */
-    /* pointer-events: none; */
     width: 100%;
     border-radius: 0px;
   }
@@ -112,51 +108,38 @@ const MainCanvas = styled.canvas`
   transition: opacity 0.5s ease;
 `;
 
-const EraserModeIconWrapper = styled.div`
+Canvas.EraserIconWrapper = styled.div`
   width: ${({ stroke }) => `${stroke}px`};
   height: ${({ stroke }) => `${stroke}px`};
+
   display: flex;
   justify-content: center;
   align-items: center;
-
   position: absolute;
   top: 0;
   left: 0;
 
-  transform: translate(-50%, -50%);
   border: 1px solid rgba(245, 245, 245, 0.1);
-  background-color: rgba(245, 245, 245, 0.1);
 
   opacity: ${({ active }) => (active ? "1" : "0")};
-
   pointer-events: none;
-
+  transform: translate(-50%, -50%);
+  transition: opacity 0.5s ease;
   z-index: 999;
 
-  transition: opacity 0.5s ease;
+  background-color: rgba(245, 245, 245, 0.1);
 `;
 
-const EraserModeIcon = styled(FontAwesomeIcon)`
+Canvas.EraseIcon = styled(FontAwesomeIcon)`
   font-size: 15px;
   color: white;
 `;
 
-const PreviewCanvas = styled.canvas`
+Canvas.Preview = styled.canvas`
   border-radius: 5px;
-  overflow: hidden;
 
+  overflow: hidden;
   box-shadow: rgb(50 50 93 / 25%) 0px 13px 27px -5px, rgb(0 0 0 / 30%) 0px 8px 16px -8px;
 `;
 
-export {
-  CanvasContainer,
-  CanvasPickerBox,
-  CanvasUploadWrap,
-  CanvasUploadInput,
-  CanvasUploadText,
-  CanvasWrapper,
-  EraserModeIcon,
-  EraserModeIconWrapper,
-  MainCanvas,
-  PreviewCanvas,
-};
+export { Canvas };

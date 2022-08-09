@@ -6,34 +6,9 @@ import { theme } from "./Theme";
 import { Album } from "./AlbumPage/album";
 import { AlbumInfo } from "./AlbumPage/albumInfo";
 import { AlbumList } from "./AlbumPage/albumList";
+import { AlbumTrack } from "./AlbumPage/albumTrack";
 
-import {
-  TrackArtist,
-  TrackContainer,
-  TrackItemsWrap,
-  TrackList,
-  TrackListBox,
-  TrackListTitle,
-  TrackListWrapper,
-  TrackNumber,
-  TrackSubTitle,
-  TrackTitle,
-  TrackTitleWrap,
-} from "./AlbumPage/albumTrack";
-
-import {
-  CanvasContainer,
-  CanvasPickerBox,
-  CanvasUploadWrap,
-  CanvasUploadInput,
-  CanvasUploadText,
-  CanvasWrapper,
-  EraserModeIcon,
-  EraserModeIconWrapper,
-  MainCanvas,
-  PreviewCanvas,
-} from "./CanvasPage/canvas";
-
+import { Canvas } from "./CanvasPage/canvas";
 import { CustomSketch, PaletteStatus, SelectBox, SelectOption, ToolBox, ToolIcon, ToolSizeText, ToolWrap } from "./CanvasPage/canvasTool";
 
 import {
@@ -96,17 +71,11 @@ export { GlobalStyle, theme };
 
 // 앨범 컴포넌트 CSS 스타일
 // Album.jsx
-export { Album, AlbumInfo, AlbumList };
-// TrackList.jsx
-export { TrackArtist, TrackContainer, TrackItemsWrap, TrackList };
-export { TrackListBox, TrackListTitle, TrackListWrapper, TrackNumber };
-export { TrackSubTitle, TrackTitle, TrackTitleWrap };
+export { Album, AlbumInfo, AlbumList, AlbumTrack };
 
 // 캔버스 컴포넌트 CSS 스타일
 // Canvas.jsx
-export { CanvasContainer, CanvasPickerBox, CanvasUploadWrap, CanvasUploadInput };
-export { CanvasUploadText, CanvasWrapper, EraserModeIcon, EraserModeIconWrapper };
-export { MainCanvas, PreviewCanvas };
+export { Canvas };
 // CanvasTool.jsx
 export { CustomSketch, PaletteStatus, SelectBox, SelectOption };
 export { ToolBox, ToolIcon, ToolSizeText, ToolWrap };
