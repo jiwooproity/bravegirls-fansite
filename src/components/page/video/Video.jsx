@@ -12,7 +12,7 @@ import { Loading, Top } from "components";
 
 import { utils } from "util";
 import { API } from "constant";
-import { youtubeService } from "service";
+import { youtubeService } from "services";
 
 const VideoContainer = styled.div`
   width: 100%;

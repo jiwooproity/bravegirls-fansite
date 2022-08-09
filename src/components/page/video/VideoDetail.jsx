@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { utils } from "util/utils";
 import { Loading } from "components";
-import { youtubeService } from "service";
+import { youtubeService } from "services";
 
 const NavbarBox = styled.div`
   width: 100%;

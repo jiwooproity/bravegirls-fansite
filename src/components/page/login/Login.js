@@ -5,7 +5,7 @@ import { Fade } from "react-reveal";
 import styled from "styled-components";
 import _ from "lodash";
 
-import { userService } from "service";
+import { userService } from "services";
 import { useStore } from "hooks";
 import { utils } from "util";
 

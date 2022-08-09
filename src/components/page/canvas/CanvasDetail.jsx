@@ -8,8 +8,8 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Loading, Top } from "components";
 
 import { utils } from "util/utils";
-import { canvasService } from "service";
-import { commentService } from "service";
+import { canvasService } from "services";
+import { commentService } from "services";
 
 import {
   CanvasDetailContainer,

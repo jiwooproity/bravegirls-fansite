@@ -11,7 +11,7 @@ import { faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 import { Loading, Top } from "components";
 import { MemberTab } from "components";
 
-import { memberService } from "service";
+import { memberService } from "services";
 import { utils } from "util/utils";
 
 import { useStore } from "hooks";

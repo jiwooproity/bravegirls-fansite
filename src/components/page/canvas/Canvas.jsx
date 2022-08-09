@@ -5,8 +5,7 @@ import _ from "lodash";
 import { faEraser } from "@fortawesome/free-solid-svg-icons";
 
 import { Loading, Top } from "components";
-import CanvasTool from "./CanvasTool";
-
+import { CanvasTool, CanvasUpload } from "components";
 import { utils } from "util";
 
 import {
@@ -22,8 +21,7 @@ import {
   PreviewCanvas,
 } from "style";
 
-import { canvasService } from "service/canvasService";
-import CanvasUpload from "./CanvasUpload";
+import { canvasService } from "services";
 
 const defaultColor = {
   rgb: { r: "0", g: "0", b: "0", a: "1" },
@@ -212,7 +210,12 @@ const Canvas = () => {
     };
 
     const remove = () => {
-      ctxTag.clearRect(X - eraseStroke / 2, Y - eraseStroke / 2, eraseStroke, eraseStroke);
+      ctxTag.clearRect(
+        X - eraseStroke / 2,
+        Y - eraseStroke / 2,
+        eraseStroke,
+        eraseStroke
+      );
       setModify(false);
     };
 
@@ -358,9 +361,17 @@ const Canvas = () => {
           <CanvasPickerBox active={uploadImage}>
             <CanvasUploadWrap htmlFor={"image_upload"} active={uploadImage}>
               <CanvasUploadText>사진을 업로드 해주세요.</CanvasUploadText>
-              <CanvasUploadInput type={"file"} id={"image_upload"} onChange={onLoad} />
+              <CanvasUploadInput
+                type={"file"}
+                id={"image_upload"}
+                onChange={onLoad}
+              />
             </CanvasUploadWrap>
-            <MainCanvas ref={bgCanvasRef} id="bgCanvasjs" active={uploadImage} />
+            <MainCanvas
+              ref={bgCanvasRef}
+              id="bgCanvasjs"
+              active={uploadImage}
+            />
             <MainCanvas
               ref={canvasRef}
               id="canvasJS"
@@ -397,12 +408,21 @@ const Canvas = () => {
               onPicker={onPicker}
             />
           </CanvasPickerBox>
-          <CanvasUpload hidden={insertData.upload} data={insertData} onChangeInput={onChangeInput} uploadCanvas={uploadCanvas}>
+          <CanvasUpload
+            hidden={insertData.upload}
+            data={insertData}
+            onChangeInput={onChangeInput}
+            uploadCanvas={uploadCanvas}
+          >
             <PreviewCanvas ref={previewRef} id="previewCanvas" />
           </CanvasUpload>
         </CanvasWrapper>
       </CanvasContainer>
-      <EraserModeIconWrapper className="eraser" active={erase} stroke={eraseStroke}>
+      <EraserModeIconWrapper
+        className="eraser"
+        active={erase}
+        stroke={eraseStroke}
+      >
         <EraserModeIcon icon={faEraser} />
       </EraserModeIconWrapper>
     </>

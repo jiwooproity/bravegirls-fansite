@@ -24,6 +24,8 @@ import VideoDetail from "./page/video/VideoDetail";
 import Canvas from "./page/canvas/Canvas";
 import CanvasBoard from "./page/canvas/CanvasBoard";
 import CanvasDetail from "./page/canvas/CanvasDetail";
+import CanvasTool from "./page/canvas/CanvasTool";
+import CanvasUpload from "./page/canvas/CanvasUpload";
 
 import Login from "./page/login/Login";
 import LoginForm from "./common/LoginForm";
@@ -45,7 +47,7 @@ export { Album, AlbumInfo, AlbumList, AlbumTrack };
 export { Video, VideoDetail };
 
 // 캔버스 그림
-export { Canvas, CanvasBoard, CanvasDetail };
+export { Canvas, CanvasBoard, CanvasDetail, CanvasTool, CanvasUpload };
 
 // 로그인 페이지
 export { Login, LoginForm, Success };

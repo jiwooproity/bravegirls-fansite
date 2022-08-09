@@ -5,7 +5,7 @@ import _ from "lodash";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
 import { Loading, Top } from "components";
-import { canvasService } from "service";
+import { canvasService } from "services";
 
 import {
   ArtContainer,
