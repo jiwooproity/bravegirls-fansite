@@ -9,12 +9,7 @@ import { utils } from "util/utils";
 import { useStore } from "hooks";
 import { musicService } from "services";
 
-import {
-  DarkThemeMode,
-  DarkThemeImage,
-  DarkThemeBackdrop,
-  AlbumContainer,
-} from "style";
+import { Album as CSS } from "style";
 
 const Album = () => {
   const { themeStore } = useStore();
@@ -120,11 +115,11 @@ const Album = () => {
   return (
     <>
       <Top />
-      <DarkThemeMode active={themeStore.theme ? "true" : "false"}>
-        <DarkThemeBackdrop active={themeStore.theme ? "true" : "false"} />
-        <DarkThemeImage src={selectAlbum.cover} />
-      </DarkThemeMode>
-      <AlbumContainer>
+      <CSS.DarkMode active={themeStore.theme}>
+        <CSS.BackdropColor active={themeStore.theme} />
+        <CSS.BackdropImage src={selectAlbum.cover} />
+      </CSS.DarkMode>
+      <CSS.Container>
         {loading ? (
           <>
             <AlbumInfo data={selectAlbum} />
@@ -140,7 +135,7 @@ const Album = () => {
         ) : (
           <Loading />
         )}
-      </AlbumContainer>
+      </CSS.Container>
     </>
   );
 };
