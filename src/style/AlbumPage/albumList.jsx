@@ -1,99 +1,89 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const AlbumImage = styled.img`
+const AlbumList = {};
+
+AlbumList.CoverImage = styled.img`
   width: 100%;
+
   display: block;
 `;
 
-const AlbumListShadowWrapper = styled.div`
+AlbumList.LinearShadowWrapper = styled.div`
   position: relative;
 `;
 
-const AlbumListWrapper = styled.div`
+AlbumList.Wrapper = styled.div`
   width: 990px;
   height: calc(55.08px * 5);
-  padding-bottom: calc(55.08px * 4);
-
-  overflow-y: scroll;
+  padding: 0px 0px calc(55.08px * 4) 0px;
 
   display: flex;
   flex-direction: column;
-
   position: relative;
 
+  overflow-y: scroll;
   ::-webkit-scrollbar {
-    /* width: 5px;
-    transition: background-color 0.5s ease; */
     display: none;
   }
-
-  /* ::-webkit-scrollbar-thumb {
-    background-color: rgba(54, 54, 54, 0.2);
-
-    border-radius: 2px;
-
-    &:hover {
-      background-color: rgba(54, 54, 54, 0.5);
-    }
-  } */
 
   @media screen and (max-width: 768px) {
     width: 100%;
     height: auto;
-    padding-bottom: 0px;
+    padding: 0px 0px 0px 0px;
+
     overflow-y: visible;
   }
 `;
 
-const AlbumSelectBar = styled.div`
+AlbumList.SelectBar = styled.div`
   width: 100%;
   height: 55.08px;
 
   position: absolute;
   top: ${({ select }) => `calc(55.08px * ${select})`};
-  left: 0;
+  left: 0px;
 
   border-radius: 5px;
 
   background-color: ${({ color }) => color};
 
-  z-index: 0;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  z-index: 1;
 
   transition: background-color 0.5s ease-out, top 0.5s ease-out;
-
-  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
-    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 `;
 
-const AlbumListShadow = styled.div`
+AlbumList.LinearShadow = styled.div`
   height: 180px;
-  background: ${(props) =>
-    `linear-gradient(180deg, hsla(0, 0%, 100%, 0), ${props.theme.backgroundColor})`};
-  bottom: 0;
-  content: "";
-  left: 0;
+
   position: absolute;
-  right: 0;
-  z-index: 3;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+
+  content: "";
+  background: ${({ theme }) => `linear-gradient(180deg, hsla(0, 0%, 100%, 0), ${theme.backgroundColor})`};
 
   pointer-events: none;
+  z-index: 3;
 
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
 
-const AlbumColumnWrapper = styled.div`
+AlbumList.ColumnWrapper = styled.div`
   width: 990px;
 
   @media screen and (max-width: 768px) {
     width: 100%;
+
     display: none;
   }
 `;
 
-const AlbumColumn = styled.div`
+AlbumList.Column = styled.div`
   width: 100%;
   padding: 10px 15px 10px 10px;
 
@@ -102,28 +92,21 @@ const AlbumColumn = styled.div`
   align-items: center;
 `;
 
-const AlbumLists = styled.div`
+AlbumList.List = styled.div`
   width: 100%;
   padding: 10px 15px 10px 10px;
-
-  z-index: 1;
 
   display: grid;
   grid-template-columns: 0fr 0fr 1fr 1fr 1fr 1fr 0fr;
   align-items: center;
 
-  background-color: ${({ active, color }) => (active ? color : "")};
-
-  ${(props) =>
-    css`
-      color: ${({ active, light }) =>
-        active ? (light ? "black" : "white") : props.theme.titleTextColor};
-    `}
-
   border-radius: 10px;
 
-  transition: box-shadow 0.5s ease, background-color 0.5s ease;
+  background-color: ${({ active, color }) => (active ? color : "")};
+  color: ${({ active, light, theme }) => (active ? (light ? "black" : "white") : theme.titleTextColor)};
 
+  z-index: 1;
+  transition: box-shadow 0.5s ease, background-color 0.5s ease;
   cursor: pointer;
 
   @media screen and (max-width: 768px) {
@@ -131,43 +114,34 @@ const AlbumLists = styled.div`
   }
 `;
 
-const AlbumListCover = styled.div`
+AlbumList.ListCover = styled.div`
   width: 35px;
-
   margin: 0px 5px 0px 0px;
 
-  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
-
   border-radius: 4px;
+
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
   overflow: hidden;
 `;
 
-const AlbumNumber = styled.span`
-  width: 25px;
-  text-align: center;
-
-  padding: 0px 10px 0px 0px;
-
+AlbumList.Number = styled.span`
   font-size: 12px;
   line-height: 12px;
+
+  width: 25px;
+  padding: 0px 10px 0px 0px;
+
+  text-align: center;
 
   @media screen and (max-width: 768px) {
     display: none;
   }
 `;
 
-const AlbumInfoColum = styled.span`
+AlbumList.Info = styled.span`
   font-size: 12px;
   line-height: 12px;
-
   text-align: center;
-
-  color: ${(props) => props.theme.titleTextColor};
-
-  @media screen and (max-width: 768px) {
-    font-size: 8px;
-    line-height: 8px;
-  }
 
   &:nth-child(1) {
     width: 25px;
@@ -175,7 +149,6 @@ const AlbumInfoColum = styled.span`
 
   &:nth-child(2) {
     width: 35px;
-
     margin: 0px 5px 0px 0px;
   }
 
@@ -184,9 +157,16 @@ const AlbumInfoColum = styled.span`
       color: transparent;
     }
   }
+
+  color: ${({ theme }) => theme.titleTextColor};
+
+  @media screen and (max-width: 768px) {
+    font-size: 8px;
+    line-height: 8px;
+  }
 `;
 
-const AlbumInfoDummy = styled.div`
+AlbumList.Dummy = styled.div`
   width: 10px;
 
   &:nth-child(1) {
@@ -194,24 +174,27 @@ const AlbumInfoDummy = styled.div`
   }
 `;
 
-const AlbumInfo = styled.span`
+AlbumList.Infos = styled.span`
   font-size: 12px;
   line-height: 12px;
+
   padding: 0px 5px;
 
   text-align: center;
 
   @media screen and (max-width: 768px) {
-    height: 13px;
     font-size: 11px;
     line-height: 11px;
     white-space: nowrap;
     text-overflow: ellipsis;
+
+    height: 13px;
+
     overflow: hidden;
   }
 `;
 
-const AlbumListIcon = styled(FontAwesomeIcon)`
+AlbumList.Icon = styled(FontAwesomeIcon)`
   font-size: 12px;
   line-height: 12px;
 
@@ -221,19 +204,4 @@ const AlbumListIcon = styled(FontAwesomeIcon)`
   }
 `;
 
-export {
-  AlbumImage,
-  AlbumListShadowWrapper,
-  AlbumListWrapper,
-  AlbumSelectBar,
-  AlbumListShadow,
-  AlbumColumnWrapper,
-  AlbumColumn,
-  AlbumLists,
-  AlbumListCover,
-  AlbumNumber,
-  AlbumInfoColum,
-  AlbumInfoDummy,
-  AlbumInfo,
-  AlbumListIcon,
-};
+export { AlbumList };

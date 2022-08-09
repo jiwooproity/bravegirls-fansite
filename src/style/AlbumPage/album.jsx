@@ -43,8 +43,7 @@ Album.BackdropColor = styled.div`
   backdrop-filter: blur(150px);
   z-index: 1;
 
-  background: ${({ theme }) =>
-    `linear-gradient(180deg, hsla(0, 0%, 100%, 0), ${theme.backgroundColor})`};
+  background: ${({ theme }) => `linear-gradient(180deg, hsla(0, 0%, 100%, 0), ${theme.backgroundColor})`};
   background-color: ${({ active }) => (active ? "rgba(54, 54, 54, 0.5)" : "")};
 `;
 

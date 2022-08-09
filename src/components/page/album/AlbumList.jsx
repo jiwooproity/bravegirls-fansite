@@ -1,26 +1,10 @@
 import React from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-
 import _ from "lodash";
 
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
-import {
-  AlbumColumn,
-  AlbumColumnWrapper,
-  AlbumInfo,
-  AlbumInfoColum,
-  AlbumInfoDummy,
-  AlbumListCover,
-  AlbumListIcon,
-  AlbumLists,
-  AlbumListShadow,
-  AlbumListShadowWrapper,
-  AlbumListWrapper,
-  AlbumNumber,
-  AlbumSelectBar,
-  AlbumThumbnail,
-} from "style";
+import { AlbumList as CSS } from "style";
 
 const AlbumList = (props) => {
   const { data, onceData, selectValue, func } = props;
@@ -37,41 +21,30 @@ const AlbumList = (props) => {
 
   return (
     <>
-      <AlbumColumnWrapper>
-        <AlbumColumn>
-          <AlbumInfoDummy />
-          <AlbumInfoColum>커버</AlbumInfoColum>
-          <AlbumInfoColum>타이틀</AlbumInfoColum>
-          <AlbumInfoColum>작곡, 작사, 편곡</AlbumInfoColum>
-          <AlbumInfoColum>기획</AlbumInfoColum>
-          <AlbumInfoColum>발매일</AlbumInfoColum>
-          <AlbumInfoColum>
-            <AlbumListIcon icon={faBars} />
-          </AlbumInfoColum>
-        </AlbumColumn>
-      </AlbumColumnWrapper>
+      <CSS.ColumnWrapper>
+        <CSS.Column>
+          <CSS.Dummy />
+          <CSS.Info>커버</CSS.Info>
+          <CSS.Info>타이틀</CSS.Info>
+          <CSS.Info>작곡, 작사, 편곡</CSS.Info>
+          <CSS.Info>기획</CSS.Info>
+          <CSS.Info>발매일</CSS.Info>
+          <CSS.Info>
+            <CSS.Icon icon={faBars} />
+          </CSS.Info>
+        </CSS.Column>
+      </CSS.ColumnWrapper>
 
       <DragDropContext onDragEnd={onHandleDrag}>
         <Droppable droppableId="list">
           {(provided) => (
-            <AlbumListShadowWrapper
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              <AlbumListWrapper>
-                <AlbumSelectBar
-                  select={selectValue}
-                  color={onceData.color}
-                  light={func.isLightColor(onceData.id)}
-                />
+            <CSS.LinearShadowWrapper {...provided.droppableProps} ref={provided.innerRef}>
+              <CSS.Wrapper>
+                <CSS.SelectBar select={selectValue} color={onceData.color} light={func.isLightColor(onceData.id)} />
                 {_.map(data, (album, index) => (
-                  <Draggable
-                    key={String(index)}
-                    index={index}
-                    draggableId={String(index)}
-                  >
+                  <Draggable key={String(index)} index={index} draggableId={String(index)}>
                     {(provided) => (
-                      <AlbumLists
+                      <CSS.List
                         key={index}
                         active={index === selectValue}
                         onClick={() => func.selectMusic(index, album.id)}
@@ -80,23 +53,24 @@ const AlbumList = (props) => {
                         {...provided.dragHandleProps}
                         {...provided.draggableProps}
                       >
-                        <AlbumNumber>{album.id}</AlbumNumber>
-                        <AlbumListCover>
-                          <AlbumThumbnail src={album.cover} />
-                        </AlbumListCover>
-                        <AlbumInfo>{album.title}</AlbumInfo>
-                        <AlbumInfo>{album.composition}</AlbumInfo>
-                        <AlbumInfo>{album.enter}</AlbumInfo>
-                        <AlbumInfo>{album.release}</AlbumInfo>
-                        <AlbumListIcon icon={faBars} />
-                      </AlbumLists>
+                        <CSS.Number>{album.id}</CSS.Number>
+                        <CSS.ListCover>
+                          <CSS.CoverImage src={album.cover} />
+                        </CSS.ListCover>
+                        <CSS.Infos>{album.title}</CSS.Infos>
+                        <CSS.Infos>{album.composition}</CSS.Infos>
+                        <CSS.Infos>{album.enter}</CSS.Infos>
+                        <CSS.Infos>{album.release}</CSS.Infos>
+                        <CSS.Icon icon={faBars} />
+                      </CSS.List>
                     )}
                   </Draggable>
                 ))}
                 {provided.placeholder}
-              </AlbumListWrapper>
-              <AlbumListShadow />
-            </AlbumListShadowWrapper>
+              </CSS.Wrapper>
+              {/* 하단 그림자 */}
+              <CSS.LinearShadow />
+            </CSS.LinearShadowWrapper>
           )}
         </Droppable>
       </DragDropContext>
