@@ -18,10 +18,9 @@
   </head>
   <body>
     <div id="root"></div>
-    <!-- <script type="text/javascript">
-      document.oncontextmenu=function(){return false;}
-      document.onselectstart=function(){return false;} 
-      document.ondragstart=function(){return false;} 
-      document.onmousedown=function(){return false;}
-      </script> -->
+    <script type="text/javascript">
+      if (document.location.protocol == 'http:') {
+        document.location.href = document.location.href.replace('http:', 'https:')
+      }
+    </script>
 </html>

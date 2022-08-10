@@ -23,7 +23,7 @@ const LoadingBarWrapper = styled.div`
   opacity: ${({ loading }) => (loading ? "0" : "1")};
   backdrop-filter: ${({ loading }) => (loading ? "blur(0)" : "blur(10px)")};
   pointer-events: ${({ loading }) => (loading ? "none" : "all")};
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.backgroundColor};
   z-index: 9999;
   transition: ${({ loading }) => loading && "opacity 0.2s ease"};
 `;
