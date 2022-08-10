@@ -59,7 +59,9 @@ const Album = () => {
     trackArr.unshift({ ...selectAlbum, id: `01` });
 
     setTrackList(trackArr);
-    loadingStore.setLoading(true);
+    setTimeout(() => {
+      loadingStore.setLoading(true);
+    }, 500);
   };
 
   const onLoad = async () => {

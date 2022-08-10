@@ -5,7 +5,7 @@ import _ from "lodash";
 
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
-import { Loading, Top } from "components";
+import { Top } from "components";
 
 import { utils } from "util/utils";
 import { canvasService } from "services";
@@ -250,7 +250,7 @@ const CanvasDetail = () => {
                 <CommentTextField
                   type={"area"}
                   name="comment"
-                  placeholder="악의 적인 댓글은 삭제될 수 있습니다."
+                  placeholder="악의적인 댓글은 삭제될 수 있습니다."
                   onChange={onChangeComment}
                 />
               </CommentBox>

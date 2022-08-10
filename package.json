@@ -1,7 +1,7 @@
 {
   "name": "react-brave",
   "homepage": "/",
-  "proxy": "https://bglovely.com/photocard",
+  "proxy": "http://localhost",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

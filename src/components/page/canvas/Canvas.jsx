@@ -4,7 +4,7 @@ import _ from "lodash";
 
 import { faEraser } from "@fortawesome/free-solid-svg-icons";
 
-import { Loading, Top } from "components";
+import { Top } from "components";
 import { CanvasTool, CanvasUpload } from "components";
 import { canvasService } from "services";
 import { utils } from "util";
