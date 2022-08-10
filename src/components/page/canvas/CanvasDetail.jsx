@@ -45,9 +45,8 @@ import { useObserver } from "mobx-react";
 
 const CanvasDetail = () => {
   const params = useParams();
-  const { loginStore } = useStore();
+  const { loginStore, loadingStore } = useStore();
   const [detail, setDetail] = useState({});
-  const [loading, setLoading] = useState(false);
   const [commentList, setCommentList] = useState([]);
   const [comment, setComment] = useState("");
   const [userInfo, setUserInfo] = useState({
@@ -64,6 +63,8 @@ const CanvasDetail = () => {
         ...userInfo,
         userName: sessionStorage.getItem("login.nickname"),
       });
+
+    loadingStore.setLoading(false);
     // eslint-disable-next-line
   }, []);
 
@@ -72,12 +73,13 @@ const CanvasDetail = () => {
   }, [boardId]);
 
   const onLoad = async () => {
-    setLoading(false);
     let image = new Image();
     let detailObj = {};
     const commentArr = [];
     const response = await canvasService.cavasDetail({ params: { boardId } });
-    const commentResponse = await commentService.commentList({ params: { commentId: boardId } });
+    const commentResponse = await commentService.commentList({
+      params: { commentId: boardId },
+    });
 
     image.src = response.canvas_art;
 
@@ -107,7 +109,7 @@ const CanvasDetail = () => {
 
       setDetail(detailObj);
       setCommentList(commentArr);
-      setLoading(true);
+      loadingStore.setLoading(true);
     };
   };
 
@@ -173,12 +175,16 @@ const CanvasDetail = () => {
 
     if (confirm("댓글을 삭제하시겠습니까?")) {
       const deleteReq = async () => {
-        const { status, message } = await commentService.commentDelete({ data: params });
+        const { status, message } = await commentService.commentDelete({
+          data: params,
+        });
         status === 200 ? onLoad() : alert(message);
       };
 
       const isUnknown = () => {
-        prompt("비밀번호를 입력해주세요") === comm.password ? deleteReq() : alert("비밀번호가 일치하지 않습니다.");
+        prompt("비밀번호를 입력해주세요") === comm.password
+          ? deleteReq()
+          : alert("비밀번호가 일치하지 않습니다.");
       };
 
       comm.unknown ? deleteReq() : isUnknown();
@@ -186,7 +192,11 @@ const CanvasDetail = () => {
   };
 
   const isOwnComment = (comm) => {
-    return (comm.unknown && comm.userName === sessionStorage.getItem("login.nickname")) || !comm.unknown;
+    return (
+      (comm.unknown &&
+        comm.userName === sessionStorage.getItem("login.nickname")) ||
+      !comm.unknown
+    );
   };
 
   return useObserver(() => {
@@ -196,76 +206,86 @@ const CanvasDetail = () => {
       <>
         <Top />
         <CanvasDetailContainer>
-          {loading ? (
-            <DetailImageContainer>
-              <CanvasDetailWrapper>
-                <DetailImageWrapper width={detail.width}>
-                  <DetailImage src={detail.art} />
-                  <CanvasInfoBox>
-                    <CanvasInfoTitle>{`#${detail.nickname}`}</CanvasInfoTitle>
-                    <CanvasInfoDescription>{detail.description}</CanvasInfoDescription>
-                  </CanvasInfoBox>
-                </DetailImageWrapper>
-                <CanvasInnerInfo>
-                  <CanvasTitle>{`${detail.title}`}</CanvasTitle>
-                </CanvasInnerInfo>
-              </CanvasDetailWrapper>
-              <CommentInfo>
-                <CommentNumber>댓글 {commentList.length}개</CommentNumber>
-              </CommentInfo>
-              <CommentWrapper>
-                <CommentBox>
+          <DetailImageContainer>
+            <CanvasDetailWrapper>
+              <DetailImageWrapper width={detail.width}>
+                <DetailImage src={detail.art} />
+                <CanvasInfoBox>
+                  <CanvasInfoTitle>{`#${detail.nickname}`}</CanvasInfoTitle>
+                  <CanvasInfoDescription>
+                    {detail.description}
+                  </CanvasInfoDescription>
+                </CanvasInfoBox>
+              </DetailImageWrapper>
+              <CanvasInnerInfo>
+                <CanvasTitle>{`${detail.title}`}</CanvasTitle>
+              </CanvasInnerInfo>
+            </CanvasDetailWrapper>
+            <CommentInfo>
+              <CommentNumber>댓글 {commentList.length}개</CommentNumber>
+            </CommentInfo>
+            <CommentWrapper>
+              <CommentBox>
+                <CommentInput
+                  type={"text"}
+                  name={"userName"}
+                  placeholder={"아이디"}
+                  value={userInfo.userName}
+                  onClick={onRestUserData}
+                  onChange={onChangeUser}
+                  disabled={login}
+                />
+                {!login && (
                   <CommentInput
-                    type={"text"}
-                    name={"userName"}
-                    placeholder={"아이디"}
-                    value={userInfo.userName}
+                    type={"password"}
+                    name={"password"}
+                    placeholder={"비밀번호"}
+                    value={userInfo.password}
                     onClick={onRestUserData}
                     onChange={onChangeUser}
-                    disabled={login}
                   />
-                  {!login && (
-                    <CommentInput
-                      type={"password"}
-                      name={"password"}
-                      placeholder={"비밀번호"}
-                      value={userInfo.password}
-                      onClick={onRestUserData}
-                      onChange={onChangeUser}
+                )}
+              </CommentBox>
+              <CommentBox>
+                <CommentTextField
+                  type={"area"}
+                  name="comment"
+                  placeholder="악의 적인 댓글은 삭제될 수 있습니다."
+                  onChange={onChangeComment}
+                />
+              </CommentBox>
+              <CommentBox>
+                <CommentInsertButton onClick={insertComment}>
+                  등록
+                </CommentInsertButton>
+              </CommentBox>
+            </CommentWrapper>
+            {!_.isEmpty(commentList) ? (
+              _.map(commentList, (comm, index) => (
+                <CommentListWrapper key={index}>
+                  {isOwnComment(comm) && (
+                    <CommentDeletButton
+                      icon={faXmark}
+                      onClick={() => onDelete(comm)}
                     />
                   )}
-                </CommentBox>
-                <CommentBox>
-                  <CommentTextField type={"area"} name="comment" placeholder="악의 적인 댓글은 삭제될 수 있습니다." onChange={onChangeComment} />
-                </CommentBox>
-                <CommentBox>
-                  <CommentInsertButton onClick={insertComment}>등록</CommentInsertButton>
-                </CommentBox>
-              </CommentWrapper>
-              {!_.isEmpty(commentList) ? (
-                _.map(commentList, (comm, index) => (
-                  <CommentListWrapper key={index}>
-                    {isOwnComment(comm) && <CommentDeletButton icon={faXmark} onClick={() => onDelete(comm)} />}
-                    <CommentUserWrapper>
-                      <CommentProfile src={comm.profile} />
-                      <CommentUserName>{comm.userName}</CommentUserName>
-                    </CommentUserWrapper>
-                    <CommentList>
-                      <CommentText>{comm.info}</CommentText>
-                    </CommentList>
-                  </CommentListWrapper>
-                ))
-              ) : (
-                <CommentListWrapper>
-                  <CommentNoneWrapper>
-                    <CommentNoneText>아직 댓글이 없습니다.</CommentNoneText>
-                  </CommentNoneWrapper>
+                  <CommentUserWrapper>
+                    <CommentProfile src={comm.profile} />
+                    <CommentUserName>{comm.userName}</CommentUserName>
+                  </CommentUserWrapper>
+                  <CommentList>
+                    <CommentText>{comm.info}</CommentText>
+                  </CommentList>
                 </CommentListWrapper>
-              )}
-            </DetailImageContainer>
-          ) : (
-            <Loading />
-          )}
+              ))
+            ) : (
+              <CommentListWrapper>
+                <CommentNoneWrapper>
+                  <CommentNoneText>아직 댓글이 없습니다.</CommentNoneText>
+                </CommentNoneWrapper>
+              </CommentListWrapper>
+            )}
+          </DetailImageContainer>
         </CanvasDetailContainer>
       </>
     );

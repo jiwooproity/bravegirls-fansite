@@ -4,7 +4,7 @@ import _ from "lodash";
 
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 
-import { Loading, Top } from "components";
+import { Top } from "components";
 import { canvasService } from "services";
 
 import {
@@ -21,17 +21,20 @@ import {
   BoardWrapper,
 } from "style";
 
+import { useStore } from "hooks";
+
 const CanvasBoard = () => {
   const navigate = useNavigate();
+  const { loadingStore } = useStore();
   const [canvasList, setCanvasList] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     onLoad();
+    loadingStore.setLoading(false);
+    // eslint-disable-next-line
   }, []);
 
   const onLoad = async () => {
-    setLoading(false);
     const canvasArr = [];
     const response = await canvasService.canvasList();
     let img = new Image();
@@ -49,7 +52,9 @@ const CanvasBoard = () => {
     });
 
     setCanvasList(canvasArr);
-    setLoading(true);
+    setTimeout(() => {
+      loadingStore.setLoading(true);
+    }, 500);
   };
 
   const onDetail = ({ id }) => {
@@ -80,29 +85,25 @@ const CanvasBoard = () => {
     <>
       <Top />
       <BoardContainer>
-        {loading ? (
-          <BoardWrapper>
-            <ArtContainer>
-              {_.map(canvasList, (canvas, index) => (
-                <ArtImageContainer key={index}>
-                  <ArtImageWrapper>
-                    <ArtImage src={canvas.art} />
-                    <ArtImageBackdrop onClick={() => onDetail({ id: canvas.id })}>
-                      <ArtStatusBox>
-                        <ArtDescription>{`${canvas.name} / ${canvas.title}`}</ArtDescription>
-                      </ArtStatusBox>
-                    </ArtImageBackdrop>
-                    <ArtDownloadBox onClick={() => onDownload({ canvas })}>
-                      <ArtDownloadButton icon={faDownload} />
-                    </ArtDownloadBox>
-                  </ArtImageWrapper>
-                </ArtImageContainer>
-              ))}
-            </ArtContainer>
-          </BoardWrapper>
-        ) : (
-          <Loading />
-        )}
+        <BoardWrapper>
+          <ArtContainer>
+            {_.map(canvasList, (canvas, index) => (
+              <ArtImageContainer key={index}>
+                <ArtImageWrapper>
+                  <ArtImage src={canvas.art} />
+                  <ArtImageBackdrop onClick={() => onDetail({ id: canvas.id })}>
+                    <ArtStatusBox>
+                      <ArtDescription>{`${canvas.name} / ${canvas.title}`}</ArtDescription>
+                    </ArtStatusBox>
+                  </ArtImageBackdrop>
+                  <ArtDownloadBox onClick={() => onDownload({ canvas })}>
+                    <ArtDownloadButton icon={faDownload} />
+                  </ArtDownloadBox>
+                </ArtImageWrapper>
+              </ArtImageContainer>
+            ))}
+          </ArtContainer>
+        </BoardWrapper>
       </BoardContainer>
     </>
   );

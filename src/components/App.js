@@ -4,7 +4,15 @@ import { useObserver } from "mobx-react";
 
 import styled, { ThemeProvider } from "styled-components";
 
-import { Main, Login, CanvasBoard, CanvasDetail, Success } from "components";
+import {
+  Main,
+  Login,
+  CanvasBoard,
+  CanvasDetail,
+  Success,
+  Loading,
+} from "components";
+
 import { Member, Album, Video, VideoDetail, Canvas } from "components";
 import { Navbar, Footer } from "components";
 
@@ -25,6 +33,7 @@ const App = () => {
     if (localStorage.getItem("theme")) {
       themeStore.setLocalData(localStorage.getItem("theme") === "false");
     }
+
     // eslint-disable-next-line
   }, []);
 
@@ -41,6 +50,7 @@ const App = () => {
         <ThemeProvider theme={getTheme()}>
           <MainContainer>
             <Navbar />
+            <Loading />
             <Routes>
               <Route path={`${Url.ROOT}`} element={<Main />} />
               <Route path={`${Url.MEMBER}`} element={<Member />} />
@@ -48,12 +58,21 @@ const App = () => {
               <Route path={`${Url.MUSIC}`} element={<Video />} />
               <Route path={`${Url.MUSIC}/:videoId`} element={<VideoDetail />} />
               <Route path={`${Url.QUEENDOM}`} element={<Video />} />
-              <Route path={`${Url.QUEENDOM}/:videoId`} element={<VideoDetail />} />
+              <Route
+                path={`${Url.QUEENDOM}/:videoId`}
+                element={<VideoDetail />}
+              />
               <Route path={`${Url.BGCLIP}`} element={<Video />} />
-              <Route path={`${Url.BGCLIP}/:videoId`} element={<VideoDetail />} />
+              <Route
+                path={`${Url.BGCLIP}/:videoId`}
+                element={<VideoDetail />}
+              />
               <Route path={`${Url.CANVAS}`} element={<Canvas />} />
               <Route path={`${Url.BOARD}`} element={<CanvasBoard />} />
-              <Route path={`${Url.BOARD}/:boardId`} element={<CanvasDetail />} />
+              <Route
+                path={`${Url.BOARD}/:boardId`}
+                element={<CanvasDetail />}
+              />
               <Route path={`${Url.LOGIN}`} element={<Login />} />
               <Route path={`${Url.SUCCESS}`} element={<Success />} />
               <Route path={`*`} element={<Main />} />

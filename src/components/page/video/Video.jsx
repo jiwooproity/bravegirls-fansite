@@ -8,11 +8,12 @@ import _ from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faPencil } from "@fortawesome/free-solid-svg-icons";
 
-import { Loading, Top } from "components";
+import { Top } from "components";
 
 import { utils } from "util";
 import { API } from "constant";
 import { youtubeService } from "services";
+import { useStore } from "hooks";
 
 const VideoContainer = styled.div`
   width: 100%;
@@ -154,19 +155,19 @@ const VideoThumbCount = styled.span`
 `;
 
 const Video = () => {
+  const { loadingStore } = useStore();
   const [videoData, setVideoData] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const location = useLocation();
   const pathname = location.pathname.replace("/video/", "");
 
   useEffect(() => {
     onLoad();
+    loadingStore.setLoading(false);
     // eslint-disable-next-line
   }, [pathname]);
 
   const onLoad = async () => {
-    setLoading(false);
     const videoArr = [];
     const keyPath = pathname.toUpperCase();
     const listParams = {
@@ -208,7 +209,7 @@ const Video = () => {
     }
 
     setVideoData(videoArr);
-    setLoading(true);
+    loadingStore.setLoading(true);
   };
 
   return (
@@ -217,37 +218,31 @@ const Video = () => {
       <VideoContainer>
         <VideoWrapper>
           <VideoGridWrap>
-            {loading ? (
-              _.map(videoData, (video, index) => (
-                <Fade bottom key={index}>
-                  <VideoThumbnaillWrap>
-                    <VideoThumbnailImageFrame>
-                      <Link to={`${video.videoId}`}>
-                        <VideoThumbnaillImage src={video.thumbnail} />
-                      </Link>
-                    </VideoThumbnailImageFrame>
-                    <VideoDesWrap>
-                      <VideoTitleWrap>
-                        <VideoTitle>
-                          <Link to={`${video.videoId}`}>{video.title}</Link>
-                        </VideoTitle>
-                        <VideoCountIconWrapper>
-                          <VideoCountIcon icon={faThumbsUp} />
-                          <VideoThumbCount>{video.likeCount}</VideoThumbCount>
-                          <VideoCountIcon icon={faPencil} />
-                          <VideoThumbCount>
-                            {video.commentCount}
-                          </VideoThumbCount>
-                        </VideoCountIconWrapper>
-                        <VideoCountNumber>{video.viewCount}</VideoCountNumber>
-                      </VideoTitleWrap>
-                    </VideoDesWrap>
-                  </VideoThumbnaillWrap>
-                </Fade>
-              ))
-            ) : (
-              <Loading />
-            )}
+            {_.map(videoData, (video, index) => (
+              <Fade bottom key={index}>
+                <VideoThumbnaillWrap>
+                  <VideoThumbnailImageFrame>
+                    <Link to={`${video.videoId}`}>
+                      <VideoThumbnaillImage src={video.thumbnail} />
+                    </Link>
+                  </VideoThumbnailImageFrame>
+                  <VideoDesWrap>
+                    <VideoTitleWrap>
+                      <VideoTitle>
+                        <Link to={`${video.videoId}`}>{video.title}</Link>
+                      </VideoTitle>
+                      <VideoCountIconWrapper>
+                        <VideoCountIcon icon={faThumbsUp} />
+                        <VideoThumbCount>{video.likeCount}</VideoThumbCount>
+                        <VideoCountIcon icon={faPencil} />
+                        <VideoThumbCount>{video.commentCount}</VideoThumbCount>
+                      </VideoCountIconWrapper>
+                      <VideoCountNumber>{video.viewCount}</VideoCountNumber>
+                    </VideoTitleWrap>
+                  </VideoDesWrap>
+                </VideoThumbnaillWrap>
+              </Fade>
+            ))}
           </VideoGridWrap>
         </VideoWrapper>
       </VideoContainer>

@@ -1,7 +1,7 @@
 import { Url } from "./Url";
 import { Menu, snsMenu } from "./Menu";
 import { API } from "./API";
-import { lineWidth, eraseLine } from "./CanvasPick";
+import { lineWidth, eraseLine } from "./Picker";
 
 export { API };
 export { Menu, snsMenu };

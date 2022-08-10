@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import _ from "lodash";
 
 import { AlbumInfo, AlbumList, AlbumTrack } from "components";
-import { Loading, Top } from "components";
+import { Top } from "components";
 
 import { utils } from "util/utils";
 import { useStore } from "hooks";
@@ -12,17 +12,17 @@ import { musicService } from "services";
 import { Album as CSS } from "style";
 
 const Album = () => {
-  const { themeStore } = useStore();
+  const { themeStore, loadingStore } = useStore();
   const [albumList, setAlbumList] = useState([]);
   const [trackList, setTrackList] = useState([]);
   const [selectAlbum, setSelectAlbum] = useState({});
   const [selectId, setSelectId] = useState(0);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     onLoad();
     onLoadTrack();
     utils.onScrollTop();
+    loadingStore.setLoading(false);
     // eslint-disable-next-line
   }, []);
 
@@ -59,10 +59,10 @@ const Album = () => {
     trackArr.unshift({ ...selectAlbum, id: `01` });
 
     setTrackList(trackArr);
+    loadingStore.setLoading(true);
   };
 
   const onLoad = async () => {
-    setLoading(false);
     const musicArr = [];
     const musicData = await musicService.musicList();
 
@@ -87,7 +87,6 @@ const Album = () => {
 
     setAlbumList(musicArr);
     setSelectAlbum(musicArr[selectId]);
-    setLoading(true);
   };
 
   const dragMusic = (destinationId, items) => {
@@ -120,21 +119,15 @@ const Album = () => {
         <CSS.BackdropImage src={selectAlbum.cover} />
       </CSS.DarkMode>
       <CSS.Container>
-        {loading ? (
-          <>
-            <AlbumInfo data={selectAlbum} />
-            <AlbumList
-              data={albumList}
-              onceData={selectAlbum}
-              setData={setAlbumList}
-              selectValue={selectId}
-              func={{ isLightColor, selectMusic, dragMusic }}
-            />
-            <AlbumTrack data={trackList} color={selectAlbum.color} />
-          </>
-        ) : (
-          <Loading />
-        )}
+        <AlbumInfo data={selectAlbum} />
+        <AlbumList
+          data={albumList}
+          onceData={selectAlbum}
+          setData={setAlbumList}
+          selectValue={selectId}
+          func={{ isLightColor, selectMusic, dragMusic }}
+        />
+        <AlbumTrack data={trackList} color={selectAlbum.color} />
       </CSS.Container>
     </>
   );

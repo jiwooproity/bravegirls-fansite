@@ -2,7 +2,9 @@ import _ from "lodash";
 
 export const utils = {
   isMobile: () => {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
   },
 
   onComment: ({ value }) => {
@@ -18,7 +20,9 @@ export const utils = {
   },
 
   setComma: (number) => {
-    return number ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "???";
+    return number
+      ? number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      : "???";
   },
 
   onLogout: () => {
