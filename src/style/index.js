@@ -11,6 +11,11 @@ import { AlbumTrack } from "./AlbumPage/albumTrack";
 import { Canvas } from "./CanvasPage/canvas";
 import { CustomSketch, PaletteStatus, SelectBox, SelectOption, ToolBox, ToolIcon, ToolSizeText, ToolWrap } from "./CanvasPage/canvasTool";
 
+import { Comment } from "./CommentPage/comment";
+import { CommentList } from "./CommentPage/commentList";
+
+import { CanvasDetail } from "./CanvasPage/canvasDetail";
+
 import {
   ArtContainer,
   ArtDescription,
@@ -26,37 +31,6 @@ import {
 } from "./CanvasPage/canvasBoard";
 
 import {
-  CanvasDetailContainer,
-  CanvasDetailInfo,
-  CanvasDetailText,
-  CanvasDetailWrapper,
-  CommentBox,
-  CommentInfo,
-  CommentInput,
-  CommentInsertButton,
-  CommentList,
-  CommentListWrapper,
-  CommentNumber,
-  CommentText,
-  CommentTextField,
-  CommentUserName,
-  CommentUserWrapper,
-  CommentWrapper,
-  DetailImage,
-  DetailImageContainer,
-  DetailImageWrapper,
-  CanvasTitle,
-  CommentProfile,
-  CommentNoneWrapper,
-  CommentNoneText,
-  CanvasInfoBox,
-  CanvasInfoTitle,
-  CanvasInfoDescription,
-  CanvasInnerInfo,
-  CommentDeletButton,
-} from "./CanvasPage/canvasDetail";
-
-import {
   UploadButton,
   UploadContainer,
   UploadInnerWrapper,
@@ -70,8 +44,9 @@ import {
 export { GlobalStyle, theme };
 
 // 앨범 컴포넌트 CSS 스타일
-// Album.jsx
 export { Album, AlbumInfo, AlbumList, AlbumTrack };
+export { Comment, CommentList };
+export { CanvasDetail };
 
 // 캔버스 컴포넌트 CSS 스타일
 // Canvas.jsx
@@ -83,14 +58,6 @@ export { ToolBox, ToolIcon, ToolSizeText, ToolWrap };
 export { ArtContainer, ArtDescription, ArtDownloadBox, ArtDownloadButton };
 export { ArtImage, ArtImageBackdrop, ArtImageContainer };
 export { ArtImageWrapper, ArtStatusBox, BoardContainer, BoardWrapper };
-// CanvasDetail.jsx
-export { CanvasDetailContainer, CanvasDetailInfo, CanvasDetailText, CanvasDetailWrapper };
-export { CommentBox, CommentInfo, CommentInput, CommentInsertButton };
-export { CommentList, CommentListWrapper, CommentNumber, CommentText };
-export { CommentTextField, CommentUserName, CommentUserWrapper, CanvasTitle };
-export { CommentWrapper, DetailImage, DetailImageContainer, DetailImageWrapper };
-export { CommentProfile, CommentNoneText, CommentNoneWrapper, CanvasInnerInfo };
-export { CanvasInfoBox, CanvasInfoTitle, CanvasInfoDescription, CommentDeletButton };
 // CanvasUpload.jsx
 export { UploadButton, UploadContainer, UploadInnerWrapper };
 export { UploadInput, UploadInputWrapper, UploadPreviewWrapper };

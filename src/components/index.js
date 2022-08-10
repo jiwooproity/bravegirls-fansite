@@ -27,6 +27,9 @@ import CanvasDetail from "./page/canvas/CanvasDetail";
 import CanvasTool from "./page/canvas/CanvasTool";
 import CanvasUpload from "./page/canvas/CanvasUpload";
 
+import Comment from "./page/canvas/comment/Comment";
+import CommentList from "./page/canvas/comment/CommentList";
+
 import Login from "./page/login/Login";
 import LoginForm from "./common/LoginForm";
 import Success from "./page/login/Success";
@@ -48,6 +51,7 @@ export { Video, VideoDetail };
 
 // 캔버스 그림
 export { Canvas, CanvasBoard, CanvasDetail, CanvasTool, CanvasUpload };
+export { Comment, CommentList };
 
 // 로그인 페이지
 export { Login, LoginForm, Success };
