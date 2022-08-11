@@ -189,8 +189,18 @@ const CommentList = (props) => {
               {ans.show && _.isEqual(ans.id, comm.id) && (
                 <>
                   <CSS.AnsWrapper>
-                    <CSS.Input type="text" name="userName" value={comment.userName} onChange={onChange} disabled={login} />
-                    {!login && <CSS.Input type="text" name="password" value={comment.password} onChange={onChange} />}
+                    <CSS.Input
+                      type="text"
+                      name="userName"
+                      placeholder="아이디"
+                      value={comment.userName}
+                      onChange={onChange}
+                      onClick={onChangeText}
+                      disabled={login}
+                    />
+                    {!login && (
+                      <CSS.Input type="password" name="password" placeholder="비밀번호" value={comment.password} onChange={onChange} onClick={onChangeText} />
+                    )}
                   </CSS.AnsWrapper>
                   <CSS.AnsWrapper>
                     <CSS.TextField name="text" value={comment.text} placeholder={"답글을 남겨주세요."} onChange={onChangeText} />
