@@ -7,21 +7,9 @@ import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { Top } from "components";
 import { canvasService } from "services";
 
-import {
-  ArtContainer,
-  ArtDescription,
-  ArtDownloadBox,
-  ArtDownloadButton,
-  ArtImage,
-  ArtImageBackdrop,
-  ArtImageContainer,
-  ArtImageWrapper,
-  ArtStatusBox,
-  BoardContainer,
-  BoardWrapper,
-} from "style";
-
 import { useStore } from "hooks";
+
+import { CanvasBoard as CSS } from "style";
 
 const CanvasBoard = () => {
   const navigate = useNavigate();
@@ -84,27 +72,27 @@ const CanvasBoard = () => {
   return (
     <>
       <Top />
-      <BoardContainer>
-        <BoardWrapper>
-          <ArtContainer>
+      <CSS.Container>
+        <CSS.Wrapper>
+          <CSS.ArtContainer>
             {_.map(canvasList, (canvas, index) => (
-              <ArtImageContainer key={index}>
-                <ArtImageWrapper>
-                  <ArtImage src={canvas.art} />
-                  <ArtImageBackdrop onClick={() => onDetail({ id: canvas.id })}>
-                    <ArtStatusBox>
-                      <ArtDescription>{`${canvas.name} / ${canvas.title}`}</ArtDescription>
-                    </ArtStatusBox>
-                  </ArtImageBackdrop>
-                  <ArtDownloadBox onClick={() => onDownload({ canvas })}>
-                    <ArtDownloadButton icon={faDownload} />
-                  </ArtDownloadBox>
-                </ArtImageWrapper>
-              </ArtImageContainer>
+              <CSS.ImageContaienr key={index}>
+                <CSS.ImageWrapper>
+                  <CSS.Image src={canvas.art} />
+                  <CSS.Backdrop onClick={() => onDetail({ id: canvas.id })}>
+                    <CSS.StatusBox>
+                      <CSS.Description>{`${canvas.name} / ${canvas.title}`}</CSS.Description>
+                    </CSS.StatusBox>
+                  </CSS.Backdrop>
+                  <CSS.DownloadBox onClick={() => onDownload({ canvas })}>
+                    <CSS.DownloadButton icon={faDownload} />
+                  </CSS.DownloadBox>
+                </CSS.ImageWrapper>
+              </CSS.ImageContaienr>
             ))}
-          </ArtContainer>
-        </BoardWrapper>
-      </BoardContainer>
+          </CSS.ArtContainer>
+        </CSS.Wrapper>
+      </CSS.Container>
     </>
   );
 };
