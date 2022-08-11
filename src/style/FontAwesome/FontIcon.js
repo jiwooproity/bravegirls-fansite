@@ -1,11 +1,4 @@
-import {
-  faEraser,
-  faArrowsRotate,
-  faTrashCan,
-  faFileDownload,
-  faFileUpload,
-  faPaintBrush,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEraser, faArrowsRotate, faTrashCan, faFileDownload, faFileUpload, faPaintBrush, faSquarePollHorizontal } from "@fortawesome/free-solid-svg-icons";
 
 const FontIcon = {
   Eraser: faEraser,
@@ -14,6 +7,7 @@ const FontIcon = {
   Trash: faTrashCan,
   Download: faFileDownload,
   Upload: faFileUpload,
+  Reply: faSquarePollHorizontal,
 };
 
 export { FontIcon };

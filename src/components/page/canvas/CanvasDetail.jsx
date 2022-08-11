@@ -60,6 +60,7 @@ const CanvasDetail = () => {
           unknown: comm.comment_unknown,
           info: comm.comment_info.split("<br/>").join("\r\n"),
           date: comm.comment_date,
+          children: comm.children || [],
         });
       });
 
@@ -91,7 +92,7 @@ const CanvasDetail = () => {
           <Comment data={commentList} target={boardId} refresh={onLoad} />
 
           {/* 댓글 리스트 */}
-          <CommentList data={commentList} refresh={onLoad} />
+          <CommentList data={commentList} target={boardId} refresh={onLoad} />
         </CSS.CanvasContainer>
       </CSS.Container>
     </>

@@ -88,6 +88,8 @@ Comment.TextField = styled.textarea`
 
   transition: border 0.5s ease;
   resize: none;
+
+  color: ${({ theme }) => theme.titleTextColor};
 `;
 
 Comment.Info = styled.div`

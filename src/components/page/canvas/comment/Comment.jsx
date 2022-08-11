@@ -43,6 +43,7 @@ const Comment = (props) => {
         profile: sessionStorage.getItem("login.profile"),
         unknown: loginStore.login ? 1 : 0,
         info: comment.text,
+        type: "comment",
       };
 
       await commentService.commentInsert({ data: params }).then(() => {
@@ -113,12 +114,23 @@ const Comment = (props) => {
           <CSS.InnerWrapper>
             {_.map(
               input,
-              (i) =>
-                i.visible && <CSS.Input type={i.type} name={i.name} value={i.value} placeholder={i.placeHolder} onClick={i.onClick} onChange={i.onChange} />
+              (i, index) =>
+                i.visible && (
+                  <CSS.Input
+                    key={index}
+                    type={i.type}
+                    name={i.name}
+                    value={i.value}
+                    placeholder={i.placeHolder}
+                    onClick={i.onClick}
+                    onChange={i.onChange}
+                    disabled={i.disabled}
+                  />
+                )
             )}
           </CSS.InnerWrapper>
           <CSS.InnerWrapper>
-            <CSS.TextField type={"area"} name="text" placeholder={placeHolderC} onChange={onRest} />
+            <CSS.TextField type={"area"} name="text" value={comment.text.split("<br/>").join("\r\n")} placeholder={placeHolderC} onChange={onRest} />
           </CSS.InnerWrapper>
 
           {/* 댓글 등록 버튼 */}
