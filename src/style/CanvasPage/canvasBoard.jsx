@@ -1,7 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
-const BoardContainer = styled.div`
+const CanvasBoard = {};
+
+CanvasBoard.Container = styled.div`
   width: 100%;
   min-height: calc(100vh - 85px);
 
@@ -11,11 +13,11 @@ const BoardContainer = styled.div`
   justify-content: center;
 `;
 
-const BoardWrapper = styled.div`
+CanvasBoard.Wrapper = styled.div`
   width: 100%;
 `;
 
-const ArtContainer = styled.div`
+CanvasBoard.ArtContainer = styled.div`
   width: 100%;
   overflow: hidden;
   -webkit-column-count: 7;
@@ -77,7 +79,7 @@ const ArtContainer = styled.div`
   }
 `;
 
-const ArtImageContainer = styled.div`
+CanvasBoard.ImageContaienr = styled.div`
   width: 100%;
   margin-bottom: 20px;
   border-radius: 5px;
@@ -85,7 +87,7 @@ const ArtImageContainer = styled.div`
   box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
 `;
 
-const ArtImageWrapper = styled.div`
+CanvasBoard.ImageWrapper = styled.div`
   width: 100%;
   position: relative;
 
@@ -102,14 +104,14 @@ const ArtImageWrapper = styled.div`
   cursor: pointer;
 `;
 
-const ArtImage = styled.img`
+CanvasBoard.Image = styled.img`
   width: 100%;
   display: block;
 
   transition: transform 0.5s ease;
 `;
 
-const ArtImageBackdrop = styled.div`
+CanvasBoard.Backdrop = styled.div`
   width: 100%;
   height: 100%;
 
@@ -140,14 +142,14 @@ const ArtImageBackdrop = styled.div`
   transition: opacity 0.5s ease;
 `;
 
-const ArtDownloadBox = styled.div`
+CanvasBoard.DownloadBox = styled.div`
   display: flex;
   position: absolute;
   bottom: 5px;
   right: 5px;
 `;
 
-const ArtDownloadButton = styled(FontAwesomeIcon)`
+CanvasBoard.DownloadButton = styled(FontAwesomeIcon)`
   padding: 7px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.8);
@@ -156,11 +158,11 @@ const ArtDownloadButton = styled(FontAwesomeIcon)`
   transition: opacity 0.5s ease;
 `;
 
-const ArtStatusBox = styled.div`
+CanvasBoard.StatusBox = styled.div`
   width: 100%;
 `;
 
-const ArtDescription = styled.span`
+CanvasBoard.Description = styled.span`
   width: 30px;
   font-size: 15px;
   line-height: 15px;
@@ -175,6 +177,4 @@ const ArtDescription = styled.span`
   overflow: hidden;
 `;
 
-export { ArtContainer, ArtDescription, ArtDownloadBox, ArtDownloadButton };
-export { ArtImage, ArtImageBackdrop, ArtImageContainer, ArtImageWrapper };
-export { ArtStatusBox, BoardContainer, BoardWrapper };
+export { CanvasBoard };
