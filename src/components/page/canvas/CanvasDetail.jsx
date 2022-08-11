@@ -15,6 +15,7 @@ const CanvasDetail = () => {
   const params = useParams();
   const { boardId } = params;
   const { loadingStore } = useStore();
+  const [length, setLength] = useState(0);
   const [detail, setDetail] = useState({});
   const [commentList, setCommentList] = useState([]);
 
@@ -50,7 +51,11 @@ const CanvasDetail = () => {
         vertical: response.canvas_vertical === "1",
       };
 
+      let length = 0;
+
       _.forEach(commentResponse, (comm) => {
+        length += comm.children.length;
+
         commentArr.push({
           id: comm.comment_idx,
           parent: comm.comment_parent,
@@ -65,6 +70,7 @@ const CanvasDetail = () => {
       });
 
       setDetail(detailObj);
+      setLength(commentArr.length + length);
       setCommentList(commentArr);
       loadingStore.setLoading(true);
     };
@@ -89,7 +95,7 @@ const CanvasDetail = () => {
           </CSS.Wrapper>
 
           {/* 댓글 입력 폼 */}
-          <Comment data={commentList} target={boardId} refresh={onLoad} />
+          <Comment length={length} data={commentList} target={boardId} refresh={onLoad} />
 
           {/* 댓글 리스트 */}
           <CommentList data={commentList} target={boardId} refresh={onLoad} />

@@ -9,7 +9,7 @@ import { utils } from "util";
 import { Comment as CSS } from "style";
 
 const Comment = (props) => {
-  const { data, target, refresh } = props;
+  const { data, length, target, refresh } = props;
   const { loginStore } = useStore();
   const [comment, setComment] = useState({
     userName: "",
@@ -106,7 +106,7 @@ const Comment = (props) => {
       <>
         {/* 댓글 개수 */}
         <CSS.Info>
-          <CSS.Number>댓글 {data.length}개</CSS.Number>
+          <CSS.Number>댓글 {length}개</CSS.Number>
         </CSS.Info>
 
         {/* 댓글 작성 폼 */}
