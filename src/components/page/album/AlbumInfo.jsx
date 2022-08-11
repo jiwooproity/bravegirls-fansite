@@ -1,18 +1,6 @@
 import React from "react";
 
-import {
-  AlbumWrapper,
-  AlbumLeftSide,
-  AlbumImageWrap,
-  AlbumImage,
-  LpImageWrap,
-  LpImage,
-  AlbumRightSide,
-  AlbumDescription,
-  AlbumTitleText,
-  DescriptionText,
-  AlbumEntertainment,
-} from "style";
+import { AlbumInfo as CSS } from "style";
 
 const AlbumInfo = (props) => {
   const { data } = props;
@@ -24,24 +12,28 @@ const AlbumInfo = (props) => {
   const { title, enter, description, descriptionSecond } = data;
 
   return (
-    <AlbumWrapper>
-      <AlbumLeftSide>
-        <AlbumImageWrap>
-          <AlbumImage src={cover} />
-          <LpImageWrap>
-            <LpImage src={lp} />
-          </LpImageWrap>
-        </AlbumImageWrap>
-      </AlbumLeftSide>
-      <AlbumRightSide>
-        <AlbumDescription>
-          <AlbumTitleText>{title}</AlbumTitleText>
-          <AlbumEntertainment>{enter}</AlbumEntertainment>
-          <DescriptionText>{description}</DescriptionText>
-          <DescriptionText>{descriptionSecond}</DescriptionText>
-        </AlbumDescription>
-      </AlbumRightSide>
-    </AlbumWrapper>
+    <CSS.Wrapper>
+      {/* Left Side */}
+      <CSS.LeftSide>
+        <CSS.ImageWrapper>
+          <CSS.CoverImage src={cover} />
+          <CSS.LpImageWrapper>
+            <CSS.LpImage src={lp} />
+          </CSS.LpImageWrapper>
+        </CSS.ImageWrapper>
+      </CSS.LeftSide>
+      {/* Left Side */}
+      {/* Right Side */}
+      <CSS.RightSide>
+        <CSS.InfoWrapper>
+          <CSS.Title>{title}</CSS.Title>
+          <CSS.PlanInfo>{enter}</CSS.PlanInfo>
+          <CSS.Description>{description}</CSS.Description>
+          <CSS.Description>{descriptionSecond}</CSS.Description>
+        </CSS.InfoWrapper>
+      </CSS.RightSide>
+      {/* Right Side */}
+    </CSS.Wrapper>
   );
 };
 

@@ -1,24 +1,25 @@
 import styled, { keyframes } from "styled-components";
 
-const AlbumWrapper = styled.div`
+const AlbumInfo = {};
+
+AlbumInfo.Wrapper = styled.div`
   width: 990px;
-
   padding: 50px 0px;
-
-  position: relative;
 
   display: grid;
   grid-template-columns: 1fr 1fr;
+  position: relative;
 
   @media screen and (max-width: 768px) {
+    width: 100%;
+    padding: 0px;
+
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
-    width: 100%;
-    padding: 0;
   }
 `;
 
-const AlbumLeftSide = styled.div`
+AlbumInfo.LeftSide = styled.div`
   width: 620px;
   display: flex;
   justify-content: flex-start;
@@ -28,12 +29,12 @@ const AlbumLeftSide = styled.div`
   }
 `;
 
-const AlbumImageWrap = styled.div`
+AlbumInfo.ImageWrapper = styled.div`
   width: 400px;
 
   position: relative;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
 
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 20px 30px;
   z-index: 2;
 
   @media screen and (max-width: 768px) {
@@ -44,8 +45,9 @@ const AlbumImageWrap = styled.div`
   }
 `;
 
-const AlbumImage = styled.img`
+AlbumInfo.CoverImage = styled.img`
   width: 100%;
+
   display: block;
   position: relative;
 
@@ -56,7 +58,7 @@ const AlbumImage = styled.img`
   }
 `;
 
-const LpImageWrap = styled.div`
+AlbumInfo.LpImageWrapper = styled.div`
   width: 400px;
 
   position: absolute;
@@ -64,7 +66,6 @@ const LpImageWrap = styled.div`
   left: 200px;
 
   transform: translateY(-50%);
-
   z-index: 1;
 
   @media screen and (max-width: 768px) {
@@ -77,44 +78,45 @@ const LpImageWrap = styled.div`
   transition: transform 0.5s ease;
 `;
 
+// LP 이미지 회전
 const rotateLP = keyframes`
     100% {
         transform: rotate(360deg);
     }
 `;
 
-const LpImage = styled.img`
+AlbumInfo.LpImage = styled.img`
   width: 100%;
+
   display: block;
 
   animation: ${rotateLP} 3.5s linear infinite;
 `;
 
-const AlbumRightSide = styled.div`
+AlbumInfo.RightSide = styled.div`
   width: 100%;
+
   display: flex;
   justify-content: flex-end;
-
   position: relative;
 
   z-index: 1;
 `;
 
-const AlbumDescription = styled.div`
+AlbumInfo.InfoWrapper = styled.div`
   width: 370px;
 
   @media screen and (max-width: 768px) {
     width: 100%;
-
     padding: 15px 0px;
   }
 `;
 
-const AlbumTitleText = styled.h1`
+AlbumInfo.Title = styled.h1`
   font-size: 30px;
   line-height: 30px;
 
-  color: ${(props) => props.theme.titleTextColor};
+  color: ${({ theme }) => theme.titleTextColor};
 
   @media screen and (max-width: 768px) {
     font-size: 35px;
@@ -122,33 +124,22 @@ const AlbumTitleText = styled.h1`
   }
 `;
 
-const DescriptionText = styled.p`
+AlbumInfo.Description = styled.p`
   font-size: 13px;
   line-height: 20px;
 
   padding: 0px 0px 10px 0px;
-  color: ${(props) => props.theme.desTextColor};
+
+  color: ${({ theme }) => theme.desTextColor};
 `;
 
-const AlbumEntertainment = styled.h1`
+AlbumInfo.PlanInfo = styled.h1`
   font-size: 12px;
   line-height: 12px;
 
   padding: 10px 0px;
 
-  color: ${(props) => props.theme.subTitleTexatColor};
+  color: ${({ theme }) => theme.subTitleTexatColor};
 `;
 
-export {
-  AlbumWrapper,
-  AlbumLeftSide,
-  AlbumImageWrap,
-  AlbumImage,
-  LpImageWrap,
-  LpImage,
-  AlbumRightSide,
-  AlbumDescription,
-  AlbumTitleText,
-  DescriptionText,
-  AlbumEntertainment,
-};
+export { AlbumInfo };

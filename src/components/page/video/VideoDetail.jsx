@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-
-import styled from "styled-components";
-
 import { Fade } from "react-reveal";
 import { useParams } from "react-router-dom";
+
+import styled from "styled-components";
 
 import { faPencil, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { utils } from "util/utils";
-import { Loading } from "components";
-import { youtubeService } from "service";
+import { youtubeService } from "services";
+import { useStore } from "hooks";
 
 const NavbarBox = styled.div`
   width: 100%;
@@ -177,7 +176,7 @@ const VideoThumbCount = styled.span`
 `;
 
 const VideoDetail = () => {
-  const [loading, setLoading] = useState(false);
+  const { loadingStore } = useStore();
   const [detailData, setDetailData] = useState({});
 
   const params = useParams();
@@ -186,11 +185,11 @@ const VideoDetail = () => {
   useEffect(() => {
     onLoad();
     utils.onScrollTop();
+    loadingStore.setLoading(false);
     // eslint-disable-next-line
   }, []);
 
   const onLoad = async () => {
-    setLoading(false);
     let videoObj = {};
 
     const detailParams = {
@@ -231,8 +230,8 @@ const VideoDetail = () => {
       }
     }
 
-    setLoading(true);
     setDetailData(videoObj);
+    loadingStore.setLoading(true);
   };
 
   return (
@@ -241,48 +240,38 @@ const VideoDetail = () => {
       <VideoContainer>
         <VideoWrapper>
           <VideoGridWrap>
-            {loading ? (
-              <Fade bottom>
-                <VideoThumbnaillWrap>
-                  <VideoThumbnailImageFrame>
-                    <VideoCustomIframe
-                      id="gangnamStyleIframe"
-                      type="text/html"
-                      width="100%"
-                      height="100%"
-                      src={`https://www.youtube.com/embed/${videoId}?rel=0&enablejsapi=1`}
-                      frameborder="0"
-                      scrolling="no"
-                      allowfullscreen="1"
-                    />
-                  </VideoThumbnailImageFrame>
-                  <VideoDesWrap>
-                    <VideoTitleWrap>
-                      <VideoTitle>{detailData.title}</VideoTitle>
-                      <VideoCountIconWrapper>
-                        <VideoCountIcon icon={faThumbsUp} />
-                        <VideoThumbCount>
-                          {detailData.likeCount}
-                        </VideoThumbCount>
-                        <VideoCountIcon icon={faPencil} />
-                        <VideoThumbCount>
-                          {detailData.commentCount}
-                        </VideoThumbCount>
-                      </VideoCountIconWrapper>
-                      <VideoCountNumber>
-                        {detailData.viewCount}
-                      </VideoCountNumber>
-                    </VideoTitleWrap>
+            <Fade bottom>
+              <VideoThumbnaillWrap>
+                <VideoThumbnailImageFrame>
+                  <VideoCustomIframe
+                    id="gangnamStyleIframe"
+                    type="text/html"
+                    width="100%"
+                    height="100%"
+                    src={`https://www.youtube.com/embed/${videoId}?rel=0&enablejsapi=1`}
+                    frameborder="0"
+                    scrolling="no"
+                    allowfullscreen="1"
+                  />
+                </VideoThumbnailImageFrame>
+                <VideoDesWrap>
+                  <VideoTitleWrap>
+                    <VideoTitle>{detailData.title}</VideoTitle>
+                    <VideoCountIconWrapper>
+                      <VideoCountIcon icon={faThumbsUp} />
+                      <VideoThumbCount>{detailData.likeCount}</VideoThumbCount>
+                      <VideoCountIcon icon={faPencil} />
+                      <VideoThumbCount>
+                        {detailData.commentCount}
+                      </VideoThumbCount>
+                    </VideoCountIconWrapper>
+                    <VideoCountNumber>{detailData.viewCount}</VideoCountNumber>
+                  </VideoTitleWrap>
 
-                    <VideoDescription>
-                      {detailData.description}
-                    </VideoDescription>
-                  </VideoDesWrap>
-                </VideoThumbnaillWrap>
-              </Fade>
-            ) : (
-              <Loading />
-            )}
+                  <VideoDescription>{detailData.description}</VideoDescription>
+                </VideoDesWrap>
+              </VideoThumbnaillWrap>
+            </Fade>
           </VideoGridWrap>
         </VideoWrapper>
       </VideoContainer>

@@ -6,7 +6,7 @@ import styled from "styled-components";
 import _ from "lodash";
 
 import { useStore } from "hooks";
-import { memberService } from "service";
+import { memberService } from "services";
 
 const ThreeSection = styled.div`
   width: 100%;

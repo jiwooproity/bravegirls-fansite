@@ -3,33 +3,40 @@ import React, { useState, useEffect } from "react";
 import _ from "lodash";
 
 import { AlbumInfo, AlbumList, AlbumTrack } from "components";
-import { Loading, Top } from "components";
+import { Top } from "components";
 
 import { utils } from "util/utils";
 import { useStore } from "hooks";
-import { musicService } from "service";
+import { musicService } from "services";
 
-import { DarkThemeMode, DarkThemeImage, DarkThemeBackdrop, AlbumContainer } from "style";
+import { Album as CSS } from "style";
 
 const Album = () => {
-  const { themeStore } = useStore();
+  const { themeStore, loadingStore } = useStore();
   const [albumList, setAlbumList] = useState([]);
   const [trackList, setTrackList] = useState([]);
   const [selectAlbum, setSelectAlbum] = useState({});
   const [selectId, setSelectId] = useState(0);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     onLoad();
     onLoadTrack();
     utils.onScrollTop();
+    loadingStore.setLoading(false);
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     onLoadTrack();
     // eslint-disable-next-line
-  }, [selectId, setSelectId, albumList, setAlbumList, selectAlbum, setSelectAlbum]);
+  }, [
+    selectId,
+    setSelectId,
+    albumList,
+    setAlbumList,
+    selectAlbum,
+    setSelectAlbum,
+  ]);
 
   const onLoadTrack = async () => {
     const trackArr = [];
@@ -52,10 +59,12 @@ const Album = () => {
     trackArr.unshift({ ...selectAlbum, id: `01` });
 
     setTrackList(trackArr);
+    setTimeout(() => {
+      loadingStore.setLoading(true);
+    }, 500);
   };
 
   const onLoad = async () => {
-    setLoading(false);
     const musicArr = [];
     const musicData = await musicService.musicList();
 
@@ -64,7 +73,9 @@ const Album = () => {
         id: Number(res.music_idx),
         title: res.music_title,
         description: res.music_description,
-        descriptionSecond: res.music_description_second ? res.music_description_second : "",
+        descriptionSecond: res.music_description_second
+          ? res.music_description_second
+          : "",
         cover: res.music_album_image,
         lp: res.music_lp_image,
         color: res.music_color,
@@ -78,7 +89,6 @@ const Album = () => {
 
     setAlbumList(musicArr);
     setSelectAlbum(musicArr[selectId]);
-    setLoading(true);
   };
 
   const dragMusic = (destinationId, items) => {
@@ -106,21 +116,21 @@ const Album = () => {
   return (
     <>
       <Top />
-      <DarkThemeMode active={themeStore.theme ? "true" : "false"}>
-        <DarkThemeBackdrop active={themeStore.theme ? "true" : "false"} />
-        <DarkThemeImage src={selectAlbum.cover} />
-      </DarkThemeMode>
-      <AlbumContainer>
-        {loading ? (
-          <>
-            <AlbumInfo data={selectAlbum} />
-            <AlbumList data={albumList} onceData={selectAlbum} setData={setAlbumList} selectValue={selectId} func={{ isLightColor, selectMusic, dragMusic }} />
-            <AlbumTrack data={trackList} color={selectAlbum.color} />
-          </>
-        ) : (
-          <Loading />
-        )}
-      </AlbumContainer>
+      <CSS.DarkMode active={themeStore.theme}>
+        <CSS.BackdropColor active={themeStore.theme} />
+        <CSS.BackdropImage src={selectAlbum.cover} />
+      </CSS.DarkMode>
+      <CSS.Container>
+        <AlbumInfo data={selectAlbum} />
+        <AlbumList
+          data={albumList}
+          onceData={selectAlbum}
+          setData={setAlbumList}
+          selectValue={selectId}
+          func={{ isLightColor, selectMusic, dragMusic }}
+        />
+        <AlbumTrack data={trackList} color={selectAlbum.color} />
+      </CSS.Container>
     </>
   );
 };

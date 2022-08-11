@@ -4,26 +4,13 @@ import _ from "lodash";
 
 import { faEraser } from "@fortawesome/free-solid-svg-icons";
 
-import { Loading, Top } from "components";
-import CanvasTool from "./CanvasTool";
-
+import { Top } from "components";
+import { CanvasTool, CanvasUpload } from "components";
+import { canvasService } from "services";
 import { utils } from "util";
 
-import {
-  CanvasContainer,
-  CanvasPickerBox,
-  CanvasUploadWrap,
-  CanvasUploadInput,
-  CanvasUploadText,
-  CanvasWrapper,
-  EraserModeIcon,
-  EraserModeIconWrapper,
-  MainCanvas,
-  PreviewCanvas,
-} from "style";
-
-import { canvasService } from "service/canvasService";
-import CanvasUpload from "./CanvasUpload";
+import { Canvas as CSS } from "style";
+import { useStore } from "hooks";
 
 const defaultColor = {
   rgb: { r: "0", g: "0", b: "0", a: "1" },
@@ -32,11 +19,11 @@ const defaultColor = {
 const Canvas = () => {
   let img = new Image();
   const navigate = useNavigate();
+  const { loadingStore } = useStore();
 
   // 사용자가 그리기 시작했는 지 확인
   const [modify, setModify] = useState(false);
   // 업로드 상태 시작 / 마무리
-  const [uploading, setUploading] = useState(false);
   // 캔버스 크기를 확인하기 위한 State
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -77,6 +64,17 @@ const Canvas = () => {
     title: "",
     description: "",
   });
+
+  // 아이디가 존재할 경우 닉네임 자동 입력
+  useEffect(() => {
+    if (sessionStorage.getItem("login.nickname")) {
+      setInsertData({
+        ...insertData,
+        name: sessionStorage.getItem("login.nickname"),
+      });
+    }
+    // eslint-disable-next-line
+  }, []);
 
   // 지우개 토글 상태일 경우 지우개 표시
   useEffect(() => {
@@ -201,7 +199,12 @@ const Canvas = () => {
     };
 
     const remove = () => {
-      ctxTag.clearRect(X - eraseStroke / 2, Y - eraseStroke / 2, eraseStroke, eraseStroke);
+      ctxTag.clearRect(
+        X - eraseStroke / 2,
+        Y - eraseStroke / 2,
+        eraseStroke,
+        eraseStroke
+      );
       setModify(false);
     };
 
@@ -291,7 +294,7 @@ const Canvas = () => {
         if (isTitle || isDescription) {
           sendAlert({ msg: "작품에 대한 제목과 설명을 입력해주세요!" });
         } else {
-          setUploading(true);
+          loadingStore.setLoading(false);
           const data = new FormData();
           let imageURL = bgCanvasRef.current.toDataURL("image/png");
 
@@ -312,7 +315,7 @@ const Canvas = () => {
           };
 
           await canvasService.canvasInsert({ data: params }).then(() => {
-            setUploading(false);
+            loadingStore.setLoading(true);
             navigate("/canvas/board");
           });
         }
@@ -340,17 +343,26 @@ const Canvas = () => {
 
   return (
     <>
-      <Top />
-      {uploading && <Loading />}
-      <CanvasContainer>
-        <CanvasWrapper>
-          <CanvasPickerBox active={uploadImage}>
-            <CanvasUploadWrap htmlFor={"image_upload"} active={uploadImage}>
-              <CanvasUploadText>사진을 업로드 해주세요.</CanvasUploadText>
-              <CanvasUploadInput type={"file"} id={"image_upload"} onChange={onLoad} />
-            </CanvasUploadWrap>
-            <MainCanvas ref={bgCanvasRef} id="bgCanvasjs" active={uploadImage} />
-            <MainCanvas
+      {!uploadImage && <Top />}
+      <CSS.Container>
+        <CSS.Wrapper active={uploadImage}>
+          <CSS.PickerBox active={uploadImage}>
+            {/* 업로드 버튼 및 파일 등록 */}
+            <CSS.UploadWrapper htmlFor={"image_upload"} active={uploadImage}>
+              <CSS.UploadTitle>사진을 업로드 해주세요.</CSS.UploadTitle>
+              <CSS.UploadInput
+                type={"file"}
+                id={"image_upload"}
+                onChange={onLoad}
+              />
+            </CSS.UploadWrapper>
+            {/* 그림 그리기 영역 */}
+            <CSS.Canvas
+              ref={bgCanvasRef}
+              id="bgCanvasjs"
+              active={uploadImage}
+            />
+            <CSS.Canvas
               ref={canvasRef}
               id="canvasJS"
               onMouseDown={startDraw}
@@ -385,15 +397,24 @@ const Canvas = () => {
               uploadCanvas={uploadCanvas}
               onPicker={onPicker}
             />
-          </CanvasPickerBox>
-          <CanvasUpload hidden={insertData.upload} onChangeInput={onChangeInput} uploadCanvas={uploadCanvas}>
-            <PreviewCanvas ref={previewRef} id="previewCanvas" />
+          </CSS.PickerBox>
+          <CanvasUpload
+            hidden={insertData.upload}
+            data={insertData}
+            onChangeInput={onChangeInput}
+            uploadCanvas={uploadCanvas}
+          >
+            <CSS.Preview ref={previewRef} id="previewCanvas" />
           </CanvasUpload>
-        </CanvasWrapper>
-      </CanvasContainer>
-      <EraserModeIconWrapper className="eraser" active={erase} stroke={eraseStroke}>
-        <EraserModeIcon icon={faEraser} />
-      </EraserModeIconWrapper>
+        </CSS.Wrapper>
+      </CSS.Container>
+      <CSS.EraserIconWrapper
+        className="eraser"
+        active={erase}
+        stroke={eraseStroke}
+      >
+        <CSS.EraseIcon icon={faEraser} />
+      </CSS.EraserIconWrapper>
     </>
   );
 };

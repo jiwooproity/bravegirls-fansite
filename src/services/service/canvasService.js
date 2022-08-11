@@ -1,5 +1,5 @@
 import { API } from "constant";
-import { request } from "service";
+import { request } from "services";
 
 export const canvasService = {
   canvasList: () =>

@@ -1,70 +1,61 @@
 import styled from "styled-components";
 
-const DarkThemeMode = styled.div`
+const Album = {};
+
+Album.DarkMode = styled.div`
   width: 100%;
   height: 500px;
 
-  opacity: ${({ active }) => (active === "true" ? "1" : "0")};
-
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 0px;
+  left: 0px;
 
   overflow: hidden;
+  opacity: ${({ active }) => (active ? "1" : "0")};
 
   @media screen and (max-width: 768px) {
     height: 500px;
   }
-
-  transition: opacity 1s ease;
 `;
 
-const DarkThemeImage = styled.img`
+Album.BackdropImage = styled.img`
   width: 100%;
   height: 100%;
 
   display: block;
-
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 0px;
+  left: 0px;
 
   object-fit: cover;
-
   transform: scale(30);
-
   z-index: 0;
 `;
 
-const DarkThemeBackdrop = styled.div`
+Album.BackdropColor = styled.div`
   width: 100%;
   height: 100%;
 
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 0px;
+  left: 0px;
 
-  background: ${(props) =>
-    `linear-gradient(180deg, hsla(0, 0%, 100%, 0), ${props.theme.backgroundColor})`};
-
-  background-color: ${({ active }) =>
-    active === "true" ? "rgba(54, 54, 54, 0.5)" : ""};
   backdrop-filter: blur(150px);
-
   z-index: 1;
+
+  background: ${({ theme }) => `linear-gradient(180deg, hsla(0, 0%, 100%, 0), ${theme.backgroundColor})`};
+  background-color: ${({ active }) => (active ? "rgba(54, 54, 54, 0.5)" : "")};
 `;
 
-const AlbumContainer = styled.div`
+Album.Container = styled.div`
   width: 100%;
   min-height: calc(100vh - 85px);
-
   padding: 0px 15px 30px 15px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   position: relative;
 
   @media screen and (max-width: 768px) {
@@ -72,4 +63,4 @@ const AlbumContainer = styled.div`
   }
 `;
 
-export { DarkThemeMode, DarkThemeImage, DarkThemeBackdrop, AlbumContainer };
+export { Album };

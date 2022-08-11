@@ -8,10 +8,10 @@ import { faYoutubeSquare } from "@fortawesome/free-brands-svg-icons";
 import { faInstagramSquare } from "@fortawesome/free-brands-svg-icons";
 import { faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 
-import { Loading, Top } from "components";
+import { Top } from "components";
 import { MemberTab } from "components";
 
-import { memberService } from "service";
+import { memberService } from "services";
 import { utils } from "util/utils";
 
 import { useStore } from "hooks";
@@ -53,7 +53,8 @@ const MemberBackgroundWrap = styled.div`
   border-radius: 5px;
 
   position: relative;
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+    rgba(17, 17, 26, 0.05) 0px 8px 32px;
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -181,11 +182,10 @@ const MemberSign = styled.img`
 `;
 
 const NewMember = () => {
-  const [loading, setLoading] = useState(false);
+  const { memberStore, loadingStore } = useStore();
   const [timingLinera, setTimingLinera] = useState(false);
   const [linearData, setLinearData] = useState(null);
   const [memberData, setMemberData] = useState({});
-  const { memberStore } = useStore();
 
   const memberID = [
     { id: 0, name: "MINYOUNG" },
@@ -196,6 +196,7 @@ const NewMember = () => {
 
   useEffect(() => {
     onLoad();
+    loadingStore.setLoading(false);
     // eslint-disable-next-line
   }, []);
 
@@ -204,7 +205,6 @@ const NewMember = () => {
   }, []);
 
   const onLoad = useCallback(async () => {
-    setLoading(false);
     let memberArr = [];
     const response = await memberService.allMemberList();
 
@@ -229,8 +229,7 @@ const NewMember = () => {
     setMemberData(memberArr);
     setLinearData(memberArr[memberStore.member].linear);
     setTimingLinera(true);
-    setLoading(true);
-
+    loadingStore.setLoading(true);
     // eslint-disable-next-line
   }, []);
 
@@ -250,42 +249,59 @@ const NewMember = () => {
     return (
       <>
         <Top />
-        <MemberContainer>
-          <MemberIntroduceWrap>
-            {loading ? (
-              <>
-                <MemberSign src={memberData[member].sign} />
-                <MemberBackgroundWrap>
-                  <MemberBackground src={memberData[member].backgroundImage} />
-                  <MemberImage src={memberData[member].image} />
-                </MemberBackgroundWrap>
-                <MemberDesWrap>
-                  <MemberDesBar src={memberData[member].backgroundImage} />
-                  <MemberDesTitle>{memberData[member].engName}</MemberDesTitle>
-                  <MemberDesSubTitle>
-                    {memberData[member].enter} / {memberData[member].korName}
-                  </MemberDesSubTitle>
+        {memberData[member] && (
+          <MemberContainer>
+            <MemberIntroduceWrap>
+              <MemberSign src={memberData[member].sign} />
+              <MemberBackgroundWrap>
+                <MemberBackground src={memberData[member].backgroundImage} />
+                <MemberImage src={memberData[member].image} />
+              </MemberBackgroundWrap>
+              <MemberDesWrap>
+                <MemberDesBar src={memberData[member].backgroundImage} />
+                <MemberDesTitle>{memberData[member].engName}</MemberDesTitle>
+                <MemberDesSubTitle>
+                  {memberData[member].enter} / {memberData[member].korName}
+                </MemberDesSubTitle>
 
-                  <MemberDesIntroduction>{memberData[member].introduction}</MemberDesIntroduction>
-                  <MemberSNSWrapper>
-                    <a href={memberData[member].youtube} target={"_blank"} rel="noreferrer">
-                      <MemberSNSIcon icon={faYoutubeSquare} />
-                    </a>
-                    <a href={memberData[member].instagram} target={"_blank"} rel="noreferrer">
-                      <MemberSNSIcon icon={faInstagramSquare} />
-                    </a>
-                    <a href={memberData[member].twitter} target={"_blank"} rel="noreferrer">
-                      <MemberSNSIcon icon={faTwitterSquare} />
-                    </a>
-                  </MemberSNSWrapper>
-                </MemberDesWrap>
-              </>
-            ) : (
-              <Loading />
-            )}
-          </MemberIntroduceWrap>
-          <MemberTab data={memberData} list={memberID} selectValue={member} timing={timingLinera} linear={linearData} func={{ onSelect }} />
-        </MemberContainer>
+                <MemberDesIntroduction>
+                  {memberData[member].introduction}
+                </MemberDesIntroduction>
+                <MemberSNSWrapper>
+                  <a
+                    href={memberData[member].youtube}
+                    target={"_blank"}
+                    rel="noreferrer"
+                  >
+                    <MemberSNSIcon icon={faYoutubeSquare} />
+                  </a>
+                  <a
+                    href={memberData[member].instagram}
+                    target={"_blank"}
+                    rel="noreferrer"
+                  >
+                    <MemberSNSIcon icon={faInstagramSquare} />
+                  </a>
+                  <a
+                    href={memberData[member].twitter}
+                    target={"_blank"}
+                    rel="noreferrer"
+                  >
+                    <MemberSNSIcon icon={faTwitterSquare} />
+                  </a>
+                </MemberSNSWrapper>
+              </MemberDesWrap>
+            </MemberIntroduceWrap>
+            <MemberTab
+              data={memberData}
+              list={memberID}
+              selectValue={member}
+              timing={timingLinera}
+              linear={linearData}
+              func={{ onSelect }}
+            />
+          </MemberContainer>
+        )}
       </>
     );
   });
