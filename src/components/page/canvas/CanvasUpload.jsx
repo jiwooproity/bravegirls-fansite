@@ -1,16 +1,7 @@
 import React from "react";
 import { Top } from "components";
 
-import {
-  UploadButton,
-  UploadContainer,
-  UploadInnerWrapper,
-  UploadInput,
-  UploadInputWrapper,
-  UploadPreviewWrapper,
-  UploadTextField,
-  UploadWrapper,
-} from "style";
+import { CanvasUpload as CSS } from "style";
 
 const CanvasUpload = (props) => {
   const { children } = props;
@@ -18,14 +9,14 @@ const CanvasUpload = (props) => {
   const { onChangeInput, uploadCanvas, hidden } = props;
 
   return (
-    <UploadContainer active={hidden}>
+    <CSS.Container active={hidden}>
       <Top />
-      <UploadInnerWrapper>
-        <UploadWrapper>
-          <UploadPreviewWrapper>{children}</UploadPreviewWrapper>
-          <UploadPreviewWrapper>
-            <UploadInputWrapper>
-              <UploadInput
+      <CSS.Wrapper>
+        <CSS.InnerWrapper>
+          <CSS.PreviewWrapper>{children}</CSS.PreviewWrapper>
+          <CSS.PreviewWrapper>
+            <CSS.InputBox>
+              <CSS.Input
                 type={"text"}
                 name={"name"}
                 value={data.name}
@@ -33,20 +24,26 @@ const CanvasUpload = (props) => {
                 onChange={onChangeInput}
                 disabled={sessionStorage.getItem("login.nickname")}
               />
-              <UploadInput type={"text"} name={"title"} value={data.title} placeholder={"업로드할 작품의 제목을 입력해주세요!"} onChange={onChangeInput} />
-              <UploadTextField
+              <CSS.Input
+                type={"text"}
+                name={"title"}
+                value={data.title}
+                placeholder={"업로드할 작품의 제목을 입력해주세요!"}
+                onChange={onChangeInput}
+              />
+              <CSS.TextField
                 type={"text"}
                 name={"description"}
-                value={data.description}
+                value={data.description.split("<br/>").join("\r\n")}
                 placeholder={"어떤 작품인지 설명해 주세요!"}
                 onChange={onChangeInput}
               />
-            </UploadInputWrapper>
-          </UploadPreviewWrapper>
-        </UploadWrapper>
-        <UploadButton onClick={uploadCanvas}>UPLOAD</UploadButton>
-      </UploadInnerWrapper>
-    </UploadContainer>
+            </CSS.InputBox>
+          </CSS.PreviewWrapper>
+        </CSS.InnerWrapper>
+        <CSS.Button onClick={uploadCanvas}>UPLOAD</CSS.Button>
+      </CSS.Wrapper>
+    </CSS.Container>
   );
 };
 

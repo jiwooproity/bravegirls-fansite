@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
-const UploadContainer = styled.div`
+const CanvasUpload = {};
+
+CanvasUpload.Container = styled.div`
   width: 100%;
   min-height: calc(100vh - 85px);
 
@@ -23,23 +25,23 @@ const UploadContainer = styled.div`
   transition: opacity 0.5s ease, background-color 0.5s ease;
 `;
 
-const UploadInnerWrapper = styled.div``;
+CanvasUpload.Wrapper = styled.div``;
 
-const UploadWrapper = styled.div`
+CanvasUpload.InnerWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
 
-const UploadPreviewWrapper = styled.div``;
+CanvasUpload.PreviewWrapper = styled.div``;
 
-const UploadInputWrapper = styled.div`
+CanvasUpload.InputBox = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
   padding: 0px 15px 15px 15px;
 `;
 
-const UploadInput = styled.input`
+CanvasUpload.Input = styled.input`
   width: 400px;
   border: none;
 
@@ -62,7 +64,7 @@ const UploadInput = styled.input`
   transition: border-bottom 0.5s ease;
 `;
 
-const UploadButton = styled.button`
+CanvasUpload.Button = styled.button`
   width: 100%;
 
   font-size: 15px;
@@ -84,7 +86,7 @@ const UploadButton = styled.button`
   cursor: pointer;
 `;
 
-const UploadTextField = styled.textarea`
+CanvasUpload.TextField = styled.textarea`
   height: 100%;
   padding: 5px;
 
@@ -99,9 +101,8 @@ const UploadTextField = styled.textarea`
     border: 1px solid ${(props) => props.theme.inputBottomActiveColor};
   }
 
+  resize: none;
   transition: border 0.5s ease;
 `;
 
-export { UploadButton, UploadContainer, UploadInnerWrapper, UploadInput };
-export { UploadInputWrapper, UploadPreviewWrapper, UploadTextField };
-export { UploadWrapper };
+export { CanvasUpload };
