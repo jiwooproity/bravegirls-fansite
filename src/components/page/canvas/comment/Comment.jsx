@@ -6,10 +6,10 @@ import { useStore } from "hooks";
 import { commentService } from "services";
 import { utils } from "util";
 
-import { Comment as CSS } from "style";
+import { Comment as CSS, FontIcon } from "style";
 
 const Comment = (props) => {
-  const { data, length, target, refresh } = props;
+  const { length, target, refresh } = props;
   const { loginStore } = useStore();
   const [comment, setComment] = useState({
     userName: "",
@@ -20,7 +20,9 @@ const Comment = (props) => {
   useEffect(() => {
     setComment({
       ...comment,
-      userName: loginStore.login ? sessionStorage.getItem("login.nickname") : "익명의 쁘붕이",
+      userName: loginStore.login
+        ? sessionStorage.getItem("login.nickname")
+        : "익명의 쁘붕이",
     });
     // eslint-disable-next-line
   }, []);
@@ -130,12 +132,20 @@ const Comment = (props) => {
             )}
           </CSS.InnerWrapper>
           <CSS.InnerWrapper>
-            <CSS.TextField type={"area"} name="text" value={comment.text.split("<br/>").join("\r\n")} placeholder={placeHolderC} onChange={onRest} />
+            <CSS.TextField
+              type={"area"}
+              name="text"
+              value={comment.text.split("<br/>").join("\r\n")}
+              placeholder={placeHolderC}
+              onChange={onRest}
+            />
           </CSS.InnerWrapper>
 
           {/* 댓글 등록 버튼 */}
           <CSS.InnerWrapper>
-            <CSS.Button onClick={insert}>등록</CSS.Button>
+            <CSS.Button onClick={insert}>
+              <CSS.SendIcon icon={FontIcon.Send} />
+            </CSS.Button>
           </CSS.InnerWrapper>
         </CSS.Wrapper>
       </>

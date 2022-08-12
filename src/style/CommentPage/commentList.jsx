@@ -10,6 +10,8 @@ CommentList.Wrapper = styled.div`
 
   position: relative;
 
+  border-top: 1px solid rgba(54, 54, 54, 0.1);
+
   &.comment-parent {
     padding: 0px;
   }
@@ -19,9 +21,13 @@ CommentList.Wrapper = styled.div`
   }
 `;
 
+CommentList.ReplyWrapper = styled.div`
+  padding: 15px 0px;
+`;
+
 CommentList.Icon = styled(FontAwesomeIcon)`
-  font-size: 20px;
-  height: 20px;
+  font-size: 22px;
+  height: 22px;
 
   position: absolute;
   top: 14px;
@@ -146,7 +152,7 @@ CommentList.TextField = styled.textarea`
 
 CommentList.ButtonWrapper = styled.div`
   width: 100%;
-  padding: 2px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
 
   display: flex;
   justify-content: flex-end;
@@ -156,7 +162,7 @@ CommentList.Button = styled.button`
   font-size: 12px;
   font-weight: 600;
   height: 100%;
-  padding: 5px 20px;
+  padding: 8px 25px;
   border: none;
   border-radius: 3px;
 
@@ -178,6 +184,10 @@ CommentList.Button = styled.button`
   }
 
   cursor: pointer;
+`;
+
+CommentList.SendIcon = styled(FontAwesomeIcon)`
+  font-size: 12px;
 `;
 
 export { CommentList };

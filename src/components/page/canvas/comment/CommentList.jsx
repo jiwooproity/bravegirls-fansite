@@ -22,7 +22,9 @@ const CommentList = (props) => {
   useEffect(() => {
     setComment({
       ...comment,
-      userName: loginStore.login ? sessionStorage.getItem("login.nickname") : "익명의 쁘붕이",
+      userName: loginStore.login
+        ? sessionStorage.getItem("login.nickname")
+        : "익명의 쁘붕이",
     });
     // eslint-disable-next-line
   }, []);
@@ -91,7 +93,9 @@ const CommentList = (props) => {
       };
 
       const isUnknown = () => {
-        _.isEqual(prompt("비밀번호를 입력해주세요"), password) ? deleteReq() : alert("비밀번호가 일치하지 않습니다.");
+        _.isEqual(prompt("비밀번호를 입력해주세요"), password)
+          ? deleteReq()
+          : alert("비밀번호가 일치하지 않습니다.");
       };
 
       unknown ? deleteReq() : isUnknown();
@@ -111,8 +115,14 @@ const CommentList = (props) => {
     }
 
     const { login } = loginStore;
-    const role = (unknown && login && _.isEqual(userName, sessionStorage.getItem("login.nickname"))) || !unknown;
-    return role ? <CSS.DeleteButton icon={faXmark} onClick={() => onDelete(comm)} /> : null;
+    const role =
+      (unknown &&
+        login &&
+        _.isEqual(userName, sessionStorage.getItem("login.nickname"))) ||
+      !unknown;
+    return role ? (
+      <CSS.DeleteButton icon={faXmark} onClick={() => onDelete(comm)} />
+    ) : null;
   };
 
   const insert = async () => {
@@ -181,36 +191,55 @@ const CommentList = (props) => {
                     <CSS.User>{item.comment_username}</CSS.User>
                   </CSS.UserArea>
                   <CSS.TextArea>
-                    <CSS.Text>{item.comment_info}</CSS.Text>
+                    <CSS.Text>
+                      {item.comment_info.split("<br/>").join("\r\n")}
+                    </CSS.Text>
                   </CSS.TextArea>
                 </CSS.Wrapper>
               ))}
 
               {ans.show && _.isEqual(ans.id, comm.id) && (
-                <>
-                  <CSS.AnsWrapper>
-                    <CSS.Input
-                      type="text"
-                      name="userName"
-                      placeholder="아이디"
-                      value={comment.userName}
-                      onChange={onChange}
-                      onClick={onChangeText}
-                      disabled={login}
-                    />
-                    {!login && (
-                      <CSS.Input type="password" name="password" placeholder="비밀번호" value={comment.password} onChange={onChange} onClick={onChangeText} />
-                    )}
-                  </CSS.AnsWrapper>
-                  <CSS.AnsWrapper>
-                    <CSS.TextField name="text" value={comment.text} placeholder={"답글을 남겨주세요."} onChange={onChangeText} />
-                  </CSS.AnsWrapper>
-                  <CSS.AnsWrapper>
-                    <CSS.ButtonWrapper>
-                      <CSS.Button onClick={insert}>등록</CSS.Button>
-                    </CSS.ButtonWrapper>
-                  </CSS.AnsWrapper>
-                </>
+                <CSS.Wrapper>
+                  <CSS.Icon icon={FontIcon.Reply} />
+                  <CSS.ReplyWrapper>
+                    <CSS.AnsWrapper>
+                      <CSS.Input
+                        type="text"
+                        name="userName"
+                        placeholder="아이디"
+                        value={comment.userName}
+                        onChange={onChange}
+                        onClick={onChangeText}
+                        disabled={login}
+                      />
+                      {!login && (
+                        <CSS.Input
+                          type="password"
+                          name="password"
+                          placeholder="비밀번호"
+                          value={comment.password}
+                          onChange={onChange}
+                          onClick={onChangeText}
+                        />
+                      )}
+                    </CSS.AnsWrapper>
+                    <CSS.AnsWrapper>
+                      <CSS.TextField
+                        name="text"
+                        value={comment.text.split("<br/>").join("\r\n")}
+                        placeholder={"답글을 남겨주세요."}
+                        onChange={onChangeText}
+                      />
+                    </CSS.AnsWrapper>
+                    <CSS.AnsWrapper>
+                      <CSS.ButtonWrapper>
+                        <CSS.Button onClick={insert}>
+                          <CSS.SendIcon icon={FontIcon.Send} />
+                        </CSS.Button>
+                      </CSS.ButtonWrapper>
+                    </CSS.AnsWrapper>
+                  </CSS.ReplyWrapper>
+                </CSS.Wrapper>
               )}
             </CSS.Container>
           ))

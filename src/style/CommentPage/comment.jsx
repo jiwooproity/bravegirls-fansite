@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
 const Comment = {};
@@ -22,7 +23,7 @@ Comment.InnerWrapper = styled.div`
   &:nth-child(3) {
     display: flex;
     justify-content: flex-end;
-    padding: 2px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
   }
 `;
 
@@ -49,7 +50,7 @@ Comment.Button = styled.button`
   font-size: 12px;
   font-weight: 600;
   height: 100%;
-  padding: 5px 20px;
+  padding: 8px 25px;
   border: none;
   border-radius: 3px;
 
@@ -71,6 +72,10 @@ Comment.Button = styled.button`
   }
 
   cursor: pointer;
+`;
+
+Comment.SendIcon = styled(FontAwesomeIcon)`
+  font-size: 12px;
 `;
 
 Comment.TextField = styled.textarea`
