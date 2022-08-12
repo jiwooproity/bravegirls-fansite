@@ -64,7 +64,7 @@ Comment.Button = styled.button`
     background-color: ${({ theme }) => theme.backgroundOpacityColor};
   }
 
-  transition: color 0.5s ease, background-color 0.5s ease;
+  transition: background-color 0.5s ease;
 
   &:focus {
     outline: none;

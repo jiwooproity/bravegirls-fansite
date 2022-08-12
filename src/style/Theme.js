@@ -48,7 +48,7 @@ export const darkTheme = {
   backgroundColor: "rgba(15, 15, 15)",
   backgroundOpacityColor: "rgba(255, 255, 255)",
 
-  buttonColor: "rgba(15, 15, 15, 0.9)",
+  buttonColor: "rgba(240, 240, 240, 0.9)",
 
   titleTextColor: "rgba(255, 255, 255)",
   subTitleTexatColor: "rgba(255, 255, 255, 0.8)",
