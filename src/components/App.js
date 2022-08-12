@@ -19,6 +19,7 @@ import { Navbar, Footer } from "components";
 import { Url } from "constant";
 import { useStore } from "hooks";
 import { theme } from "style";
+import Toast from "./common/toast/Toast";
 
 const MainContainer = styled.div`
   width: 100%;
@@ -51,6 +52,7 @@ const App = () => {
           <MainContainer>
             <Navbar />
             <Loading />
+            <Toast />
             <Routes>
               <Route path={`${Url.ROOT}`} element={<Main />} />
               <Route path={`${Url.MEMBER}`} element={<Member />} />

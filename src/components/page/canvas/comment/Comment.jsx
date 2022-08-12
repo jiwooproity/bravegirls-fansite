@@ -10,7 +10,7 @@ import { Comment as CSS, FontIcon } from "style";
 
 const Comment = (props) => {
   const { length, target, refresh } = props;
-  const { loginStore } = useStore();
+  const { loginStore, toastStore } = useStore();
   const [comment, setComment] = useState({
     userName: "",
     password: "",
@@ -33,7 +33,7 @@ const Comment = (props) => {
     const isInfo = _.isEmpty(comment.text);
 
     if (isUsername || (!loginStore.login && isPassword) || isInfo) {
-      alert("댓글 등록에 필요한 내용이 부족합니다.");
+      toastStore.showToast("댓글 등록에 필요한 내용이 부족합니다.");
       return;
     }
 

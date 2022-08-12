@@ -19,7 +19,7 @@
   <body>
     <div id="root"></div>
     <script type="text/javascript">
-      if (document.location.protocol == 'http:') {
+      if (document.location.protocol == 'http:' && window.location.hostname !== "localhost") {
         document.location.href = document.location.href.replace('http:', 'https:')
       }
     </script>
