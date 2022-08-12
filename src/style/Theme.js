@@ -30,6 +30,7 @@ export const lightTheme = {
 
   inputBottomColor: "rgba(54, 54, 54, 0.1)",
   inputBottomActiveColor: "rgba(54, 54, 54, 0.5)",
+  inputReplyColor: "rgba(250, 250, 250)",
 
   signFilter: 0,
 
@@ -70,6 +71,7 @@ export const darkTheme = {
 
   inputBottomColor: "rgba(255, 255, 255, 0.1)",
   inputBottomActiveColor: "rgba(255, 255, 255, 0.5)",
+  inputReplyColor: "rgba(20, 20, 20)",
 
   signFilter: 100,
 

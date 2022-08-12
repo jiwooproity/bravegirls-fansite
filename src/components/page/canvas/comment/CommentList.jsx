@@ -59,6 +59,11 @@ const CommentList = (props) => {
       id,
       show: equalId ? (ans.show ? false : true) : true,
     });
+
+    setComment({
+      ...comment,
+      text: "",
+    });
   };
 
   const onDelete = async (comm) => {

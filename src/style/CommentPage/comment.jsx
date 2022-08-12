@@ -44,6 +44,8 @@ Comment.Input = styled.input`
   @media screen and (max-width: 768px) {
     width: 100%;
   }
+
+  transition: color 0.5s ease;
 `;
 
 Comment.Button = styled.button`

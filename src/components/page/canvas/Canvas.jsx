@@ -302,7 +302,7 @@ const Canvas = () => {
           data.append("upload_preset", "dbw3ells");
 
           const upload = await canvasService.canvasUpload({ data });
-          const url = upload.url;
+          const url = upload.secure_url;
           const isHori = width > height;
           const isRect = width - height < 50;
 

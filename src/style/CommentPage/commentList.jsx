@@ -10,19 +10,21 @@ CommentList.Wrapper = styled.div`
 
   position: relative;
 
-  border-top: 1px solid rgba(54, 54, 54, 0.1);
+  border-top: 1px solid ${({ theme }) => theme.inputBottomColor};
 
   &.comment-parent {
-    padding: 0px;
+    padding: 0px 10px;
   }
 
   &.comment-children {
-    padding: 0px 0px 0px 30px;
+    padding: 0px 10px 0px 40px;
+    background-color: ${({ theme }) => theme.inputReplyColor};
   }
 `;
 
 CommentList.ReplyWrapper = styled.div`
-  padding: 15px 0px;
+  padding: 15px 10px 15px 15px;
+  background-color: ${({ theme }) => theme.inputReplyColor};
 `;
 
 CommentList.Icon = styled(FontAwesomeIcon)`
@@ -31,7 +33,7 @@ CommentList.Icon = styled(FontAwesomeIcon)`
 
   position: absolute;
   top: 14px;
-  left: 0px;
+  left: 10px;
 
   color: ${({ theme }) => theme.titleTextColor};
 `;
@@ -96,7 +98,7 @@ CommentList.DeleteButton = styled(FontAwesomeIcon)`
   height: 12px;
   position: absolute;
   top: 15px;
-  right: 0;
+  right: 10px;
 
   border-radius: 2px;
   cursor: pointer;
@@ -115,12 +117,12 @@ CommentList.AnsWrapper = styled.div`
 CommentList.Input = styled.input`
   border: none;
   border: 1px solid ${({ theme }) => theme.inputBottomColor};
-  background-color: transparent;
 
   padding: 5px;
   margin-bottom: 5px;
 
   color: ${({ theme }) => theme.titleTextColor};
+  background-color: ${({ theme }) => theme.backgroundColor};
 
   &:focus {
     outline: none;
@@ -129,6 +131,8 @@ CommentList.Input = styled.input`
   @media screen and (max-width: 768px) {
     width: 100%;
   }
+
+  transition: 0.5s ease, background-color 0.5s ease;
 `;
 
 CommentList.TextField = styled.textarea`
@@ -138,7 +142,7 @@ CommentList.TextField = styled.textarea`
   padding: 5px;
 
   border: 1px solid ${({ theme }) => theme.inputBottomColor};
-  background-color: transparent;
+  background-color: ${({ theme }) => theme.backgroundColor};
 
   &:focus {
     outline: none;
@@ -148,6 +152,8 @@ CommentList.TextField = styled.textarea`
   resize: none;
 
   color: ${({ theme }) => theme.titleTextColor};
+
+  transition: 0.5s ease, background-color 0.5s ease;
 `;
 
 CommentList.ButtonWrapper = styled.div`
