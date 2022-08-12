@@ -20,9 +20,7 @@ const Comment = (props) => {
   useEffect(() => {
     setComment({
       ...comment,
-      userName: loginStore.login
-        ? sessionStorage.getItem("login.nickname")
-        : "익명의 쁘붕이",
+      userName: loginStore.login ? sessionStorage.getItem("login.nickname") : "익명의 쁘붕이",
     });
     // eslint-disable-next-line
   }, []);
@@ -33,7 +31,7 @@ const Comment = (props) => {
     const isInfo = _.isEmpty(comment.text);
 
     if (isUsername || (!loginStore.login && isPassword) || isInfo) {
-      toastStore.showToast("댓글 등록에 필요한 내용이 부족합니다.");
+      toastStore.showToast({ status: 2, msg: "댓글 등록에 필요한 내용이 부족합니다." });
       return;
     }
 
@@ -55,6 +53,7 @@ const Comment = (props) => {
         });
 
         refresh();
+        toastStore.showToast({ status: 0, msg: "댓글이 등록 되었습니다." });
       });
     }
   };
@@ -132,13 +131,7 @@ const Comment = (props) => {
             )}
           </CSS.InnerWrapper>
           <CSS.InnerWrapper>
-            <CSS.TextField
-              type={"area"}
-              name="text"
-              value={comment.text.split("<br/>").join("\r\n")}
-              placeholder={placeHolderC}
-              onChange={onRest}
-            />
+            <CSS.TextField type={"area"} name="text" value={comment.text.split("<br/>").join("\r\n")} placeholder={placeHolderC} onChange={onRest} />
           </CSS.InnerWrapper>
 
           {/* 댓글 등록 버튼 */}

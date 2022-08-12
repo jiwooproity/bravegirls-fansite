@@ -49,6 +49,7 @@ Comment.Input = styled.input`
 `;
 
 Comment.Button = styled.button`
+  width: 100%;
   font-size: 12px;
   font-weight: 600;
   height: 100%;
@@ -57,10 +58,10 @@ Comment.Button = styled.button`
   border-radius: 3px;
 
   color: ${({ theme }) => theme.diffTitleTextColor};
-  background-color: ${({ theme }) => theme.backgroundOpacityColor};
+  background-color: ${({ theme }) => theme.buttonColor};
 
   &:hover {
-    background-color: ${({ theme }) => theme.black};
+    background-color: ${({ theme }) => theme.backgroundOpacityColor};
   }
 
   transition: color 0.5s ease, background-color 0.5s ease;

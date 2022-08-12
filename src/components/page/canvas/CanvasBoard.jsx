@@ -13,7 +13,7 @@ import { CanvasBoard as CSS } from "style";
 
 const CanvasBoard = () => {
   const navigate = useNavigate();
-  const { loadingStore } = useStore();
+  const { loadingStore, toastStore } = useStore();
   const [canvasList, setCanvasList] = useState([]);
 
   useEffect(() => {
@@ -66,6 +66,8 @@ const CanvasBoard = () => {
         document.body.appendChild(link);
         link.click();
       });
+
+      toastStore.showToast({ status: 0, msg: `${canvas.name}님의 작품이 다운로드 되었습니다.` });
     });
   };
 

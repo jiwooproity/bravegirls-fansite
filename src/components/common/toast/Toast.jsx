@@ -16,14 +16,16 @@ const Toast = () => {
   }, [show, toastStore]);
 
   return useObserver(() => {
-    const { show, msg } = toastStore;
+    const { show, status, msg } = toastStore;
 
     return (
-      show && (
-        <CSS.Box>
-          <CSS.Text>{msg}</CSS.Text>
-        </CSS.Box>
-      )
+      <CSS.Box show={show}>
+        <CSS.StatusColor className={`Type-${status}`} />
+        <CSS.TextWrap>
+          <CSS.Text>{status}</CSS.Text>
+          <CSS.SubText>{msg}</CSS.SubText>
+        </CSS.TextWrap>
+      </CSS.Box>
     );
   });
 };

@@ -12,7 +12,7 @@ import { utils } from "util";
 
 const CommentList = (props) => {
   const { data, target, refresh } = props;
-  const { loginStore } = useStore();
+  const { loginStore, toastStore } = useStore();
   const [comment, setComment] = useState({
     userName: "",
     password: "",
@@ -22,9 +22,7 @@ const CommentList = (props) => {
   useEffect(() => {
     setComment({
       ...comment,
-      userName: loginStore.login
-        ? sessionStorage.getItem("login.nickname")
-        : "익명의 쁘붕이",
+      userName: loginStore.login ? sessionStorage.getItem("login.nickname") : "익명의 쁘붕이",
     });
     // eslint-disable-next-line
   }, []);
@@ -89,18 +87,21 @@ const CommentList = (props) => {
     const params = { commentId, type };
 
     if (confirm("댓글을 삭제하시겠습니까?")) {
+      const successReq = () => {
+        refresh();
+        toastStore.showToast({ status: 0, msg: "댓글을 삭제하였습니다." });
+      };
+
       const deleteReq = async () => {
         const { status, message } = await commentService.commentDelete({
           data: params,
         });
 
-        _.isEqual(status, 200) ? refresh() : alert(message);
+        _.isEqual(status, 200) ? successReq() : alert(message);
       };
 
       const isUnknown = () => {
-        _.isEqual(prompt("비밀번호를 입력해주세요"), password)
-          ? deleteReq()
-          : alert("비밀번호가 일치하지 않습니다.");
+        _.isEqual(prompt("비밀번호를 입력해주세요"), password) ? deleteReq() : toastStore.showToast({ status: 1, msg: "비밀번호가 일치하지 않습니다." });
       };
 
       unknown ? deleteReq() : isUnknown();
@@ -120,14 +121,8 @@ const CommentList = (props) => {
     }
 
     const { login } = loginStore;
-    const role =
-      (unknown &&
-        login &&
-        _.isEqual(userName, sessionStorage.getItem("login.nickname"))) ||
-      !unknown;
-    return role ? (
-      <CSS.DeleteButton icon={faXmark} onClick={() => onDelete(comm)} />
-    ) : null;
+    const role = (unknown && login && _.isEqual(userName, sessionStorage.getItem("login.nickname"))) || !unknown;
+    return role ? <CSS.DeleteButton icon={faXmark} onClick={() => onDelete(comm)} /> : null;
   };
 
   const insert = async () => {
@@ -136,7 +131,7 @@ const CommentList = (props) => {
     const isInfo = _.isEmpty(comment.text);
 
     if (isUsername || (!loginStore.login && isPassword) || isInfo) {
-      alert("답글 등록에 필요한 내용이 부족합니다.");
+      toastStore.showToast({ status: 2, msg: "답글 등록에 필요한 내용이 부족합니다." });
       return;
     }
 
@@ -164,6 +159,7 @@ const CommentList = (props) => {
         });
 
         refresh();
+        toastStore.showToast({ status: 0, msg: "답글이 등록 되었습니다." });
       });
     }
   };
@@ -196,9 +192,7 @@ const CommentList = (props) => {
                     <CSS.User>{item.comment_username}</CSS.User>
                   </CSS.UserArea>
                   <CSS.TextArea>
-                    <CSS.Text>
-                      {item.comment_info.split("<br/>").join("\r\n")}
-                    </CSS.Text>
+                    <CSS.Text>{item.comment_info.split("<br/>").join("\r\n")}</CSS.Text>
                   </CSS.TextArea>
                 </CSS.Wrapper>
               ))}
@@ -218,23 +212,11 @@ const CommentList = (props) => {
                         disabled={login}
                       />
                       {!login && (
-                        <CSS.Input
-                          type="password"
-                          name="password"
-                          placeholder="비밀번호"
-                          value={comment.password}
-                          onChange={onChange}
-                          onClick={onChangeText}
-                        />
+                        <CSS.Input type="password" name="password" placeholder="비밀번호" value={comment.password} onChange={onChange} onClick={onChangeText} />
                       )}
                     </CSS.AnsWrapper>
                     <CSS.AnsWrapper>
-                      <CSS.TextField
-                        name="text"
-                        value={comment.text.split("<br/>").join("\r\n")}
-                        placeholder={"답글을 남겨주세요."}
-                        onChange={onChangeText}
-                      />
+                      <CSS.TextField name="text" value={comment.text.split("<br/>").join("\r\n")} placeholder={"답글을 남겨주세요."} onChange={onChangeText} />
                     </CSS.AnsWrapper>
                     <CSS.AnsWrapper>
                       <CSS.ButtonWrapper>

@@ -149,7 +149,7 @@ const LoginBoxRegister = styled.a`
 
 const Login = () => {
   const navigate = useNavigate();
-  const { loginStore } = useStore();
+  const { loginStore, toastStore } = useStore();
 
   const [status, setStatus] = useState({
     message: "",
@@ -184,7 +184,7 @@ const Login = () => {
     const isPassword = _.isEmpty(inputData.password);
 
     if (isAddress || isPassword) {
-      alert("로그인 정보를 모두 입력해 주세요.");
+      toastStore.showToast({ status: 2, msg: "로그인 정보를 모두 입력해 주세요." });
     } else {
       const params = {
         userId: inputData.address,
@@ -196,6 +196,7 @@ const Login = () => {
       switch (status) {
         case 404:
           setStatus({ message: detail, show: true });
+          toastStore.showToast({ status: 1, msg: detail });
           break;
         case 200:
           sessionStorage.setItem("login.nickname", userInfo.nickname);
@@ -204,6 +205,7 @@ const Login = () => {
           sessionStorage.setItem("login.token", userInfo.token);
           navigate("/success");
           loginStore.setLogin();
+          toastStore.showToast({ status: 0, msg: `${userInfo.nickname}님 환영합니다.` });
           break;
         default:
           break;

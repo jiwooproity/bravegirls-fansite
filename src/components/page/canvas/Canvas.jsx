@@ -19,7 +19,7 @@ const defaultColor = {
 const Canvas = () => {
   let img = new Image();
   const navigate = useNavigate();
-  const { loadingStore } = useStore();
+  const { loadingStore, toastStore } = useStore();
 
   // 사용자가 그리기 시작했는 지 확인
   const [modify, setModify] = useState(false);
@@ -199,12 +199,7 @@ const Canvas = () => {
     };
 
     const remove = () => {
-      ctxTag.clearRect(
-        X - eraseStroke / 2,
-        Y - eraseStroke / 2,
-        eraseStroke,
-        eraseStroke
-      );
+      ctxTag.clearRect(X - eraseStroke / 2, Y - eraseStroke / 2, eraseStroke, eraseStroke);
       setModify(false);
     };
 
@@ -316,6 +311,7 @@ const Canvas = () => {
 
           await canvasService.canvasInsert({ data: params }).then(() => {
             loadingStore.setLoading(true);
+            toastStore.showToast({ status: 0, msg: `${name}님의 작품이 등록되었습니다.` });
             navigate("/canvas/board");
           });
         }
@@ -339,6 +335,8 @@ const Canvas = () => {
     a.href = imageURL;
     a.download = `${hour}_${minutes}_${seconds}_picture`;
     a.click();
+
+    toastStore.showToast({ status: 0, msg: "이미지가 다운로드 되었습니다." });
   };
 
   return (
@@ -350,18 +348,10 @@ const Canvas = () => {
             {/* 업로드 버튼 및 파일 등록 */}
             <CSS.UploadWrapper htmlFor={"image_upload"} active={uploadImage}>
               <CSS.UploadTitle>사진을 업로드 해주세요.</CSS.UploadTitle>
-              <CSS.UploadInput
-                type={"file"}
-                id={"image_upload"}
-                onChange={onLoad}
-              />
+              <CSS.UploadInput type={"file"} id={"image_upload"} onChange={onLoad} />
             </CSS.UploadWrapper>
             {/* 그림 그리기 영역 */}
-            <CSS.Canvas
-              ref={bgCanvasRef}
-              id="bgCanvasjs"
-              active={uploadImage}
-            />
+            <CSS.Canvas ref={bgCanvasRef} id="bgCanvasjs" active={uploadImage} />
             <CSS.Canvas
               ref={canvasRef}
               id="canvasJS"
@@ -398,21 +388,12 @@ const Canvas = () => {
               onPicker={onPicker}
             />
           </CSS.PickerBox>
-          <CanvasUpload
-            hidden={insertData.upload}
-            data={insertData}
-            onChangeInput={onChangeInput}
-            uploadCanvas={uploadCanvas}
-          >
+          <CanvasUpload hidden={insertData.upload} data={insertData} onChangeInput={onChangeInput} uploadCanvas={uploadCanvas}>
             <CSS.Preview ref={previewRef} id="previewCanvas" />
           </CanvasUpload>
         </CSS.Wrapper>
       </CSS.Container>
-      <CSS.EraserIconWrapper
-        className="eraser"
-        active={erase}
-        stroke={eraseStroke}
-      >
+      <CSS.EraserIconWrapper className="eraser" active={erase} stroke={eraseStroke}>
         <CSS.EraseIcon icon={faEraser} />
       </CSS.EraserIconWrapper>
     </>
