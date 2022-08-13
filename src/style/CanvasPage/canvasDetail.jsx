@@ -32,8 +32,7 @@ CanvasDetail.CanvasContainer = styled.div`
 
 CanvasDetail.CanvasWrapper = styled.div`
   width: ${({ width }) => `${width}px`};
-  box-shadow: rgb(50 50 93 / 25%) 0px 13px 27px -5px,
-    rgb(0 0 0 / 30%) 0px 8px 16px -8px;
+  box-shadow: rgb(50 50 93 / 25%) 0px 13px 27px -5px, rgb(0 0 0 / 30%) 0px 8px 16px -8px;
   border-radius: 5px;
   overflow: hidden;
   position: relative;

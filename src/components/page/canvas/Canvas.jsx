@@ -306,6 +306,7 @@ const Canvas = () => {
             name: name,
             description: description,
             canvas: url,
+            profile: sessionStorage.getItem("login.profile"),
             vertical: isHori ? (isRect ? "1" : "0") : "1",
           };
 
