@@ -3,10 +3,11 @@ import styled from "styled-components";
 const Toast = {};
 
 Toast.Box = styled.div`
-  width: 500px;
-  padding: 20px 30px;
-
+  width: 100%;
   display: flex;
+  justify-content: center;
+  align-items: center;
+
   position: fixed;
   opacity: ${({ show }) => (show ? "1" : "0")};
   bottom: ${({ show }) => (show ? "20px" : "-90px")};
@@ -14,15 +15,27 @@ Toast.Box = styled.div`
 
   transform: translateX(-50%);
 
+  padding: 0px 15px;
+
+  transition: bottom 0.8s ease, opacity 0.5s ease;
+
+  z-index: 999;
+`;
+
+Toast.InnerBox = styled.div`
+  width: 500px;
+  padding: 20px 30px;
+
+  display: flex;
+  position: relative;
+
   border-radius: 10px;
   box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
   background-color: rgba(255, 255, 255);
 
-  overflow: hidden;
-
-  z-index: 999;
-
-  transition: bottom 0.8s ease, opacity 0.5s ease;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 Toast.TextWrap = styled.div`

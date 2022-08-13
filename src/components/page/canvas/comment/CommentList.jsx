@@ -172,6 +172,7 @@ const CommentList = (props) => {
         {!_.isEmpty(data) ? (
           _.map(data, (comm, index) => (
             <CSS.Container key={index}>
+              <CSS.DepthLine />
               <CSS.Wrapper className="comment-parent">
                 {renderButton(comm)}
                 <CSS.UserArea>
@@ -186,7 +187,9 @@ const CommentList = (props) => {
               {_.map(comm.children, (item, index) => (
                 <CSS.Wrapper key={index} className="comment-children">
                   {renderButton(item)}
-                  <CSS.Icon icon={FontIcon.Reply} />
+                  <CSS.DepthCircle />
+                  <CSS.DepthConnect />
+                  {/* <CSS.Icon icon={FontIcon.Reply} /> */}
                   <CSS.UserArea>
                     <CSS.Profile src={item.comment_profile} />
                     <CSS.User>{item.comment_username}</CSS.User>
@@ -198,10 +201,11 @@ const CommentList = (props) => {
               ))}
 
               {ans.show && _.isEqual(ans.id, comm.id) && (
-                <CSS.Wrapper>
-                  <CSS.Icon icon={FontIcon.Reply} />
+                <CSS.Wrapper className="comment-reply">
+                  {/* <CSS.Icon icon={FontIcon.Reply} /> */}
                   <CSS.ReplyWrapper>
                     <CSS.AnsWrapper>
+                      {login && <CSS.Profile src={sessionStorage.getItem("login.profile")} />}
                       <CSS.Input
                         type="text"
                         name="userName"
@@ -210,6 +214,7 @@ const CommentList = (props) => {
                         onChange={onChange}
                         onClick={onChangeText}
                         disabled={login}
+                        login={login}
                       />
                       {!login && (
                         <CSS.Input type="password" name="password" placeholder="비밀번호" value={comment.password} onChange={onChange} onClick={onChangeText} />

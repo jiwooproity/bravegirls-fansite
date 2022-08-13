@@ -1,29 +1,95 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const CommentList = {};
 
-CommentList.Container = styled.div``;
-
-CommentList.Wrapper = styled.div`
-  width: 100%;
+CommentList.Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 
   position: relative;
+`;
 
-  border-top: 1px solid ${({ theme }) => theme.inputBottomColor};
+CommentList.DepthLine = styled.div`
+  width: 1px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 20px;
 
-  &.comment-parent {
-    padding: 0px 10px;
-  }
+  background-color: ${({ theme }) => theme.inputBottomColor};
+  z-index: 0;
 
-  &.comment-children {
-    padding: 0px 10px 0px 40px;
-    background-color: ${({ theme }) => theme.inputReplyColor};
+  @media screen and (max-width: 768px) {
+    left: 10px;
   }
 `;
 
+CommentList.DepthConnect = styled.div`
+  width: 30px;
+  height: 1px;
+  position: absolute;
+  top: 50%;
+  left: -30px;
+
+  transform: translateY(-50%);
+
+  background-color: ${({ theme }) => theme.inputBottomColor};
+  z-index: 0;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+`;
+
+CommentList.DepthCircle = styled.div`
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: 50%;
+  left: -33px;
+
+  transform: translateY(-50%);
+
+  border: 1px solid ${({ theme }) => theme.inputBottomColor};
+  border-radius: 50%;
+
+  background-color: ${({ theme }) => theme.backgroundColor};
+
+  z-index: 3;
+
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+`;
+
+CommentList.Wrapper = styled.div`
+  position: relative;
+  margin: 0px 0px 10px 0px;
+
+  /* border-top: 1px solid ${({ theme }) => theme.inputBottomColor}; */
+
+  &.comment-parent {
+    width: 100%;
+  }
+
+  &.comment-children {
+    width: 95%;
+  }
+
+  &.comment-reply {
+    width: 95%;
+  }
+
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  background-color: ${({ theme }) => theme.backgroundColor};
+
+  z-index: 2;
+`;
+
 CommentList.ReplyWrapper = styled.div`
-  padding: 15px 10px 15px 15px;
+  padding: 15px 15px 15px 15px;
   background-color: ${({ theme }) => theme.inputReplyColor};
 `;
 
@@ -40,7 +106,7 @@ CommentList.Icon = styled(FontAwesomeIcon)`
 
 CommentList.TextArea = styled.div`
   width: 100%;
-  padding: 15px 0px;
+  padding: 30px 10px;
 
   cursor: pointer;
 `;
@@ -54,9 +120,19 @@ CommentList.Text = styled.span`
 `;
 
 CommentList.UserArea = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
-  padding: 15px 0px 0px 0px;
+  padding: 10px 0px 10px 10px;
+  background-color: ${({ theme }) => theme.inputReplyColor};
+`;
+
+CommentList.Profile = styled.img`
+  width: 20px;
+  height: 20px;
+  display: block;
+
+  border-radius: 50%;
 `;
 
 CommentList.User = styled.span`
@@ -98,7 +174,7 @@ CommentList.DeleteButton = styled(FontAwesomeIcon)`
   height: 12px;
   position: absolute;
   top: 15px;
-  right: 10px;
+  right: 15px;
 
   border-radius: 2px;
   cursor: pointer;
@@ -109,20 +185,28 @@ CommentList.DeleteButton = styled(FontAwesomeIcon)`
 
 CommentList.AnsWrapper = styled.div`
   width: 100%;
-  padding: 0px 0px 0px 25px;
 
   display: flex;
+  align-items: center;
 `;
 
 CommentList.Input = styled.input`
-  border: none;
-  border: 1px solid ${({ theme }) => theme.inputBottomColor};
-
-  padding: 5px;
-  margin-bottom: 5px;
+  ${({ login }) =>
+    login
+      ? css`
+          border: none;
+          background-color: ${({ theme }) => theme.inputReplyColor};
+          padding: 5px 5px 5px 0px;
+        `
+      : css`
+          border: none;
+          border: 1px solid ${({ theme }) => theme.inputBottomColor};
+          background-color: ${({ theme }) => theme.backgroundColor};
+          margin-bottom: 5px;
+          padding: 5px;
+        `}
 
   color: ${({ theme }) => theme.titleTextColor};
-  background-color: ${({ theme }) => theme.backgroundColor};
 
   &:focus {
     outline: none;
@@ -140,6 +224,7 @@ CommentList.TextField = styled.textarea`
   height: 100px;
 
   padding: 5px;
+  margin-top: 5px;
 
   border: 1px solid ${({ theme }) => theme.inputBottomColor};
   background-color: ${({ theme }) => theme.backgroundColor};
@@ -158,14 +243,13 @@ CommentList.TextField = styled.textarea`
 
 CommentList.ButtonWrapper = styled.div`
   width: 100%;
-  padding: 0px 0px 0px 0px;
+  padding: 5px 0px 0px 0px;
 
   display: flex;
   justify-content: flex-end;
 `;
 
 CommentList.Button = styled.button`
-  width: 100%;
   font-size: 12px;
   font-weight: 600;
   height: 100%;

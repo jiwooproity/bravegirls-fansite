@@ -5,7 +5,7 @@ const CanvasDetail = {};
 CanvasDetail.Container = styled.div`
   width: 100%;
   min-height: calc(100vh - 85px);
-  padding: 0px 15px 15px 15px;
+  padding: 0px 15px 0px 15px;
 
   display: flex;
   justify-content: center;

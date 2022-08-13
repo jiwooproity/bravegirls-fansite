@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const Comment = {};
 
@@ -11,6 +11,8 @@ Comment.Wrapper = styled.div`
 Comment.InnerWrapper = styled.div`
   &:nth-child(1) {
     display: flex;
+    align-items: center;
+    margin-bottom: ${({ login }) => (login ? "5px" : "0px")};
   }
 
   &:nth-child(2) {
@@ -27,13 +29,29 @@ Comment.InnerWrapper = styled.div`
   }
 `;
 
+Comment.Profile = styled.img`
+  width: 20px;
+  height: 20px;
+  display: block;
+
+  border-radius: 50%;
+`;
+
 Comment.Input = styled.input`
-  border: none;
-  border: 1px solid ${({ theme }) => theme.inputBottomColor};
   background-color: transparent;
 
+  ${({ login }) =>
+    login
+      ? css`
+          border: none;
+        `
+      : css`
+          border: none;
+          border: 1px solid ${({ theme }) => theme.inputBottomColor};
+          margin-bottom: 5px;
+        `}
+
   padding: 5px;
-  margin-bottom: 5px;
 
   color: ${({ theme }) => theme.titleTextColor};
 
@@ -49,10 +67,10 @@ Comment.Input = styled.input`
 `;
 
 Comment.Button = styled.button`
-  width: 100%;
   font-size: 12px;
   font-weight: 600;
   height: 100%;
+  margin: 5px 0px 0px 0px;
   padding: 8px 25px;
   border: none;
   border-radius: 3px;

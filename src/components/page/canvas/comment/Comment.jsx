@@ -112,7 +112,8 @@ const Comment = (props) => {
 
         {/* 댓글 작성 폼 */}
         <CSS.Wrapper>
-          <CSS.InnerWrapper>
+          <CSS.InnerWrapper login={login}>
+            {login && <CSS.Profile src={sessionStorage.getItem("login.profile")} />}
             {_.map(
               input,
               (i, index) =>
@@ -126,6 +127,7 @@ const Comment = (props) => {
                     onClick={i.onClick}
                     onChange={i.onChange}
                     disabled={i.disabled}
+                    login={login}
                   />
                 )
             )}
