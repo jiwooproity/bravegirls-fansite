@@ -265,12 +265,8 @@ const Canvas = () => {
   };
 
   const uploadCanvas = async () => {
-    const sendAlert = ({ msg }) => {
-      alert(msg);
-    };
-
     if (!modify) {
-      sendAlert({ msg: "그림을 그려주세요 !" });
+      toastStore.showToast({ status: 2, msg: "그림을 그려주세요 !" });
     } else {
       const { width, height } = size;
       const { upload, title, name, description } = insertData;
@@ -287,7 +283,7 @@ const Canvas = () => {
         const isDescription = _.isEmpty(description);
 
         if (isTitle || isDescription) {
-          sendAlert({ msg: "작품에 대한 제목과 설명을 입력해주세요!" });
+          toastStore.showToast({ status: 2, msg: "작품에 대한 제목과 설명을 입력해주세요!" });
         } else {
           loadingStore.setLoading(false);
           const data = new FormData();

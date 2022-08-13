@@ -1,7 +1,7 @@
 import React from "react";
 import { Top } from "components";
 
-import { CanvasUpload as CSS } from "style";
+import { CanvasUpload as CSS, FontIcon } from "style";
 
 const CanvasUpload = (props) => {
   const { children } = props;
@@ -24,13 +24,7 @@ const CanvasUpload = (props) => {
                 onChange={onChangeInput}
                 disabled={sessionStorage.getItem("login.nickname")}
               />
-              <CSS.Input
-                type={"text"}
-                name={"title"}
-                value={data.title}
-                placeholder={"업로드할 작품의 제목을 입력해주세요!"}
-                onChange={onChangeInput}
-              />
+              <CSS.Input type={"text"} name={"title"} value={data.title} placeholder={"업로드할 작품의 제목을 입력해주세요!"} onChange={onChangeInput} />
               <CSS.TextField
                 type={"text"}
                 name={"description"}
@@ -41,7 +35,9 @@ const CanvasUpload = (props) => {
             </CSS.InputBox>
           </CSS.PreviewWrapper>
         </CSS.InnerWrapper>
-        <CSS.Button onClick={uploadCanvas}>UPLOAD</CSS.Button>
+        <CSS.ButtonWrapper onClick={uploadCanvas}>
+          <CSS.Icon icon={FontIcon.Upload_C} />
+        </CSS.ButtonWrapper>
       </CSS.Wrapper>
     </CSS.Container>
   );
