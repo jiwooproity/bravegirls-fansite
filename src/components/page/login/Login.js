@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Fade } from "react-reveal";
 
 import styled from "styled-components";
@@ -135,6 +135,11 @@ const LoginBoxRegisterDes = styled.span`
   display: flex;
 
   color: ${(props) => props.theme.titleTextColor};
+
+  a {
+    font-size: 11px;
+    text-decoration: none;
+  }
 `;
 
 const LoginBoxRegister = styled.a`
@@ -226,7 +231,10 @@ const Login = () => {
             <LoginBoxInput type={"password"} name="password" placeholder="비밀번호" value={inputData.password} onChange={onChangeInput} />
             <LoginBoxButton onClick={onLogin}>로그인</LoginBoxButton>
             <LoginBoxRegisterDes>
-              아직 아이디가 없으신가요?<LoginBoxRegister>회원가입</LoginBoxRegister>
+              아직 아이디가 없으신가요?
+              <LoginBoxRegister>
+                <Link to={"/register"}>회원가입</Link>
+              </LoginBoxRegister>
             </LoginBoxRegisterDes>
           </LoginBoxInputWrap>
         </LoginBoxWrapper>

@@ -21,6 +21,8 @@ import { CanvasUpload } from "./CanvasPage/canvasUpload";
 import { Comment } from "./CommentPage/comment";
 import { CommentList } from "./CommentPage/commentList";
 
+import { Register } from "./LoginPage/register";
+
 export { GlobalStyle, theme };
 export { FontIcon };
 export { Toast };
@@ -30,3 +32,5 @@ export { Album, AlbumInfo, AlbumList, AlbumTrack };
 
 export { Canvas, CanvasDetail, CanvasTool, CanvasUpload, CanvasBoard };
 export { Comment, CommentList };
+
+export { Register };

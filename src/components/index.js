@@ -33,6 +33,7 @@ import CommentList from "./page/canvas/comment/CommentList";
 import Login from "./page/login/Login";
 import LoginForm from "./common/LoginForm";
 import Success from "./page/login/Success";
+import Register from "./page/login/Register";
 
 // 재사용 컴포넌트
 export { Loading, Footer, Navbar, SnsNavbar, Top };
@@ -54,4 +55,4 @@ export { Canvas, CanvasBoard, CanvasDetail, CanvasTool, CanvasUpload };
 export { Comment, CommentList };
 
 // 로그인 페이지
-export { Login, LoginForm, Success };
+export { Login, LoginForm, Success, Register };

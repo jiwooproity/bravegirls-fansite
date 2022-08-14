@@ -4,14 +4,8 @@ import { useObserver } from "mobx-react";
 
 import styled, { ThemeProvider } from "styled-components";
 
-import {
-  Main,
-  Login,
-  CanvasBoard,
-  CanvasDetail,
-  Success,
-  Loading,
-} from "components";
+import { Main, CanvasBoard, CanvasDetail, Loading } from "components";
+import { Login, Success, Register } from "components";
 
 import { Member, Album, Video, VideoDetail, Canvas } from "components";
 import { Navbar, Footer } from "components";
@@ -60,23 +54,15 @@ const App = () => {
               <Route path={`${Url.MUSIC}`} element={<Video />} />
               <Route path={`${Url.MUSIC}/:videoId`} element={<VideoDetail />} />
               <Route path={`${Url.QUEENDOM}`} element={<Video />} />
-              <Route
-                path={`${Url.QUEENDOM}/:videoId`}
-                element={<VideoDetail />}
-              />
+              <Route path={`${Url.QUEENDOM}/:videoId`} element={<VideoDetail />} />
               <Route path={`${Url.BGCLIP}`} element={<Video />} />
-              <Route
-                path={`${Url.BGCLIP}/:videoId`}
-                element={<VideoDetail />}
-              />
+              <Route path={`${Url.BGCLIP}/:videoId`} element={<VideoDetail />} />
               <Route path={`${Url.CANVAS}`} element={<Canvas />} />
               <Route path={`${Url.BOARD}`} element={<CanvasBoard />} />
-              <Route
-                path={`${Url.BOARD}/:boardId`}
-                element={<CanvasDetail />}
-              />
+              <Route path={`${Url.BOARD}/:boardId`} element={<CanvasDetail />} />
               <Route path={`${Url.LOGIN}`} element={<Login />} />
               <Route path={`${Url.SUCCESS}`} element={<Success />} />
+              <Route path={`${Url.REGISTER}`} element={<Register />} />
               <Route path={`*`} element={<Main />} />
             </Routes>
             <Footer />

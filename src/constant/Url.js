@@ -11,4 +11,5 @@ export const Url = {
   SIGN: `${process.env.PUBLIC_URL}/sign`,
   LOGIN: `${process.env.PUBLIC_URL}/login`,
   SUCCESS: `${process.env.PUBLIC_URL}/success`,
+  REGISTER: `${process.env.PUBLIC_URL}/register`,
 };

@@ -24,7 +24,13 @@ export const API = {
     INSERT_COMMENT: `${REQUEST_URL}/insertComment.php`,
     DELETE_COMMENT: `${REQUEST_URL}/deleteComment.php`,
     USER_LIST: `${REQUEST_URL}/getUserList.php`,
+    INSERT_USER: `${REQUEST_URL}/insertUser.php`,
     IMAGE_UPLOAD: `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_USER_NAME}/image/upload`,
+  },
+
+  CERTI: {
+    CERTI_EMAIL: `${REQUEST_URL}/getCertification.php`,
+    CHECK_ACCOUNT: `${REQUEST_URL}/checkDuplicate.php`,
   },
 
   YOUTUBE_KEY: {

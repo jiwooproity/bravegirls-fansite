@@ -9,6 +9,8 @@ import {
   faPaperPlane,
   // faReply,
   faCloudArrowUp,
+  faCircleCheck,
+  faCircleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { faReplyd } from "@fortawesome/free-brands-svg-icons";
@@ -23,6 +25,8 @@ const FontIcon = {
   Upload_C: faCloudArrowUp,
   Reply: faReplyd,
   Send: faPaperPlane,
+  Check: faCircleCheck,
+  Error: faCircleExclamation,
 };
 
 export { FontIcon };
