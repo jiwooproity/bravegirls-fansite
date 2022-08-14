@@ -204,7 +204,7 @@ const Register = () => {
     const setImage = !_.isEqual(defProfile, file);
     const data = new FormData();
     data.append("file", file);
-    data.append("upload_preset", "dbw3ells");
+    data.append("upload_preset", "swbqeean");
 
     if (setImage) {
       upload = await canvasService.canvasUpload({ data });
