@@ -16,7 +16,6 @@ import SnsNavbar from "./common/SnsNavbar";
 import Footer from "./common/Footer";
 import Toast from "./common/toast/Toast";
 import Birthday from "./common/birthday/Birthday";
-import AnimateTitle from "./page/main/AnimateTitle";
 
 import Member from "./page/member/Member";
 import MemberTab from "./page/member/MemberTab";
@@ -40,7 +39,7 @@ import Register from "./page/login/Register";
 
 // 재사용 컴포넌트
 export { Loading, Footer, Navbar, SnsNavbar };
-export { Top, Toast, Birthday, AnimateTitle };
+export { Top, Toast, Birthday };
 
 // 메인 페이지
 export { Main, Introduction, MemberList, TextBackground, TopBanner };

@@ -15,7 +15,6 @@ const Main = () => {
   return (
     <>
       <TopBanner />
-      {/* <AnimateTitle /> */}
       <Introduction />
       <MemberList />
       <TextBackground />
