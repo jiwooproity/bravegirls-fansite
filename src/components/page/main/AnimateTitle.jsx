@@ -6,16 +6,16 @@ import _ from "lodash";
 
 import { AnimateTitle as CSS } from "style";
 
-const AnimateTitle = () => {
+const AnimateTitle = (props) => {
+  const { active } = props;
   const canvasRef = useRef();
 
   useEffect(() => {
     if (canvasRef.current) {
       start();
     }
-
     // eslint-disable-next-line
-  }, [canvasRef.current]);
+  }, []);
 
   const start = () => {
     const canvas = canvasRef.current;
@@ -141,7 +141,7 @@ const AnimateTitle = () => {
     };
 
     const render = (a) => {
-      requestAnimationFrame(render);
+      window.requestAnimationFrame(render);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       for (let i = 0; i < amount; i++) {
@@ -154,11 +154,12 @@ const AnimateTitle = () => {
     canvas.addEventListener("touchmove", onTouchMove);
     canvas.addEventListener("click", onMouseClick);
     canvas.addEventListener("touchend", onTouchEnd);
-    requestAnimationFrame(render);
+
+    window.requestAnimationFrame(render);
     initScene();
   };
 
-  return <CSS.Canvas id="canvas" ref={canvasRef} />;
+  return <CSS.Canvas active={active} ref={canvasRef} />;
 };
 
 export default AnimateTitle;

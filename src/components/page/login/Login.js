@@ -142,14 +142,16 @@ const LoginBoxRegisterDes = styled.span`
   }
 `;
 
-const LoginBoxRegister = styled.a`
-  font-size: 11px;
+const LoginBoxRegister = styled.div`
+  a {
+    font-size: 11px;
 
-  margin-left: 5px;
+    margin-left: 5px;
 
-  display: block;
+    display: block;
 
-  color: ${(props) => props.theme.titleTextColor};
+    color: ${(props) => props.theme.titleTextColor};
+  }
 `;
 
 const Login = () => {

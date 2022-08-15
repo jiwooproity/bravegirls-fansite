@@ -4,7 +4,7 @@ import { useObserver } from "mobx-react";
 
 import styled, { ThemeProvider } from "styled-components";
 
-import { Main, CanvasBoard, CanvasDetail, Loading } from "components";
+import { Main, CanvasBoard, CanvasDetail, Loading, AnimateTitle } from "components";
 import { Login, Success, Register, Toast } from "components";
 
 import { Member, Album, Video, VideoDetail, Canvas } from "components";
@@ -21,7 +21,7 @@ const MainContainer = styled.div`
 `;
 
 const App = () => {
-  const { themeStore } = useStore();
+  const { themeStore, locationStore } = useStore();
 
   useEffect(() => {
     if (localStorage.getItem("theme")) {
@@ -33,6 +33,7 @@ const App = () => {
 
   return useObserver(() => {
     const { lightTheme, darkTheme } = theme;
+    const { path } = locationStore;
     const colorData = themeStore.theme;
 
     const getTheme = () => {
@@ -46,6 +47,7 @@ const App = () => {
             <Navbar />
             <Loading />
             <Toast />
+            <AnimateTitle active={path === "/"} />
             <Routes>
               <Route path={`${Url.ROOT}`} element={<Main />} />
               <Route path={`${Url.MEMBER}`} element={<Member />} />
