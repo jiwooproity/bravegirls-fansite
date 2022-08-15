@@ -12,4 +12,5 @@ export const Url = {
   LOGIN: `${process.env.PUBLIC_URL}/login`,
   SUCCESS: `${process.env.PUBLIC_URL}/success`,
   REGISTER: `${process.env.PUBLIC_URL}/register`,
+  BIRTHDAY: `${process.env.PUBLIC_URL}/birthday`,
 };

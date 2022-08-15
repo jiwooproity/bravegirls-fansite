@@ -104,13 +104,23 @@ const Register = () => {
       check: _.isEqual(type, "email") ? info.email : info.nickname,
     };
 
+    if (_.isEqual(type, "email") && _.isEmpty(info.email)) {
+      toastStore.showToast({ status: 2, msg: "이메일을 입력해 주세요." });
+      return;
+    }
+
     if (_.isEqual(type, "email") && !Reg.email(info.email)) {
-      toastStore.showToast({ status: 1, msg: "이메일 형식이 올바르지 않습니다." });
+      toastStore.showToast({ status: 2, msg: "이메일 형식이 올바르지 않습니다." });
+      return;
+    }
+
+    if (_.isEqual(type, "nickname") && _.isEmpty(info.nickname)) {
+      toastStore.showToast({ status: 2, msg: "닉네임을 입력해 주세요." });
       return;
     }
 
     if (_.isEqual(type, "nickname") && !Reg.nickname(info.nickname)) {
-      toastStore.showToast({ status: 1, msg: "아이디는 특수문자 사용이 불가능하며, 4 ~ 15자 사이로 입력해 주세요." });
+      toastStore.showToast({ status: 2, msg: "아이디는 특수문자 사용이 불가능하며, 2 ~ 12자 사이로 입력해 주세요." });
       return;
     }
 

@@ -5,7 +5,7 @@ import { useObserver } from "mobx-react";
 import styled, { ThemeProvider } from "styled-components";
 
 import { Main, CanvasBoard, CanvasDetail, Loading } from "components";
-import { Login, Success, Register } from "components";
+import { Login, Success, Register, Toast } from "components";
 
 import { Member, Album, Video, VideoDetail, Canvas } from "components";
 import { Navbar, Footer } from "components";
@@ -13,7 +13,6 @@ import { Navbar, Footer } from "components";
 import { Url } from "constant";
 import { useStore } from "hooks";
 import { theme } from "style";
-import Toast from "./common/toast/Toast";
 
 const MainContainer = styled.div`
   width: 100%;

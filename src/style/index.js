@@ -7,6 +7,8 @@ import { FontIcon } from "./FontAwesome/FontIcon";
 // Toast
 import { Toast } from "./Toast/toast";
 // CSS
+import { AnimateTitle } from "./AnimateTitlePage/animateTitle";
+
 import { Album } from "./AlbumPage/album";
 import { AlbumInfo } from "./AlbumPage/albumInfo";
 import { AlbumList } from "./AlbumPage/albumList";
@@ -26,6 +28,8 @@ import { Register } from "./LoginPage/register";
 export { GlobalStyle, theme };
 export { FontIcon };
 export { Toast };
+
+export { AnimateTitle };
 
 // 컴포넌트 CSS 스타일
 export { Album, AlbumInfo, AlbumList, AlbumTrack };
