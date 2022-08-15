@@ -83,7 +83,7 @@ const AnimateTitle = (props) => {
 
     const onMouseMove = (e) => {
       mouse.x = e.clientX;
-      mouse.y = e.clientY;
+      mouse.y = e.clientY + window.scrollY;
     };
 
     const onTouchMove = (e) => {
