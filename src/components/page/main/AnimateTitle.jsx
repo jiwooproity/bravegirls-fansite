@@ -1,24 +1,44 @@
-import React from "react";
-import { useRef } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import _ from "lodash";
 
 import { AnimateTitle as CSS } from "style";
 
+const texts = ["BRAVEGIRLS", "FEARLESS"];
+
+const colors = [
+  "#ea4581",
+  "#f1892a",
+  "#ed4276",
+  "#29adde",
+  "#fcf242",
+  "#ca61a6",
+  "#a0cd58",
+  "#8ccbdd",
+];
+
 const AnimateTitle = (props) => {
   const { active } = props;
   const canvasRef = useRef();
+  const [ctxTag, setCtxTag] = useState();
 
   useEffect(() => {
-    if (canvasRef.current) {
-      start();
-    }
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+    setCtxTag(context);
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    if (ctxTag) {
+      start();
+    }
+
+    // eslint-disable-next-line
+  }, [ctxTag]);
+
   const start = () => {
-    const canvas = canvasRef.current;
+    const canvas = ctxTag.canvas;
     let ctx = canvas.getContext("2d");
     ctx.width = window.innerWidth;
     ctx.height = window.innerHeight;
@@ -26,8 +46,6 @@ const AnimateTitle = (props) => {
     let amount = 0;
     let mouse = { x: 0, y: 0 };
     let radius = 0.5;
-    const colors = ["#ea4581", "#f1892a", "#ed4276", "#29adde", "#fcf242", "#ca61a6", "#a0cd58", "#8ccbdd"];
-    const texts = ["BRAVEGIRLS", "FEARLESS"];
     let text = texts[Math.floor(Math.random() * 2)];
     let cw = (canvas.width = window.innerWidth);
     let ch = (canvas.height = window.innerHeight);
@@ -134,10 +152,6 @@ const AnimateTitle = (props) => {
       setTimeout(() => {
         radius = 0.5;
       }, 100);
-      // radius++;
-      // if (radius === 5) {
-      //   radius = 0;
-      // }
     };
 
     const render = (a) => {

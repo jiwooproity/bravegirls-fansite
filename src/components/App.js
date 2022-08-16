@@ -2,9 +2,18 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useObserver } from "mobx-react";
 
+import _ from "lodash";
+
 import styled, { ThemeProvider } from "styled-components";
 
-import { Main, CanvasBoard, CanvasDetail, Loading, AnimateTitle } from "components";
+import {
+  Main,
+  CanvasBoard,
+  CanvasDetail,
+  Loading,
+  AnimateTitle,
+} from "components";
+
 import { Login, Success, Register, Toast } from "components";
 
 import { Member, Album, Video, VideoDetail, Canvas } from "components";
@@ -47,7 +56,7 @@ const App = () => {
             <Navbar />
             <Loading />
             <Toast />
-            <AnimateTitle active={path === "/"} />
+            <AnimateTitle active={_.isEqual(path, "/")} />
             <Routes>
               <Route path={`${Url.ROOT}`} element={<Main />} />
               <Route path={`${Url.MEMBER}`} element={<Member />} />
@@ -55,12 +64,21 @@ const App = () => {
               <Route path={`${Url.MUSIC}`} element={<Video />} />
               <Route path={`${Url.MUSIC}/:videoId`} element={<VideoDetail />} />
               <Route path={`${Url.QUEENDOM}`} element={<Video />} />
-              <Route path={`${Url.QUEENDOM}/:videoId`} element={<VideoDetail />} />
+              <Route
+                path={`${Url.QUEENDOM}/:videoId`}
+                element={<VideoDetail />}
+              />
               <Route path={`${Url.BGCLIP}`} element={<Video />} />
-              <Route path={`${Url.BGCLIP}/:videoId`} element={<VideoDetail />} />
+              <Route
+                path={`${Url.BGCLIP}/:videoId`}
+                element={<VideoDetail />}
+              />
               <Route path={`${Url.CANVAS}`} element={<Canvas />} />
               <Route path={`${Url.BOARD}`} element={<CanvasBoard />} />
-              <Route path={`${Url.BOARD}/:boardId`} element={<CanvasDetail />} />
+              <Route
+                path={`${Url.BOARD}/:boardId`}
+                element={<CanvasDetail />}
+              />
               <Route path={`${Url.LOGIN}`} element={<Login />} />
               <Route path={`${Url.SUCCESS}`} element={<Success />} />
               <Route path={`${Url.REGISTER}`} element={<Register />} />
