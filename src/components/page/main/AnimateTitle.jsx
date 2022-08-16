@@ -117,7 +117,7 @@ const AnimateTitle = (props) => {
     };
 
     const initScene = () => {
-      cw = canvas.height = window.innerWidth;
+      cw = canvas.width = window.innerWidth;
       ch = canvas.height = window.innerHeight;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);

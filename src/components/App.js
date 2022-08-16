@@ -22,6 +22,7 @@ import { Navbar, Footer } from "components";
 import { Url } from "constant";
 import { useStore } from "hooks";
 import { theme } from "style";
+import { utils } from "util/utils";
 
 const MainContainer = styled.div`
   width: 100%;
@@ -56,7 +57,11 @@ const App = () => {
             <Navbar />
             <Loading />
             <Toast />
-            <AnimateTitle active={_.isEqual(path, "/")} />
+
+            {!utils.isMobile() && (
+              <AnimateTitle active={_.isEqual(path, "/")} />
+            )}
+
             <Routes>
               <Route path={`${Url.ROOT}`} element={<Main />} />
               <Route path={`${Url.MEMBER}`} element={<Member />} />

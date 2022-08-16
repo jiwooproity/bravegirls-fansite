@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 
-// import TopBanner from "./TopBanner";
+import TopBanner from "./TopBanner";
 // import TextBackground from "./TextBackground";
 import Introduction from "./Introduction";
 import MemberList from "./MemberList";
@@ -20,8 +20,7 @@ const Main = () => {
 
   return (
     <>
-      {/* <TopBanner /> */}
-      <DummyContainer />
+      {utils.isMobile() ? <TopBanner /> : <DummyContainer />}
       <Introduction />
       <MemberList />
       {/* <TextBackground /> */}
