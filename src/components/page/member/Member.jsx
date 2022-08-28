@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutubeSquare } from "@fortawesome/free-brands-svg-icons";
 import { faInstagramSquare } from "@fortawesome/free-brands-svg-icons";
 import { faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
+import { faBlogger } from "@fortawesome/free-brands-svg-icons";
 
 import { Birthday, Top } from "components";
 import { MemberTab } from "components";
@@ -223,6 +224,7 @@ const NewMember = () => {
         youtube: res.member_youtube,
         instagram: res.member_instagram,
         twitter: res.member_twitter,
+        blog: res.member_blog,
         sign: res.member_sign,
         linear: res.member_linear,
       });
@@ -279,6 +281,13 @@ const NewMember = () => {
                   <a href={memberData[member].twitter} target={"_blank"} rel="noreferrer">
                     <MemberSNSIcon icon={faTwitterSquare} />
                   </a>
+
+                  {/* 블로그가 존재할 경우 */}
+                  {memberData[member].blog && (
+                    <a href={memberData[member].blog} target={"_blank"} rel="noreferrer">
+                      <MemberSNSIcon icon={faBlogger} />
+                    </a>
+                  )}
                 </MemberSNSWrapper>
               </MemberDesWrap>
             </MemberIntroduceWrap>
