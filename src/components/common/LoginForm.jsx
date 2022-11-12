@@ -132,13 +132,14 @@ const CustomFont = styled(FontAwesomeIcon)`
 `;
 
 const LoginForm = () => {
-  const { loginStore } = useStore();
+  const { loginStore, toastStore } = useStore();
   const [active, setActive] = useState(false);
 
   const logout = () => {
     if (window.confirm("로그아웃 하시겠습니까?")) {
       utils.onLogout();
       loginStore.setLogout();
+      toastStore.showToast({ status: 0, msg: "로그아웃 되었습니다." });
     }
   };
 

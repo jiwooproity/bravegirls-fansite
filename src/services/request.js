@@ -2,7 +2,7 @@ import axios from "axios";
 
 const header = axios.create({
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
     // "Access-Control-Allow-Origin": "*",
     // "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
     // "Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
@@ -20,20 +20,12 @@ const httpGet = (url, params) => {
   return params ? withParam(url, params) : onlyUrl(url);
 };
 
-const httpPost = (url, params, data) => {
-  const withParam = (url, params) => {
-    return axios.post(url, { ...params });
-  };
-
-  const withData = (url, data) => {
-    return header.post(url, data);
-  };
-
-  return params ? withParam(url, params) : withData(url, data);
+const httpPost = (url, data) => {
+  return header.post(url, data);
 };
 
 const httpDelete = (url, data) => {
-  return axios.delete(url, { data });
+  return header.delete(url, { data });
 };
 
 const request = async ({ method, url, params, data }) => {
@@ -42,7 +34,7 @@ const request = async ({ method, url, params, data }) => {
       const { data: getData } = await httpGet(url, params);
       return getData;
     case "POST":
-      const { data: postData } = await httpPost(url, params, data);
+      const { data: postData } = await httpPost(url, data);
       return postData;
     case "PUT":
       break;

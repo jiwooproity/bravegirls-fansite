@@ -334,7 +334,7 @@ const MediaList = styled.li`
 
 const Navbar = () => {
   const history = useLocation();
-  const { themeStore } = useStore();
+  const { themeStore, locationStore } = useStore();
   const [list, setList] = useState({});
   const [media, setMedia] = useState(false);
   const [scrollY, setScrollY] = useState(false);
@@ -346,6 +346,7 @@ const Navbar = () => {
     window.addEventListener("scroll", () => {
       setScrollY(window.scrollY > 0);
     });
+    locationStore.setPath();
   });
 
   useEffect(() => {

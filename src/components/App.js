@@ -2,16 +2,19 @@ import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useObserver } from "mobx-react";
 
+import _ from "lodash";
+
 import styled, { ThemeProvider } from "styled-components";
 
 import {
   Main,
-  Login,
   CanvasBoard,
   CanvasDetail,
-  Success,
   Loading,
+  AnimateTitle,
 } from "components";
+
+import { Login, Success, Register, Toast } from "components";
 
 import { Member, Album, Video, VideoDetail, Canvas } from "components";
 import { Navbar, Footer } from "components";
@@ -19,6 +22,7 @@ import { Navbar, Footer } from "components";
 import { Url } from "constant";
 import { useStore } from "hooks";
 import { theme } from "style";
+import { utils } from "util/utils";
 
 const MainContainer = styled.div`
   width: 100%;
@@ -27,7 +31,7 @@ const MainContainer = styled.div`
 `;
 
 const App = () => {
-  const { themeStore } = useStore();
+  const { themeStore, locationStore } = useStore();
 
   useEffect(() => {
     if (localStorage.getItem("theme")) {
@@ -39,6 +43,7 @@ const App = () => {
 
   return useObserver(() => {
     const { lightTheme, darkTheme } = theme;
+    const { path } = locationStore;
     const colorData = themeStore.theme;
 
     const getTheme = () => {
@@ -51,6 +56,12 @@ const App = () => {
           <MainContainer>
             <Navbar />
             <Loading />
+            <Toast />
+
+            {!utils.isMobile() && (
+              <AnimateTitle active={_.isEqual(path, "/")} />
+            )}
+
             <Routes>
               <Route path={`${Url.ROOT}`} element={<Main />} />
               <Route path={`${Url.MEMBER}`} element={<Member />} />
@@ -75,6 +86,7 @@ const App = () => {
               />
               <Route path={`${Url.LOGIN}`} element={<Login />} />
               <Route path={`${Url.SUCCESS}`} element={<Success />} />
+              <Route path={`${Url.REGISTER}`} element={<Register />} />
               <Route path={`*`} element={<Main />} />
             </Routes>
             <Footer />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Fade } from "react-reveal";
 
 import styled from "styled-components";
@@ -135,21 +135,28 @@ const LoginBoxRegisterDes = styled.span`
   display: flex;
 
   color: ${(props) => props.theme.titleTextColor};
+
+  a {
+    font-size: 11px;
+    text-decoration: none;
+  }
 `;
 
-const LoginBoxRegister = styled.a`
-  font-size: 11px;
+const LoginBoxRegister = styled.div`
+  a {
+    font-size: 11px;
 
-  margin-left: 5px;
+    margin-left: 5px;
 
-  display: block;
+    display: block;
 
-  color: ${(props) => props.theme.titleTextColor};
+    color: ${(props) => props.theme.titleTextColor};
+  }
 `;
 
 const Login = () => {
   const navigate = useNavigate();
-  const { loginStore } = useStore();
+  const { loginStore, toastStore } = useStore();
 
   const [status, setStatus] = useState({
     message: "",
@@ -184,7 +191,7 @@ const Login = () => {
     const isPassword = _.isEmpty(inputData.password);
 
     if (isAddress || isPassword) {
-      alert("로그인 정보를 모두 입력해 주세요.");
+      toastStore.showToast({ status: 2, msg: "로그인 정보를 모두 입력해 주세요." });
     } else {
       const params = {
         userId: inputData.address,
@@ -196,6 +203,7 @@ const Login = () => {
       switch (status) {
         case 404:
           setStatus({ message: detail, show: true });
+          toastStore.showToast({ status: 1, msg: detail });
           break;
         case 200:
           sessionStorage.setItem("login.nickname", userInfo.nickname);
@@ -204,6 +212,7 @@ const Login = () => {
           sessionStorage.setItem("login.token", userInfo.token);
           navigate("/success");
           loginStore.setLogin();
+          toastStore.showToast({ status: 0, msg: `${userInfo.nickname}님 환영합니다.` });
           break;
         default:
           break;
@@ -224,7 +233,10 @@ const Login = () => {
             <LoginBoxInput type={"password"} name="password" placeholder="비밀번호" value={inputData.password} onChange={onChangeInput} />
             <LoginBoxButton onClick={onLogin}>로그인</LoginBoxButton>
             <LoginBoxRegisterDes>
-              아직 아이디가 없으신가요?<LoginBoxRegister>회원가입</LoginBoxRegister>
+              아직 아이디가 없으신가요?
+              <LoginBoxRegister>
+                <Link to={"/register"}>회원가입</Link>
+              </LoginBoxRegister>
             </LoginBoxRegisterDes>
           </LoginBoxInputWrap>
         </LoginBoxWrapper>

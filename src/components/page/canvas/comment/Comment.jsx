@@ -6,11 +6,11 @@ import { useStore } from "hooks";
 import { commentService } from "services";
 import { utils } from "util";
 
-import { Comment as CSS } from "style";
+import { Comment as CSS, FontIcon } from "style";
 
 const Comment = (props) => {
-  const { data, target, refresh } = props;
-  const { loginStore } = useStore();
+  const { length, target, refresh } = props;
+  const { loginStore, toastStore } = useStore();
   const [comment, setComment] = useState({
     userName: "",
     password: "",
@@ -31,7 +31,7 @@ const Comment = (props) => {
     const isInfo = _.isEmpty(comment.text);
 
     if (isUsername || (!loginStore.login && isPassword) || isInfo) {
-      alert("댓글 등록에 필요한 내용이 부족합니다.");
+      toastStore.showToast({ status: 2, msg: "댓글 등록에 필요한 내용이 부족합니다." });
       return;
     }
 
@@ -43,6 +43,7 @@ const Comment = (props) => {
         profile: sessionStorage.getItem("login.profile"),
         unknown: loginStore.login ? 1 : 0,
         info: comment.text,
+        type: "comment",
       };
 
       await commentService.commentInsert({ data: params }).then(() => {
@@ -52,6 +53,7 @@ const Comment = (props) => {
         });
 
         refresh();
+        toastStore.showToast({ status: 0, msg: "댓글이 등록 되었습니다." });
       });
     }
   };
@@ -105,25 +107,40 @@ const Comment = (props) => {
       <>
         {/* 댓글 개수 */}
         <CSS.Info>
-          <CSS.Number>댓글 {data.length}개</CSS.Number>
+          <CSS.Number>댓글 {length}개</CSS.Number>
         </CSS.Info>
 
         {/* 댓글 작성 폼 */}
         <CSS.Wrapper>
-          <CSS.InnerWrapper>
+          <CSS.InnerWrapper login={login}>
+            {login && <CSS.Profile src={sessionStorage.getItem("login.profile")} />}
             {_.map(
               input,
-              (i) =>
-                i.visible && <CSS.Input type={i.type} name={i.name} value={i.value} placeholder={i.placeHolder} onClick={i.onClick} onChange={i.onChange} />
+              (i, index) =>
+                i.visible && (
+                  <CSS.Input
+                    key={index}
+                    type={i.type}
+                    name={i.name}
+                    value={i.value}
+                    placeholder={i.placeHolder}
+                    onClick={i.onClick}
+                    onChange={i.onChange}
+                    disabled={i.disabled}
+                    login={login}
+                  />
+                )
             )}
           </CSS.InnerWrapper>
           <CSS.InnerWrapper>
-            <CSS.TextField type={"area"} name="text" placeholder={placeHolderC} onChange={onRest} />
+            <CSS.TextField type={"area"} name="text" value={comment.text.split("<br/>").join("\r\n")} placeholder={placeHolderC} onChange={onRest} />
           </CSS.InnerWrapper>
 
           {/* 댓글 등록 버튼 */}
           <CSS.InnerWrapper>
-            <CSS.Button onClick={insert}>등록</CSS.Button>
+            <CSS.Button onClick={insert}>
+              <CSS.SendIcon icon={FontIcon.Send} />
+            </CSS.Button>
           </CSS.InnerWrapper>
         </CSS.Wrapper>
       </>

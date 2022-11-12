@@ -7,10 +7,14 @@ CanvasBoard.Container = styled.div`
   width: 100%;
   min-height: calc(100vh - 85px);
 
-  padding: 0px 15px 30px 15px;
+  padding: 0px 60px 30px 60px;
 
   display: flex;
   justify-content: center;
+
+  @media screen and (max-width: 768px) {
+    padding: 0px 15px 30px 15px;
+  }
 `;
 
 CanvasBoard.Wrapper = styled.div`
@@ -18,73 +22,29 @@ CanvasBoard.Wrapper = styled.div`
 `;
 
 CanvasBoard.ArtContainer = styled.div`
-  width: 100%;
-  overflow: hidden;
-  -webkit-column-count: 7;
-  -webkit-column-gap: 20px;
-  -webkit-column-fill: auto;
-  -moz-column-count: 7;
-  -moz-column-gap: 20px;
-  -moz-column-fill: auto;
-  column-count: 7;
-  column-gap: 20px;
-  column-fill: auto;
-
-  @media screen and (max-width: 1500px) {
-    -webkit-column-count: 6;
-    -webkit-column-gap: 20px;
-    -webkit-column-fill: auto;
-    -moz-column-count: 6;
-    -moz-column-gap: 20px;
-    -moz-column-fill: auto;
-    column-count: 6;
-    column-gap: 20px;
-    column-fill: auto;
-  }
-
-  @media screen and (max-width: 1300px) {
-    -webkit-column-count: 5;
-    -webkit-column-gap: 20px;
-    -webkit-column-fill: auto;
-    -moz-column-count: 5;
-    -moz-column-gap: 20px;
-    -moz-column-fill: auto;
-    column-count: 5;
-    column-gap: 20px;
-    column-fill: auto;
-  }
-
-  @media screen and (max-width: 1280px) {
-    -webkit-column-count: 4;
-    -webkit-column-gap: 20px;
-    -webkit-column-fill: auto;
-    -moz-column-count: 4;
-    -moz-column-gap: 20px;
-    -moz-column-fill: auto;
-    column-count: 4;
-    column-gap: 20px;
-    column-fill: auto;
-  }
+  column-width: 250px;
+  column-gap: 15px;
 
   @media screen and (max-width: 768px) {
-    -webkit-column-count: 2;
-    -webkit-column-gap: 20px;
-    -webkit-column-fill: auto;
-    -moz-column-count: 2;
-    -moz-column-gap: 20px;
-    -moz-column-fill: auto;
-    column-count: 2;
-    column-gap: 20px;
-    column-fill: auto;
+    column-width: 150px;
   }
 `;
 
-CanvasBoard.ImageContaienr = styled.div`
-  width: 100%;
-  margin-bottom: 20px;
-  border-radius: 5px;
+CanvasBoard.ImageContaienr = styled.figure`
+  display: inline-block;
   overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+  margin: 0;
+  margin-bottom: 15px;
+  /* box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); */
+`;
+
+CanvasBoard.Section = styled.div`
+  width: 100%;
+  overflow: hidden;
+
+  &:nth-child(1) {
+    border-radius: 10px;
+  }
 `;
 
 CanvasBoard.ImageWrapper = styled.div`
@@ -164,17 +124,48 @@ CanvasBoard.StatusBox = styled.div`
 
 CanvasBoard.Description = styled.span`
   width: 30px;
-  font-size: 15px;
-  line-height: 15px;
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 400;
   transition: opacity 0.5s ease;
 
-  color: rgba(255, 255, 255, 0.9);
+  color: ${({ theme }) => theme.titleTextColor};
 
   transition: opacity 0.5s ease, color 0.5s ease;
 
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+`;
+
+CanvasBoard.UserStatus = styled.div`
+  width: 100%;
+  padding: 5px 0px 0px 0px;
+  display: flex;
+  align-items: center;
+`;
+
+CanvasBoard.UserProfile = styled.img`
+  width: 20px;
+  height: 20px;
+  display: block;
+  border-radius: 50%;
+`;
+
+CanvasBoard.User = styled.span`
+  font-size: 14px;
+  line-height: 14px;
+  font-weight: 400;
+  padding: 0px 0px 0px 5px;
+
+  transition: opacity 0.5s ease;
+
+  color: ${({ theme }) => theme.titleTextColor};
+
+  transition: opacity 0.5s ease, color 0.5s ease;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 export { CanvasBoard };

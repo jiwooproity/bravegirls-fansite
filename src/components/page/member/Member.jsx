@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useObserver } from "mobx-react";
+import moment from "moment";
+
+import _ from "lodash";
 
 import styled from "styled-components";
 
@@ -7,8 +10,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faYoutubeSquare } from "@fortawesome/free-brands-svg-icons";
 import { faInstagramSquare } from "@fortawesome/free-brands-svg-icons";
 import { faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
+import { faBlogger } from "@fortawesome/free-brands-svg-icons";
 
-import { Top } from "components";
+import { Birthday, Top } from "components";
 import { MemberTab } from "components";
 
 import { memberService } from "services";
@@ -53,8 +57,7 @@ const MemberBackgroundWrap = styled.div`
   border-radius: 5px;
 
   position: relative;
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
-    rgba(17, 17, 26, 0.05) 0px 8px 32px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -221,6 +224,7 @@ const NewMember = () => {
         youtube: res.member_youtube,
         instagram: res.member_instagram,
         twitter: res.member_twitter,
+        blog: res.member_blog,
         sign: res.member_sign,
         linear: res.member_linear,
       });
@@ -245,10 +249,12 @@ const NewMember = () => {
 
   return useObserver(() => {
     const { member } = memberStore;
+    const nowDate = moment().format("MM-DD");
 
     return (
       <>
         <Top />
+        {memberData[member] && <Birthday birth={_.isEqual(nowDate, moment(memberData[member].birthDay).format("MM-DD"))} />}
         {memberData[member] && (
           <MemberContainer>
             <MemberIntroduceWrap>
@@ -264,42 +270,28 @@ const NewMember = () => {
                   {memberData[member].enter} / {memberData[member].korName}
                 </MemberDesSubTitle>
 
-                <MemberDesIntroduction>
-                  {memberData[member].introduction}
-                </MemberDesIntroduction>
+                <MemberDesIntroduction>{memberData[member].introduction}</MemberDesIntroduction>
                 <MemberSNSWrapper>
-                  <a
-                    href={memberData[member].youtube}
-                    target={"_blank"}
-                    rel="noreferrer"
-                  >
+                  <a href={memberData[member].youtube} target={"_blank"} rel="noreferrer">
                     <MemberSNSIcon icon={faYoutubeSquare} />
                   </a>
-                  <a
-                    href={memberData[member].instagram}
-                    target={"_blank"}
-                    rel="noreferrer"
-                  >
+                  <a href={memberData[member].instagram} target={"_blank"} rel="noreferrer">
                     <MemberSNSIcon icon={faInstagramSquare} />
                   </a>
-                  <a
-                    href={memberData[member].twitter}
-                    target={"_blank"}
-                    rel="noreferrer"
-                  >
+                  <a href={memberData[member].twitter} target={"_blank"} rel="noreferrer">
                     <MemberSNSIcon icon={faTwitterSquare} />
                   </a>
+
+                  {/* 블로그가 존재할 경우 */}
+                  {memberData[member].blog && (
+                    <a href={memberData[member].blog} target={"_blank"} rel="noreferrer">
+                      <MemberSNSIcon icon={faBlogger} />
+                    </a>
+                  )}
                 </MemberSNSWrapper>
               </MemberDesWrap>
             </MemberIntroduceWrap>
-            <MemberTab
-              data={memberData}
-              list={memberID}
-              selectValue={member}
-              timing={timingLinera}
-              linear={linearData}
-              func={{ onSelect }}
-            />
+            <MemberTab data={memberData} list={memberID} selectValue={member} timing={timingLinera} linear={linearData} func={{ onSelect }} />
           </MemberContainer>
         )}
       </>

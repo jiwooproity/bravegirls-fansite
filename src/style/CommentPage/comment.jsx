@@ -1,4 +1,5 @@
-import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styled, { css } from "styled-components";
 
 const Comment = {};
 
@@ -10,6 +11,8 @@ Comment.Wrapper = styled.div`
 Comment.InnerWrapper = styled.div`
   &:nth-child(1) {
     display: flex;
+    align-items: center;
+    margin-bottom: ${({ login }) => (login ? "5px" : "0px")};
   }
 
   &:nth-child(2) {
@@ -22,17 +25,33 @@ Comment.InnerWrapper = styled.div`
   &:nth-child(3) {
     display: flex;
     justify-content: flex-end;
-    padding: 2px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
   }
 `;
 
+Comment.Profile = styled.img`
+  width: 20px;
+  height: 20px;
+  display: block;
+
+  border-radius: 50%;
+`;
+
 Comment.Input = styled.input`
-  border: none;
-  border: 1px solid ${({ theme }) => theme.inputBottomColor};
   background-color: transparent;
 
+  ${({ login }) =>
+    login
+      ? css`
+          border: none;
+        `
+      : css`
+          border: none;
+          border: 1px solid ${({ theme }) => theme.inputBottomColor};
+          margin-bottom: 5px;
+        `}
+
   padding: 5px;
-  margin-bottom: 5px;
 
   color: ${({ theme }) => theme.titleTextColor};
 
@@ -43,24 +62,27 @@ Comment.Input = styled.input`
   @media screen and (max-width: 768px) {
     width: 100%;
   }
+
+  transition: color 0.5s ease;
 `;
 
 Comment.Button = styled.button`
   font-size: 12px;
   font-weight: 600;
   height: 100%;
-  padding: 5px 20px;
+  margin: 5px 0px 0px 0px;
+  padding: 8px 25px;
   border: none;
   border-radius: 3px;
 
   color: ${({ theme }) => theme.diffTitleTextColor};
-  background-color: ${({ theme }) => theme.backgroundOpacityColor};
+  background-color: ${({ theme }) => theme.buttonColor};
 
   &:hover {
-    background-color: ${({ theme }) => theme.black};
+    background-color: ${({ theme }) => theme.backgroundOpacityColor};
   }
 
-  transition: color 0.5s ease, background-color 0.5s ease;
+  transition: background-color 0.5s ease;
 
   &:focus {
     outline: none;
@@ -71,6 +93,10 @@ Comment.Button = styled.button`
   }
 
   cursor: pointer;
+`;
+
+Comment.SendIcon = styled(FontAwesomeIcon)`
+  font-size: 12px;
 `;
 
 Comment.TextField = styled.textarea`
@@ -88,6 +114,8 @@ Comment.TextField = styled.textarea`
 
   transition: border 0.5s ease;
   resize: none;
+
+  color: ${({ theme }) => theme.titleTextColor};
 `;
 
 Comment.Info = styled.div`

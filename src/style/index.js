@@ -4,7 +4,11 @@ import GlobalStyle from "./GlobalStyle";
 import { theme } from "./Theme";
 // FontAwesome - Icon
 import { FontIcon } from "./FontAwesome/FontIcon";
+// Toast
+import { Toast } from "./Toast/toast";
 // CSS
+import { AnimateTitle } from "./AnimateTitlePage/animateTitle";
+
 import { Album } from "./AlbumPage/album";
 import { AlbumInfo } from "./AlbumPage/albumInfo";
 import { AlbumList } from "./AlbumPage/albumList";
@@ -19,11 +23,18 @@ import { CanvasUpload } from "./CanvasPage/canvasUpload";
 import { Comment } from "./CommentPage/comment";
 import { CommentList } from "./CommentPage/commentList";
 
+import { Register } from "./LoginPage/register";
+
 export { GlobalStyle, theme };
 export { FontIcon };
+export { Toast };
+
+export { AnimateTitle };
 
 // 컴포넌트 CSS 스타일
 export { Album, AlbumInfo, AlbumList, AlbumTrack };
 
 export { Canvas, CanvasDetail, CanvasTool, CanvasUpload, CanvasBoard };
 export { Comment, CommentList };
+
+export { Register };

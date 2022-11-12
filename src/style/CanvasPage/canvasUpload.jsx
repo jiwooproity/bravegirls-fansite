@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
 const CanvasUpload = {};
@@ -10,7 +11,7 @@ CanvasUpload.Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
@@ -25,7 +26,12 @@ CanvasUpload.Container = styled.div`
   transition: opacity 0.5s ease, background-color 0.5s ease;
 `;
 
-CanvasUpload.Wrapper = styled.div``;
+CanvasUpload.Wrapper = styled.div`
+  padding: 15px;
+
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+`;
 
 CanvasUpload.InnerWrapper = styled.div`
   display: flex;
@@ -38,7 +44,7 @@ CanvasUpload.InputBox = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 0px 15px 15px 15px;
+  padding: 0px 0px 0px 15px;
 `;
 
 CanvasUpload.Input = styled.input`
@@ -46,7 +52,7 @@ CanvasUpload.Input = styled.input`
   border: none;
 
   padding: 8px 10px 8px 0px;
-  margin: 0px 0px 10px 0px;
+  margin: 10px 0px 10px 0px;
   background-color: transparent;
   border-bottom: 1px solid ${(props) => props.theme.inputBottomColor};
 
@@ -64,18 +70,17 @@ CanvasUpload.Input = styled.input`
   transition: border-bottom 0.5s ease;
 `;
 
-CanvasUpload.Button = styled.button`
+CanvasUpload.ButtonWrapper = styled.div`
   width: 100%;
 
-  font-size: 15px;
-  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  margin: 20px 0px 0px 0px;
-  padding: 8px 10px;
+  padding: 10px;
+  margin: 5px 0px 0px 0px;
 
-  border: none;
-
-  color: ${(props) => props.theme.diffTitleTextColor};
+  border-radius: 5px;
   background-color: ${(props) => props.theme.backgroundOpacityColor};
 
   &:hover {
@@ -91,6 +96,7 @@ CanvasUpload.TextField = styled.textarea`
   padding: 5px;
 
   border: 1px solid ${(props) => props.theme.inputBottomColor};
+  border-radius: 5px;
 
   &:focus {
     outline: none;
@@ -103,6 +109,13 @@ CanvasUpload.TextField = styled.textarea`
 
   resize: none;
   transition: border 0.5s ease;
+`;
+
+CanvasUpload.Icon = styled(FontAwesomeIcon)`
+  font-size: 15px;
+  font-weight: 700;
+
+  color: ${(props) => props.theme.diffTitleTextColor};
 `;
 
 export { CanvasUpload };

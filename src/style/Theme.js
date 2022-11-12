@@ -5,6 +5,8 @@ export const lightTheme = {
   backgroundColor: "rgba(255, 255, 255)",
   backgroundOpacityColor: "rgba(54, 54, 54)",
 
+  buttonColor: "rgba(54, 54, 54, 0.9)",
+
   titleTextColor: "rgba(54, 54, 54)",
   subTitleTexatColor: "rgba(54, 54, 54, 0.8)",
   desTextColor: "rgba(54, 54, 54, 0.6)",
@@ -30,6 +32,7 @@ export const lightTheme = {
 
   inputBottomColor: "rgba(54, 54, 54, 0.1)",
   inputBottomActiveColor: "rgba(54, 54, 54, 0.5)",
+  inputReplyColor: "rgba(250, 250, 250)",
 
   signFilter: 0,
 
@@ -44,6 +47,8 @@ export const darkTheme = {
 
   backgroundColor: "rgba(15, 15, 15)",
   backgroundOpacityColor: "rgba(255, 255, 255)",
+
+  buttonColor: "rgba(240, 240, 240, 0.9)",
 
   titleTextColor: "rgba(255, 255, 255)",
   subTitleTexatColor: "rgba(255, 255, 255, 0.8)",
@@ -70,6 +75,7 @@ export const darkTheme = {
 
   inputBottomColor: "rgba(255, 255, 255, 0.1)",
   inputBottomActiveColor: "rgba(255, 255, 255, 0.5)",
+  inputReplyColor: "rgba(20, 20, 20)",
 
   signFilter: 100,
 

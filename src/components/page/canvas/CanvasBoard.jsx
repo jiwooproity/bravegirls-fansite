@@ -13,7 +13,7 @@ import { CanvasBoard as CSS } from "style";
 
 const CanvasBoard = () => {
   const navigate = useNavigate();
-  const { loadingStore } = useStore();
+  const { loadingStore, toastStore } = useStore();
   const [canvasList, setCanvasList] = useState([]);
 
   useEffect(() => {
@@ -35,6 +35,7 @@ const CanvasBoard = () => {
         name: res.canvas_nickname,
         art: res.canvas_art,
         title: res.canvas_title,
+        profile: res.canvas_profile,
         description: res.canvas_description,
       });
     });
@@ -66,6 +67,8 @@ const CanvasBoard = () => {
         document.body.appendChild(link);
         link.click();
       });
+
+      toastStore.showToast({ status: 0, msg: `${canvas.name}님의 작품이 다운로드 되었습니다.` });
     });
   };
 
@@ -77,17 +80,26 @@ const CanvasBoard = () => {
           <CSS.ArtContainer>
             {_.map(canvasList, (canvas, index) => (
               <CSS.ImageContaienr key={index}>
-                <CSS.ImageWrapper>
-                  <CSS.Image src={canvas.art} />
-                  <CSS.Backdrop onClick={() => onDetail({ id: canvas.id })}>
-                    <CSS.StatusBox>
-                      <CSS.Description>{`${canvas.name} / ${canvas.title}`}</CSS.Description>
-                    </CSS.StatusBox>
-                  </CSS.Backdrop>
-                  <CSS.DownloadBox onClick={() => onDownload({ canvas })}>
-                    <CSS.DownloadButton icon={faDownload} />
-                  </CSS.DownloadBox>
-                </CSS.ImageWrapper>
+                <CSS.Section>
+                  <CSS.ImageWrapper>
+                    <CSS.Image src={canvas.art} />
+                    <CSS.Backdrop onClick={() => onDetail({ id: canvas.id })} />
+                    <CSS.DownloadBox onClick={() => onDownload({ canvas })}>
+                      <CSS.DownloadButton icon={faDownload} />
+                    </CSS.DownloadBox>
+                  </CSS.ImageWrapper>
+                </CSS.Section>
+                <CSS.Section>
+                  <CSS.StatusBox>
+                    <CSS.Description>{`${canvas.title}`}</CSS.Description>
+                  </CSS.StatusBox>
+                </CSS.Section>
+                <CSS.Section>
+                  <CSS.UserStatus>
+                    <CSS.UserProfile src={`${canvas.profile}`} />
+                    <CSS.User>{`${canvas.name}`}</CSS.User>
+                  </CSS.UserStatus>
+                </CSS.Section>
               </CSS.ImageContaienr>
             ))}
           </CSS.ArtContainer>

@@ -140,6 +140,7 @@ Canvas.Preview = styled.canvas`
 
   overflow: hidden;
   box-shadow: rgb(50 50 93 / 25%) 0px 13px 27px -5px, rgb(0 0 0 / 30%) 0px 8px 16px -8px;
+  display: block;
 `;
 
 export { Canvas };

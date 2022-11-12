@@ -80,8 +80,8 @@ CanvasDetail.InfoTitle = styled.span`
 
 CanvasDetail.InfoDescription = styled.span`
   font-size: 14px;
-  line-height: 14px;
-  font-weight: 600;
+  line-height: 20px;
+  white-space: pre-wrap;
 
   padding: 20px 0px;
 
