@@ -168,47 +168,40 @@ const Video = () => {
   }, [pathname]);
 
   const onLoad = async () => {
-    const videoArr = [];
-    const keyPath = pathname.toUpperCase();
-    const listParams = {
-      playlistId: API.YOUTUBE_KEY[keyPath],
-      part: "snippet",
-      maxResults: 30,
+    const params = { playlistId: API.YOUTUBE_KEY[pathname.toUpperCase()], part: "snippet", maxResults: 30 };
+    const playList = await youtubeService.playList({ params });
+
+    const searchSnippet = async (value) => {
+      const snippet = value.snippet;
+      const params = { part: "statistics", id: snippet.resourceId.videoId };
+      const response = await youtubeService.videoDetail({ params });
+
+      return { statistics: response.items[0], snippet };
     };
 
-    const playList = await youtubeService.playList({ params: listParams });
+    const setVideoArray = (value) => {
+      const snippet = value.snippet;
+      const statistics = value.statistics;
 
-    for (const playData of playList.items) {
-      const snippet = playData.snippet;
-      const videoParams = {
-        part: "statistics",
-        id: snippet.resourceId.videoId,
+      const { maxres, standard, high } = snippet.thumbnails;
+      const thumbnail = maxres ? maxres : standard ? standard : high;
+
+      return {
+        videoId: snippet.resourceId.videoId,
+        thumbnail: thumbnail.url,
+        title: snippet.title,
+        description: snippet.description,
+        viewCount: `${utils.setComma(statistics.viewCount)}회`,
+        likeCount: utils.setComma(statistics.likeCount),
+        commentCount: utils.setComma(statistics.commentCount),
       };
+    };
 
-      const detailData = await youtubeService.videoDetail({
-        params: videoParams,
-      });
+    const snippetUrls = playList.items.map(searchSnippet);
+    const getVideoItems = await Promise.all(snippetUrls);
+    const getVideoDetails = getVideoItems.map(setVideoArray);
 
-      for (const detail of detailData.items) {
-        let thumbnail;
-        const { maxres, standard, high } = snippet.thumbnails;
-        const statistics = detail.statistics;
-
-        thumbnail = maxres ? maxres : standard ? standard : high;
-
-        videoArr.push({
-          videoId: snippet.resourceId.videoId,
-          thumbnail: thumbnail.url,
-          title: snippet.title,
-          description: snippet.description,
-          viewCount: `${utils.setComma(statistics.viewCount)}회`,
-          likeCount: utils.setComma(statistics.likeCount),
-          commentCount: utils.setComma(statistics.commentCount),
-        });
-      }
-    }
-
-    setVideoData(videoArr);
+    setVideoData(getVideoDetails);
     loadingStore.setLoading(true);
   };
 
