@@ -168,41 +168,42 @@ const Video = () => {
   }, [pathname]);
 
   const onLoad = async () => {
-    const params = { playlistId: API.YOUTUBE_KEY[pathname.toUpperCase()], part: "snippet", maxResults: 30 };
-    const playList = await youtubeService.playList({ params });
+    const params = { playlistId: API.YOUTUBE_KEY[pathname.toUpperCase()], part: "snippet", maxResults: 50 };
+    await youtubeService.playList({ params }).then(async (playList) => {
+      const searchSnippet = async (value) => {
+        const snippet = value.snippet;
+        const params = { part: "statistics", id: snippet.resourceId.videoId };
+        const response = await youtubeService.videoDetail({ params });
 
-    const searchSnippet = async (value) => {
-      const snippet = value.snippet;
-      const params = { part: "statistics", id: snippet.resourceId.videoId };
-      const response = await youtubeService.videoDetail({ params });
-
-      return { statistics: response.items[0], snippet };
-    };
-
-    const setVideoArray = (value) => {
-      const snippet = value.snippet;
-      const statistics = value.statistics;
-
-      const { maxres, standard, high } = snippet.thumbnails;
-      const thumbnail = maxres ? maxres : standard ? standard : high;
-
-      return {
-        videoId: snippet.resourceId.videoId,
-        thumbnail: thumbnail.url,
-        title: snippet.title,
-        description: snippet.description,
-        viewCount: `${utils.setComma(statistics.viewCount)}회`,
-        likeCount: utils.setComma(statistics.likeCount),
-        commentCount: utils.setComma(statistics.commentCount),
+        return { resource: response.items[0], snippet };
       };
-    };
 
-    const snippetUrls = playList.items.map(searchSnippet);
-    const getVideoItems = await Promise.all(snippetUrls);
-    const getVideoDetails = getVideoItems.map(setVideoArray);
+      const setVideoArray = (value) => {
+        const snippet = value.snippet;
+        const resource = value.resource;
+        const statistics = resource.statistics;
 
-    setVideoData(getVideoDetails);
-    loadingStore.setLoading(true);
+        const { maxres, standard, high } = snippet.thumbnails;
+        const thumbnail = maxres ? maxres : standard ? standard : high;
+
+        return {
+          videoId: snippet.resourceId.videoId,
+          thumbnail: thumbnail.url,
+          title: snippet.title,
+          description: snippet.description,
+          viewCount: `${utils.setComma(statistics.viewCount)}회`,
+          likeCount: utils.setComma(statistics.likeCount),
+          commentCount: utils.setComma(statistics.commentCount),
+        };
+      };
+
+      const snippetUrls = playList.items.map(searchSnippet);
+      const getVideoItems = await Promise.all(snippetUrls);
+      const getVideoDetails = getVideoItems.map(setVideoArray);
+
+      setVideoData(getVideoDetails);
+      loadingStore.setLoading(true);
+    });
   };
 
   return (
