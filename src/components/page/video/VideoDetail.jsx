@@ -190,35 +190,21 @@ const VideoDetail = () => {
   }, []);
 
   const onLoad = async () => {
-    let videoObj = {};
+    const detailParams = { part: "snippet", id: videoId };
+    const countParams = { part: "statistics", id: videoId };
 
-    const detailParams = {
-      part: "snippet",
-      id: videoId,
-    };
-    const countParams = {
-      part: "statistics",
-      id: videoId,
-    };
+    const apiParams = [detailParams, countParams];
+    const playList = apiParams.map((params) => youtubeService.videoDetail({ params }));
 
-    const detailData = await youtubeService.videoDetail({
-      params: detailParams,
-    });
-    const countData = await youtubeService.videoDetail({
-      params: countParams,
-    });
+    await Promise.all(playList).then((play) => {
+      const setYoutubeData = ({ detail, count }) => {
+        const snippet = detail.snippet;
+        const statistics = count.statistics;
 
-    for (const playData of detailData.items) {
-      const snippet = playData.snippet;
-
-      for (const detail of countData.items) {
-        let thumbnail = "";
         const { maxres, standard, high } = snippet.thumbnails;
-        const statistics = detail.statistics;
+        const thumbnail = maxres ? maxres : standard ? standard : high;
 
-        thumbnail = maxres ? maxres : standard ? standard : high;
-
-        videoObj = {
+        return {
           videoId,
           title: snippet.title,
           thumbnail,
@@ -227,11 +213,13 @@ const VideoDetail = () => {
           likeCount: utils.setComma(statistics.likeCount),
           commentCount: utils.setComma(statistics.commentCount),
         };
-      }
-    }
+      };
 
-    setDetailData(videoObj);
-    loadingStore.setLoading(true);
+      const [detail, count] = play;
+      const youtubeDataObj = setYoutubeData({ detail: detail.items[0], count: count.items[0] });
+      setDetailData(youtubeDataObj);
+      loadingStore.setLoading(true);
+    });
   };
 
   return (
@@ -261,9 +249,7 @@ const VideoDetail = () => {
                       <VideoCountIcon icon={faThumbsUp} />
                       <VideoThumbCount>{detailData.likeCount}</VideoThumbCount>
                       <VideoCountIcon icon={faPencil} />
-                      <VideoThumbCount>
-                        {detailData.commentCount}
-                      </VideoThumbCount>
+                      <VideoThumbCount>{detailData.commentCount}</VideoThumbCount>
                     </VideoCountIconWrapper>
                     <VideoCountNumber>{detailData.viewCount}</VideoCountNumber>
                   </VideoTitleWrap>
