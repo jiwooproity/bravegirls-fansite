@@ -168,35 +168,25 @@ const Video = () => {
   }, [pathname]);
 
   const onLoad = async () => {
-    const videoArr = [];
-    const keyPath = pathname.toUpperCase();
-    const listParams = {
-      playlistId: API.YOUTUBE_KEY[keyPath],
-      part: "snippet",
-      maxResults: 30,
-    };
+    const params = { playlistId: API.YOUTUBE_KEY[pathname.toUpperCase()], part: "snippet", maxResults: 50 };
+    await youtubeService.playList({ params }).then(async (playList) => {
+      const searchSnippet = async (value) => {
+        const snippet = value.snippet;
+        const params = { part: "statistics", id: snippet.resourceId.videoId };
+        const response = await youtubeService.videoDetail({ params });
 
-    const playList = await youtubeService.playList({ params: listParams });
-
-    for (const playData of playList.items) {
-      const snippet = playData.snippet;
-      const videoParams = {
-        part: "statistics",
-        id: snippet.resourceId.videoId,
+        return { resource: response.items[0], snippet };
       };
 
-      const detailData = await youtubeService.videoDetail({
-        params: videoParams,
-      });
+      const setVideoArray = (value) => {
+        const snippet = value.snippet;
+        const resource = value.resource;
+        const statistics = resource.statistics;
 
-      for (const detail of detailData.items) {
-        let thumbnail;
         const { maxres, standard, high } = snippet.thumbnails;
-        const statistics = detail.statistics;
+        const thumbnail = maxres ? maxres : standard ? standard : high;
 
-        thumbnail = maxres ? maxres : standard ? standard : high;
-
-        videoArr.push({
+        return {
           videoId: snippet.resourceId.videoId,
           thumbnail: thumbnail.url,
           title: snippet.title,
@@ -204,12 +194,16 @@ const Video = () => {
           viewCount: `${utils.setComma(statistics.viewCount)}회`,
           likeCount: utils.setComma(statistics.likeCount),
           commentCount: utils.setComma(statistics.commentCount),
-        });
-      }
-    }
+        };
+      };
 
-    setVideoData(videoArr);
-    loadingStore.setLoading(true);
+      const snippetUrls = playList.items.map(searchSnippet);
+      const getVideoItems = await Promise.all(snippetUrls);
+      const getVideoDetails = getVideoItems.map(setVideoArray);
+
+      setVideoData(getVideoDetails);
+      loadingStore.setLoading(true);
+    });
   };
 
   return (
