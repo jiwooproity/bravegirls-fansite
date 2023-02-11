@@ -25,7 +25,7 @@ const AlbumTrack = (props) => {
                       </CSS.TitleWrapper>
                     </CSS.Items>
                     <CSS.Items>
-                      <CSS.Artists>Lyricistss</CSS.Artists>
+                      <CSS.Artists>Lyricist</CSS.Artists>
                       <CSS.Artists>Composition</CSS.Artists>
                       <CSS.Artists>Arrangement</CSS.Artists>
                     </CSS.Items>
