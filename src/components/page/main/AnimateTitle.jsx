@@ -4,18 +4,10 @@ import _ from "lodash";
 
 import { AnimateTitle as CSS } from "style";
 
-const texts = ["BRAVEGIRLS", "FEARLESS"];
+// const texts = ["BRAVEGIRLS", "FEARLESS", "Goodbye"];
+const texts = ["Goodbye"];
 
-const colors = [
-  "#ea4581",
-  "#f1892a",
-  "#ed4276",
-  "#29adde",
-  "#fcf242",
-  "#ca61a6",
-  "#a0cd58",
-  "#8ccbdd",
-];
+const colors = ["#ea4581", "#f1892a", "#ed4276", "#29adde", "#fcf242", "#ca61a6", "#a0cd58", "#8ccbdd"];
 
 const AnimateTitle = (props) => {
   const { active } = props;
@@ -46,7 +38,7 @@ const AnimateTitle = (props) => {
     let amount = 0;
     let mouse = { x: 0, y: 0 };
     let radius = 0.5;
-    let text = texts[Math.floor(Math.random() * 2)];
+    let text = texts[Math.floor(Math.random() * 1)];
     let cw = (canvas.width = window.innerWidth);
     let ch = (canvas.height = window.innerHeight);
 
