@@ -8,5 +8,7 @@
 // import red_sun from "./red_sun.flac";
 // import changed from "./changed.flac";
 // import youhu from "./youhu.flac";
+import goodbye from "./Goodbye.flac";
+export { goodbye };
 
 // export { highheel, rollinFile, weRide, chimatbaram, chimatbaram_eng, afterWeRide, whistle, red_sun, changed, youhu };
