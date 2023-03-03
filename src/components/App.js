@@ -14,10 +14,10 @@ import { Member, Album, Video, VideoDetail, Canvas } from "components";
 import { Navbar, Footer } from "components";
 
 import { Url } from "constant";
-import { useSound, useStore } from "hooks";
+import { useStore } from "hooks";
 import { theme } from "style";
 import { utils } from "util/utils";
-import { goodbye } from "static/music";
+// import { goodbye } from "static/music";
 
 const MainContainer = styled.div`
   width: 100%;
@@ -28,7 +28,7 @@ const MainContainer = styled.div`
 const App = () => {
   const { themeStore, locationStore } = useStore();
 
-  useSound(goodbye, 1, 1);
+  // useSound(goodbye, 1, 1);
 
   useEffect(() => {
     if (localStorage.getItem("theme")) {
