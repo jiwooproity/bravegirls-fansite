@@ -57,7 +57,8 @@ const MemberBackgroundWrap = styled.div`
   border-radius: 5px;
 
   position: relative;
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
+    rgba(17, 17, 26, 0.05) 0px 8px 32px;
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -80,9 +81,9 @@ const MemberBackground = styled.img`
   object-fit: cover;
 `;
 
-const MemberImage = styled.img`
+const MemberImage = styled.picture`
   width: 600px;
-
+  display: flex;
   position: absolute;
   bottom: 0;
   right: 0px;
@@ -90,6 +91,7 @@ const MemberImage = styled.img`
   @media screen and (max-width: 768px) {
     width: 500px;
     right: 0px;
+    bottom: 0px;
   }
 `;
 
@@ -214,7 +216,8 @@ const NewMember = () => {
     response.forEach((res) => {
       memberArr.push({
         backgroundImage: res.member_background,
-        image: res.member_image,
+        small_image: res.member_image_small,
+        large_image: res.member_image_large,
         profile: res.member_profile,
         birthDay: res.member_birthday,
         engName: res.member_eng_name,
@@ -254,14 +257,31 @@ const NewMember = () => {
     return (
       <>
         <Top />
-        {memberData[member] && <Birthday birth={_.isEqual(nowDate, moment(memberData[member].birthDay).format("MM-DD"))} />}
+        {memberData[member] && (
+          <Birthday
+            birth={_.isEqual(
+              nowDate,
+              moment(memberData[member].birthDay).format("MM-DD")
+            )}
+          />
+        )}
         {memberData[member] && (
           <MemberContainer>
             <MemberIntroduceWrap>
               <MemberSign src={memberData[member].sign} />
               <MemberBackgroundWrap>
                 <MemberBackground src={memberData[member].backgroundImage} />
-                <MemberImage src={memberData[member].image} />
+                <MemberImage>
+                  <source
+                    media="(max-width: 768px)"
+                    srcset={`${memberData[member].small_image}`}
+                  />
+                  <source srcset={`${memberData[member].large_image}`} />
+                  <img
+                    src={memberData[member].large_image}
+                    alt={memberData[member].korName}
+                  />
+                </MemberImage>
               </MemberBackgroundWrap>
               <MemberDesWrap>
                 <MemberDesBar src={memberData[member].backgroundImage} />
@@ -270,28 +290,53 @@ const NewMember = () => {
                   {memberData[member].enter} / {memberData[member].korName}
                 </MemberDesSubTitle>
 
-                <MemberDesIntroduction>{memberData[member].introduction}</MemberDesIntroduction>
+                <MemberDesIntroduction>
+                  {memberData[member].introduction}
+                </MemberDesIntroduction>
                 <MemberSNSWrapper>
-                  <a href={memberData[member].youtube} target={"_blank"} rel="noreferrer">
+                  <a
+                    href={memberData[member].youtube}
+                    target={"_blank"}
+                    rel="noreferrer"
+                  >
                     <MemberSNSIcon icon={faYoutubeSquare} />
                   </a>
-                  <a href={memberData[member].instagram} target={"_blank"} rel="noreferrer">
+                  <a
+                    href={memberData[member].instagram}
+                    target={"_blank"}
+                    rel="noreferrer"
+                  >
                     <MemberSNSIcon icon={faInstagramSquare} />
                   </a>
-                  <a href={memberData[member].twitter} target={"_blank"} rel="noreferrer">
+                  <a
+                    href={memberData[member].twitter}
+                    target={"_blank"}
+                    rel="noreferrer"
+                  >
                     <MemberSNSIcon icon={faTwitterSquare} />
                   </a>
 
                   {/* 블로그가 존재할 경우 */}
                   {memberData[member].blog && (
-                    <a href={memberData[member].blog} target={"_blank"} rel="noreferrer">
+                    <a
+                      href={memberData[member].blog}
+                      target={"_blank"}
+                      rel="noreferrer"
+                    >
                       <MemberSNSIcon icon={faBlogger} />
                     </a>
                   )}
                 </MemberSNSWrapper>
               </MemberDesWrap>
             </MemberIntroduceWrap>
-            <MemberTab data={memberData} list={memberID} selectValue={member} timing={timingLinera} linear={linearData} func={{ onSelect }} />
+            <MemberTab
+              data={memberData}
+              list={memberID}
+              selectValue={member}
+              timing={timingLinera}
+              linear={linearData}
+              func={{ onSelect }}
+            />
           </MemberContainer>
         )}
       </>
