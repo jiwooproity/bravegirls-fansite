@@ -1,70 +1,51 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Bravegirls Fansite
+<img width="1617" alt="스크린샷 2024-03-30 오후 4 49 08" src="https://github.com/jiwooproity/bravegirls-fansite/assets/58384366/215454e9-83c3-4b49-9fa7-9513696e27ed">
 
-## Available Scripts
+# 팬사이트 방문
+<a href="https://bglovely.com/">브레이브걸스 팬 사이트 방문하기</a>
 
-In the project directory, you can run:
+# 프로젝트 소개
+브레이브걸스에 대한 소개와 홍보, 그리고 공통 관심사를 가진 팬들과의 소통을 위한 웹 서비스입니다.  
+일반인들도 쉽게 접근할 수 있고 자연스럽게 브레이브걸스에 대한 홍보를 할 수 있으며, 팬들과 브레이브걸스의 추억을 쌓기 위함도 있습니다.  
+브레이브걸스와 관련된 컨텐츠의 모든 것을 한 웹 사이트로 압축하여 누구나 부담 없이 방문해서 즐기다 가는 것을 주 컨셉으로 잡고 개발 목적을 세웠습니다.  
 
-### `npm start`
+개발자로서 약 4개월이 되는 때, 브레이브걸스에 대한 그룹을 알리기 위해 나의 능력 안에서 가능한 홍보 방법이 무엇이 있을까 고민을 하다 ..  
+React 라이브러리에 대한 학습을 이어나가고 있던 때라 지금 내가 가능한 능력 안에서 가능한 부분이 이것 밖에 없다 생각하여 조금이라도 힘이 되어줄 수 있을까하는 생각에 시작하게 되었습니다.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# 기술 스택
+PHP
+- Dothome의 웹 애플리케이션 서버 PHPMyadmin의 원활한 데이터 처리를 위한 백엔드 API 처리
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+React
+- 러닝 커브가 깊지 않고, 빠른 자바스크립트 웹 개발이 가능하다고 판단하여 선택.
+- 뛰어난 유연성과 호환성
+- 컴포넌트 재사용성과 빠른 화면 전환
+- 주니어로서 학습 및 경험을 위한 이유 ..
 
-### `npm test`
+# 프로젝트 효과
+많은 일반인들과 동일한 관심사를 가지고 있는 팬들의 뜨거운 응원 효과를 불러왔습니다.  
+브레이브걸스에 대한 애정을 보여주고, 각자 팬들끼리 어떠한 긍정적인 영향력을 줄 수 있을 지 고민해 보게 되고,  
+바쁜 일상 생활로 소식을 잘 접하지 못하는 팬들은 팬 사이트를 통해 근황을 찾아보며 좋은 영향력 주었던 거 같습니다.  
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+무엇보다 브레이브걸스 팬 사이트 개발자로서 엄청난 동기부여를 얻고, 사용자 피드백을 통한 트러블 슈팅 등 다양한 경험을 하였습니다.  
+너무나 행복하고 즐거웠던 프로젝트였습니다.
 
-### `npm run build`
+# 기능
+### 멤버 소개
+- 각 멤버에 대한 사진과 성격 설명을 통해 이 브레이브걸스 그룹에 대한 정체성을 알 수 있습니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 앨범 소개
+- 브레이브걸스의 앨범 이야기를 살펴볼 수 있습니다.
+- 롤린으로 급인기를 얻기 전에도 치열한 경쟁을 통해 가수로서의 열정을 가졌던 앨범들을 확인해 볼 수 있습니다.
+- 최신 앨범은 그때 그때 업데이트하여 활동을 살펴볼 수 있습니다.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 유튜브 활동 내역
+- 바쁜 일상 생활로 최근 소식을 잘 모르는 때, 유튜브 페이지를 통해 어떠한 활동을 하였는 지 알 수 있습니다.
+- 한 눈에 앨범 뮤직 비디오 영상을 볼 수 있어, 유튜브에서 검색하지 않고 한번에 보고 싶은 뮤직 비디오를 볼 수 있습니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 팬아트 게시판
+- 브레이브걸스 사진을 가지고 그림을 그리며 애정을 나타내는 게시판입니다.
+- 각 멤버, 그룹과 팬들과의 사이를 알 수 있으며, 응원하는 마음과 애정을 담은 생각으로 댓글을 달고 팬들 간에 소통이 가능합니다.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-.
+# 개발 과정과 비하인드
+<a href="https://www.notion.so/BraveGirls-Fan-Web-ba8425bd547547b1bfa5a32689bd6e87">브레이브걸스 팬 사이트 개발</a>
